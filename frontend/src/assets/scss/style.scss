@@ -1,0 +1,63 @@
+// global font
+* {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+/* custom scrollbar  */
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #bdbdbd transparent;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px; /** vertical bar width */
+  height: 6px; /** horizonatl bar height */
+}
+
+/* Works on Chrome, Edge, and Safari */
+/* scrollbar style */
+*::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 12px;
+}
+
+/* Works on Chrome, Edge, and Safari */
+/* scrollbar style */
+*::-webkit-scrollbar-track {
+  background: #eee;
+  border-radius: 12px;
+}
+/* custom scrollbar  */
+
+/* Hide body scrollbar  */
+/* for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+body::-webkit-scrollbar {
+  width: 0 !important;
+}
+/* For Firefox / Edge */
+body {
+  scrollbar-width: none;
+}
+/* Hide body scrollbar  */
+
+/* text truncate */
+.text-truncate-two-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-truncate-three-line {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
