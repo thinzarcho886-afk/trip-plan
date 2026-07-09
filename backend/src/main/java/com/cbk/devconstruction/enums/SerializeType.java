@@ -1,6 +1,0 @@
-package com.cbk.devconstruction.enums;
-
-public enum SerializeType {
-	COMPANY, CURRENCY, CONSTRUCTION_COMPANY, UNIT_TYPE, BED_ROOM, SALE_CONSULTANT, CUSTOMER, PROJECT, CONTRACTOR,
-	BOOKING, CONTRACT
-}

@@ -10,11 +10,11 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cbk</groupId>
-	<artifactId>devconstruction</artifactId>
-	<version>0.0.2-ALPHA</version>
+	<artifactId>trip</artifactId>
+	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name></name>
-	<description>Developer Construction</description>
+	<description>Trip Planner</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -135,22 +135,6 @@
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>0.9.0</version>
-		</dependency>
-
-		<!-- Apache POI -->
-		<!-- only support later versions of excel and other microsoft
-		applications-->
-		<!-- need to add poi dependency for older version -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.9</version>
-		</dependency>
-
-		<!-- Spring Batch for import/export	 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-batch</artifactId>
 		</dependency>
 	</dependencies>
 
