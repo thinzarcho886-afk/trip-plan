@@ -1,0 +1,6 @@
+export enum Role {
+  SYSADMIN = 'SYSADMIN',
+  ADMIN = 'ADMIN',
+  OWNER = 'OWNER',
+  STUDENT = 'STUDENT',
+}

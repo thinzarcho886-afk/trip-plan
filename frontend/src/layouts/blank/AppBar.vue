@@ -1,0 +1,155 @@
+<template>
+  <v-app-bar elevation="0" height="80" color="purple" class="px-6">
+    <div
+      class="d-flex align-center"
+      @click="goToDashboard"
+      style="cursor: pointer"
+      title="Go to Dashboard"
+    >
+      <v-icon size="30" color="white" class="mr-2" :icon="mdiCity"></v-icon>
+      <div class="text-h6 font-weight-bold">{{t('Hostel Directory System')}}</div>
+    </div>
+    
+    <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
+    <v-spacer></v-spacer>
+
+    <div class="d-flex align-center" style="gap: 60px">
+      <v-btn variant="text" to="/" :prepend-icon="mdiHome"exact>{{ t('Home') }}</v-btn>
+      <!-- <v-btn variant="text" to="/public-hostels" :prepend-icon="mdiDomain">{{ t('Hostels') }}</v-btn>
+      <v-btn variant="text" to="/room" :prepend-icon="mdiBed">{{ t('Room') }}</v-btn>
+      <v-btn variant="text" to="/about" :prepend-icon="mdiInformation">{{ t('About Us') }}</v-btn> -->
+    </div>
+
+    <v-spacer></v-spacer>
+
+    <div class="navbar-actions d-flex align-center" style="gap: 16px;">
+      
+      <div class="locale-selector-wrapper">
+        <LocaleSelect></LocaleSelect>
+      </div>
+
+      <v-menu v-if="isLoggedIn" transition="scale-transition">
+        <template v-slot:activator="{ props }">
+          <v-btn
+            color="#2C5E82"
+            class="rounded-pill text-none font-weight-bold px-4"
+            style="
+              background-color: white !important;
+              color: #4a148c !important;
+            "
+            v-bind="props"
+            :append-icon="mdiChevronDown"
+          >
+            <v-icon start :icon="mdiAccountCircle"></v-icon>
+            {{ currentUserName }}
+          </v-btn>
+        </template>
+
+        <v-list class="mt-2 rounded-lg" min-width="150" elevation="3">
+          <v-list-item to="/edit-profile" link>
+            <template v-slot:prepend>
+              <v-icon :icon="mdiAccountEdit" color="#2C5E82"></v-icon>
+            </template>
+            <v-list-item-title class="font-weight-medium">Edit Profile</v-list-item-title>
+          </v-list-item>
+
+          <v-divider></v-divider>
+
+          <v-list-item @click="onLogout" link>
+            <template v-slot:prepend>
+              <v-icon :icon="mdiLogout" color="error"></v-icon>
+            </template>
+            <v-list-item-title class="font-weight-medium text-error">Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+      <v-btn
+        v-else
+        color="white"
+        variant="outlined"
+        rounded="lg"
+        class="font-weight-bold"
+        to="/loginPage"
+        :prepend-icon="mdiAccountCircle"
+      >
+        Login
+      </v-btn>
+
+    </div>
+  </v-app-bar>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue';
+
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../store/auth';
+import LocaleSelect from '../../locales/LocaleSelect.vue';
+import {
+  mdiCity,
+  mdiAccountCircle,
+  mdiHome,
+  mdiDomain,
+  mdiBed,
+  mdiInformation,
+  mdiChevronDown,
+  mdiAccountEdit,
+  mdiLogout,
+} from '@mdi/js';
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+const goToDashboard = () => {
+  const userRole = authStore.userRole;
+
+  if (isLoggedIn.value && (userRole === 'SYSADMIN' || userRole === 'OWNER')) {
+    router.push('/admin');
+  } else {
+    router.push('/');
+  }
+};
+
+const isLoggedIn = computed(
+  () => authStore.isAuth || !!localStorage.getItem('user_session'),
+);
+
+const currentUserName = computed(() => {
+  if (isLoggedIn.value) {
+    if (authStore.user) {
+      return authStore.user?.name || authStore.user?.username || 'User';
+    }
+
+    const savedSession = localStorage.getItem('user_session');
+    if (savedSession) {
+      try {
+        const userData = JSON.parse(savedSession);
+        return (
+          userData?.name || userData?.username || userData?.user?.name || 'User'
+        );
+      } catch (e) {
+        return 'User';
+      }
+    }
+    return 'User';
+  }
+  return '';
+});
+
+const onLogout = () => {
+  authStore.isAuth = false;
+  authStore.user = null;
+
+  localStorage.removeItem('user_session');
+  localStorage.removeItem('token');
+
+  router.push('/loginPage');
+};
+</script>
