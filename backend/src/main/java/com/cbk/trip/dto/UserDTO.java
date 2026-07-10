@@ -1,67 +1,56 @@
 package com.cbk.trip.dto;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
-
 import org.hibernate.validator.constraints.Length;
-
 import com.cbk.trip.entity.User;
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@JsonInclude(Include.NON_NULL)
+@Data
 @NoArgsConstructor
-public class UserDTO extends CommonDTO {
+@JsonInclude(Include.NON_NULL)
+public class UserDTO implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String studentImage;
-	private String studentImageUrl;
-	private String studentName;
-	private String studentEmail;
-	private String studentPhone;
-	private String studentAddress;
-	private Status studentStatus;
+    private Long id;
 
-	private String ownerImage;
-	private String ownerImageUrl;
-	private String ownerName;
-	private String ownerEmail;
-	private String ownerPhone;
-	private String ownerAddress;
-	private Status ownerStatus;
+    @NotBlank(message = "Username is required.")
+    @Length(max = 100, message = "Username length must not be greater than 100.")
+    private String username;
 
-	@NotBlank(message = "{user.username} {error.required}")
-	@Length(max = 100, message = "{user.username} {error.maxLength}")
-	private String username;
+    @NotBlank(message = "Password is required.")
+    @Length(max = 50, message = "Password length must not be greater than 50.")
+    private String password;
+    
+    private String confirmPassword;
 
-	@Length(max = 50, message = "{user.username} {error.maxLength}")
-	private String password;
+    private UserRole role;
+    
+    private Status status = Status.ACTIVE;
 
-	private UserRole role;
+    private Long customerId;
+    private String customerName; 
 
-//	private MultipartFile image;
+    private String createdBy;
+    private Long createdDateInMilliSeconds;
+    private String updatedBy;
+    private Long updatedDateInMilliSeconds;
 
-	private Status status = Status.ACTIVE;
-
-	public UserDTO(User entity) {
-		super(entity);
-
-		this.username = entity.getUsername();
-		this.password = entity.getPassword();
-		this.role = entity.getRole();
-		this.status = entity.getStatus();
-
+    public UserDTO(User entity) {
+        this.id = entity.getId();
+        this.username = entity.getUsername();
+        this.role = entity.getRole();
+        this.status = entity.getStatus();
+        this.customerId = entity.getCustomerId();
+        this.createdBy = entity.getCreatedBy();
+        this.createdDateInMilliSeconds = entity.getCreatedDate() == null ? null : entity.getCreatedDate().toEpochMilli();
+		this.updatedBy = entity.getUpdatedBy();
+		this.updatedDateInMilliSeconds = entity.getUpdatedDate() == null ? null : entity.getUpdatedDate().toEpochMilli();
 	}
-
 }

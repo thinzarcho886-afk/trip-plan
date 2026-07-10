@@ -13,59 +13,39 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
 import com.cbk.trip.entity.User;
-import com.cbk.trip.entity.User_;
+import com.cbk.trip.entity.User_; 
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.enums.UserRole;
 
 public class UserSpecs {
 
-	public static Specification<User> getAllUsers(String studentName, String ownerName, String username, UserRole role,
-			Status status) {
-		return new Specification<User>() {
+    public static Specification<User> getByFilter(String username, UserRole role, Status status) {
+        return new Specification<User>() {
+            private static final long serialVersionUID = 1L;
 
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
+            @Override
+            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                final Collection<Predicate> predicates = new ArrayList<>();
 
-			@Override
-			public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				final Collection<Predicate> predicates = new ArrayList<>();
+                if (!StringUtils.isEmpty(username)) {
+                    final Predicate namePredicate = criteriaBuilder.like(
+                            criteriaBuilder.lower(root.get(User_.username)),
+                            "%" + username.toLowerCase() + "%");
+                    predicates.add(namePredicate);
+                }
 
-//				if (!StringUtils.isEmpty(studentName)) {
-//					Join<User, Student> userStudentJoin = root.join(User_.student);
-//					final Predicate userStudentPredicate = criteriaBuilder.like(criteriaBuilder.lower(userStudentJoin.get("name")), "%" + studentName.toLowerCase() + "%");
-//					predicates.add(userStudentPredicate);
-//				}
-//				
-//				
-//				if (!StringUtils.isEmpty(ownerName)) {
-//					Join<User, Owner> userOwnerJoin = root.join(User_.owner);
-//					final Predicate userOwnerPredicate = criteriaBuilder.like(criteriaBuilder.lower(userOwnerJoin.get("name")), "%" + ownerName.toLowerCase() + "%");
-//					predicates.add(userOwnerPredicate);
-//				}
+                if (!Objects.isNull(role)) {
+                    final Predicate rolePredicate = criteriaBuilder.equal(root.get(User_.role), role);
+                    predicates.add(rolePredicate);
+                }
 
-				if (!StringUtils.isEmpty(username)) {
-					final Predicate namePredicate = criteriaBuilder.like(root.get(User_.username),
-							"%" + username + "%");
-					predicates.add(namePredicate);
-				}
+                if (!Objects.isNull(status)) {
+                    final Predicate statusPredicate = criteriaBuilder.equal(root.get(User_.status), status);
+                    predicates.add(statusPredicate);
+                }
 
-				if (!Objects.isNull(role)) {
-					final Predicate rolePredicate = criteriaBuilder.equal(root.get(User_.role), role);
-					predicates.add(rolePredicate);
-				}
-
-				if (!Objects.isNull(status)) {
-					final Predicate statusPredicate = criteriaBuilder.equal(root.get(User_.status), status);
-					predicates.add(statusPredicate);
-				}
-
-				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-			}
-
-		};
-
-	}
-
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+    }
 }

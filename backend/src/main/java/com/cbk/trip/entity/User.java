@@ -4,7 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.enums.UserRole;
@@ -13,42 +18,38 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * 
- * @author sansintkyaw
- *
- */
 @Getter
 @Setter
 @Entity
 @Table(name = "user")
 public class User extends BaseEntity {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-//	@Getter(onMethod = @__(@JsonIgnore))
-//	@Setter
-//	@Column(name = "password", nullable = false)
-//	private String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-	@Column(name = "username", unique = true, nullable = false)
-	private String username;
+    @NotBlank(message = "Username is required")
+    @Column(name = "username", unique = true)
+    private String username;
 
-	@Getter
-	@Setter
-	@JsonIgnore
-	@Column(name = "password", nullable = false)
-	private String password;
+    @Getter(onMethod = @__(@JsonIgnore))
+    @Setter
+    @NotBlank(message = "Password is required")
+    @Column(name = "password")
+    private String password;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "role", nullable = false)
-	private UserRole role;
+    @NotNull(message = "User role is required")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private UserRole role;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "status", nullable = false)
-	private Status status = Status.INACTIVE;
+    @Column(name = "customer_id")
+    private Long customerId;
 
+    @Enumerated(EnumType.STRING)
+	@Column(name = "status")
+	private Status status = Status.ACTIVE;
 }
