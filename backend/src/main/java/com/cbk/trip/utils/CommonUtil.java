@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -292,6 +293,10 @@ public class CommonUtil {
 	 */
 	public static <T> T checkNull(T value, T res) {
 		return value == null ? res : value;
+	}
+	
+	public static String passwordEncoder(String password) {
+	    return new BCryptPasswordEncoder().encode(password);
 	}
 
 }
