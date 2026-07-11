@@ -41,6 +41,12 @@ public class UserController {
         
         return new ResponseEntity<>(userService.getUsers(username, role, status, pageable), HttpStatus.OK);
     }
+    
+    @PostMapping("/login")
+    @PreAuthorize("permitAll()") 
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+        return new ResponseEntity<>(userService.login(userDTO), HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO, Errors errors) {

@@ -27,6 +27,40 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private org.springframework.security.authentication.AuthenticationManager authenticationManager;
+
+    @Autowired
+    private com.cbk.trip.security.JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
+    public com.cbk.trip.security.JwtAuthenticationResponse login(UserDTO dto) {
+        User user = userRepository.findByUsername(dto.getUsername())
+                .orElseThrow(() -> new BadRequestException("Invalid username!"));
+
+        if (Status.INACTIVE.equals(user.getStatus())) {
+            throw new BadRequestException("User is inactive!");
+        }
+
+        if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            throw new BadRequestException("Incorrect password!");
+        }
+
+        org.springframework.security.core.Authentication authentication = authenticationManager.authenticate(
+                new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
+                        dto.getUsername(), 
+                        dto.getPassword()
+                )
+        );
+        org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.generateToken(authentication);
+
+        return new com.cbk.trip.security.JwtAuthenticationResponse(jwt, new UserDTO(user));
+    }
 
     public PageableDTO getUsers(String username, UserRole role, Status status, Pageable pageable) {
         Specification<User> specs = UserSpecs.getByFilter(username, role, status);
