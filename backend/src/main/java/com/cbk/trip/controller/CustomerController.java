@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cbk.trip.dto.CustomerDTO;
+import com.cbk.trip.dto.UserDTO;
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.service.CustomerService;
 import com.cbk.trip.utils.CommonUtil;
@@ -52,7 +54,7 @@ public class CustomerController {
         return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Customer registered successfully"), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('SYSADMIN')")
     @PutMapping
     public ResponseEntity<?> update(@Valid @RequestBody CustomerDTO customerDTO, Errors errors) throws IOException {
         if (errors.hasErrors()) {
@@ -63,6 +65,15 @@ public class CustomerController {
         return new ResponseEntity<>(CommonUtil.responseString("Customer updated successfully"), HttpStatus.OK);
     }
 
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable(required = true, name = "id") Long id) {
+        
+        CustomerDTO customerDTO = customerService.getById(id);
+        
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+    }
+    
     @GetMapping("/status")
     public ResponseEntity<?> getByStatus(@Param("status") Status status) {
         return new ResponseEntity<>(customerService.getByStatus(status), HttpStatus.OK);

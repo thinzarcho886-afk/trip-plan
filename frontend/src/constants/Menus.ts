@@ -27,6 +27,13 @@ export const menus: Menu[] = [
     to: { name: routeNames.userList },
     forRole: [Role.SYSADMIN],
   },
+   {
+    name: 'Customer',
+    icon: mdiAccount,
+    to: { name: routeNames.customerList },
+    forRole: [Role.SYSADMIN],
+  },
+ 
 
   {
     name: 'Hostels',
@@ -34,6 +41,7 @@ export const menus: Menu[] = [
     to: { name: routeNames.hostelList },
     forRole: [Role.SYSADMIN, Role.OWNER],
   },
+  
 ];
 
 export const getMenus = (role: Role): Menu[] => {

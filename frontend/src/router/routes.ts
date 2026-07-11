@@ -18,6 +18,8 @@ export const routeNames = {
   registerPage: 'RegisterPage',
   loginPage: 'LoginPage',
   changePassword: 'ChangePassword',
+  customerList: 'CustomerList',
+  customerDetail: 'CustomerDetail'
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -174,12 +176,36 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN], // optional, specifiy for more restrict
         },
       },
-      {
+       {
         path: 'hostels/:id',
         name: routeNames.hostelDetail,
         component: () =>
           import(
             /* webpackChunkName: "hostelDetail" */ '../views/hostels/HostelDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN, Role.OWNER],
+        },
+      },
+      {
+        path: 'customer',
+        name: routeNames.customerList,
+        component: () =>
+          import(
+            /* webpackChunkName: "customerList" */ '../views/customer/CustomerList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN, Role.OWNER],
+        },
+      },
+      {
+        path: 'customer/:id',
+        name: routeNames.customerDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "customerDetail" */ '../views/customer/CustomerDetail.vue'
           ),
         meta: {
           requiresAuth: true,

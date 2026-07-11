@@ -20,7 +20,7 @@ type UserApiResource =
 export const userApiResource: ApiResources<UserApiResource> = {
   login: { method: 'post', url: '/login' },
   register: {method: 'post', url: '/register'},
-  getList: { method: 'get', url: '/auth/users' },
+  getList: { method: 'get', url: '/auth/user' },
   getById: { method: 'get', url: '/auth/user/:id' },
   save: { method: 'post', url: '/auth/user' },
   update: { method: 'put', url: '/auth/user' },
