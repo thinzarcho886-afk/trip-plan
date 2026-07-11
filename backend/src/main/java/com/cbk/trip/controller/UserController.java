@@ -25,14 +25,20 @@ import com.cbk.trip.service.UserService;
 import com.cbk.trip.utils.CommonUtil;
 
 @RestController
-@RequestMapping("/api/auth/user")
-@PreAuthorize("hasAuthority('ADMIN')") 
+@RequestMapping("/api")
+@PreAuthorize("hasAuthority('ADMIN','SYSADMIN')") 
 public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @PostMapping("/login")
+    @PreAuthorize("permitAll()") 
+    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+        return new ResponseEntity<>(userService.login(userDTO), HttpStatus.OK);
+    }
 
-    @GetMapping
+    @GetMapping("/auth/user")
     public ResponseEntity<?> getUsers(
             @Param("username") String username,
             @Param("role") UserRole role,
@@ -41,14 +47,8 @@ public class UserController {
         
         return new ResponseEntity<>(userService.getUsers(username, role, status, pageable), HttpStatus.OK);
     }
-    
-    @PostMapping("/login")
-    @PreAuthorize("permitAll()") 
-    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
-        return new ResponseEntity<>(userService.login(userDTO), HttpStatus.OK);
-    }
 
-    @PostMapping
+    @PostMapping("/auth/user")
     public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO, Errors errors) {
         
         if (userService.isUsernameDuplicate(null, userDTO.getUsername())) {
@@ -63,7 +63,7 @@ public class UserController {
         return new ResponseEntity<>(CommonUtil.responseSuccessMessage("User created successfully"), HttpStatus.CREATED);
     }
     
-    @GetMapping("/{id}")
+    @GetMapping("auth/user/{id}")
     public ResponseEntity<?> getById(@PathVariable(required = true, name = "id") Long id) {
         
         UserDTO userDTO = userService.getById(id);
@@ -71,7 +71,7 @@ public class UserController {
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping("/auth/user")
     public ResponseEntity<?> update(@Valid @RequestBody UserDTO userDTO, Errors errors) {
         
         if (errors.hasErrors()) {
