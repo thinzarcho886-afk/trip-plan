@@ -16,5 +16,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, JpaSp
     List<Customer> findByStatus(Status status);
     Optional<Customer> findByEmail(String email);
     Optional<Customer> findById(Long id);
+	boolean existsByEmail(String email);
 
 }

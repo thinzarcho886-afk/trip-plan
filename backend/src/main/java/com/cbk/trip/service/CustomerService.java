@@ -18,6 +18,7 @@ import com.cbk.trip.entity.Customer;
 import com.cbk.trip.entity.User;
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.enums.UserRole;
+import com.cbk.trip.exception.BadRequestException;
 import com.cbk.trip.repository.CustomerRepository;
 import com.cbk.trip.repository.UserRepository;
 import com.cbk.trip.specification.CustomerSpecs;
@@ -47,6 +48,10 @@ public class CustomerService {
             customer = CommonUtil.checkValidById(dto.getId(), customerRepository);
         } else {
             customer = new Customer();
+        }
+        if (customerRepository.existsByEmail(dto.getEmail())) {
+            throw new BadRequestException("Email is duplicated.");
+            
         }
 
         customer.setName(dto.getName());

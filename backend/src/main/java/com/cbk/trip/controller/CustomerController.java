@@ -27,7 +27,7 @@ import com.cbk.trip.service.CustomerService;
 import com.cbk.trip.utils.CommonUtil;
 
 @RestController
-@RequestMapping("/api/customer")
+@RequestMapping("/api/auth/customer")
 public class CustomerController {
 
     @Autowired
@@ -54,7 +54,7 @@ public class CustomerController {
         return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Customer registered successfully"), HttpStatus.CREATED);
     }
 
-    //@PreAuthorize("hasAuthority('SYSADMIN')")
+	@PreAuthorize("hasAnyAuthority('SYSADMIN')")
     @PutMapping
     public ResponseEntity<?> update(@Valid @RequestBody CustomerDTO customerDTO, Errors errors) throws IOException {
         if (errors.hasErrors()) {

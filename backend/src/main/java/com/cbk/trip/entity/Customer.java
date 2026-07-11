@@ -23,10 +23,6 @@ public class Customer extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
 
     @NotBlank(message = "Name is required")
     @Column(name = "name")

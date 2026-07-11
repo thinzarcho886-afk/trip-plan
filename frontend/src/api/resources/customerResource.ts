@@ -7,7 +7,7 @@ type CustomerApiResource =
   | 'update'
   | 'getById';
 
-const baseUrl = 'customer';
+const baseUrl = '/auth/customer';
 
 export const customerApiResource: ApiResources<CustomerApiResource> = {
   getCustomers: { method: 'get', url: baseUrl },

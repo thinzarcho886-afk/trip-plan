@@ -24,8 +24,8 @@
               <v-card variant="outlined" class="pa-4 w-100" rounded="lg" style="border-style: dashed; background-color: #f8f9fa;">
                 <ImageInput
                   :image-url="customerModel.profileImageUrl"
-                  v-model="customerModel.profileImage"
-                  @delete="customerModel.profileImage = null"
+                  v-model="customerModel.profileImageUrl"
+                  @delete="customerModel.profileImageUrl = null"
                   image-height="180px"
                   image-width="100%"
                   width="100%"
@@ -66,10 +66,10 @@
                     name="phoneNumber"
                     v-model="customerModel.phoneNumber"
                     :label="t('Phone')"
-                    :rules="[rules.required]"
+                    :rules="[rules.required, rules.phone]"
                     variant="outlined"
                     density="comfortable"
-                    type="number"
+                
                   ></v-text-field>
                 </v-col>
 
@@ -103,7 +103,7 @@
 import { ref, onMounted , computed } from 'vue';
 import Detail from '../../layouts/default/Detail.vue';
 import { routeNames } from '../../router/routes.js';
-import { required, minLength, maxLength, email} from '../../utils/validations';
+import { required, minLength, maxLength, email, phone} from '../../utils/validations';
 import useApi, { ApiStatus } from '../../api/index.js';
 import { useRoute, useRouter } from 'vue-router';
 import { mdiContentSave, mdiArrowLeft } from '@mdi/js';
@@ -128,6 +128,7 @@ const rules = {
   minLength,
   maxLength,
   email,
+  phone,
 };
 const roomTypeList = ref([]);
 

@@ -1,4 +1,3 @@
-import { Role } from '../constants/Role.js';
 import { Status } from '../constants/Status.js';
 import { CommonDto } from '../interfaces/CommonDto.js';
 
