@@ -1,8 +1,18 @@
-import { mdiHomeAnalytics } from '@mdi/js';
+import { 
+  mdiHome, 
+  mdiAccount, 
+  mdiAccountGroup,
+  mdiHomeAnalytics,
+  mdiBus,             
+  mdiBusDoubleDecker, 
+  mdiNavigation,      
+  mdiClockOutline,    
+  mdiGift,            
+  mdiBookMarker,      
+  mdiCreditCard       
+} from '@mdi/js';
 import { RouteLocationNamedRaw } from 'vue-router';
 import { Role } from './Role';
-
-import { mdiAccount, mdiHome } from '@mdi/js';
 import { routeNames } from '../router/routes';
 
 export interface Menu {
@@ -20,28 +30,66 @@ export const menus: Menu[] = [
     to: { name: routeNames.home },
     forRole: [Role.SYSADMIN, Role.OWNER],
   },
-
+  {
+    name: 'Customer',
+    icon: mdiAccountGroup,
+    to: { name: routeNames.customerList },
+    forRole: [Role.SYSADMIN],
+  },
   {
     name: 'User',
     icon: mdiAccount,
     to: { name: routeNames.userList },
     forRole: [Role.SYSADMIN],
   },
-   {
-    name: 'Customer',
-    icon: mdiAccount,
-    to: { name: routeNames.customerList },
-    forRole: [Role.SYSADMIN],
-  },
- 
-
   {
-    name: 'Hostels',
+    name: 'Hotels',
     icon: mdiHomeAnalytics,
     to: { name: routeNames.hostelList },
     forRole: [Role.SYSADMIN, Role.OWNER],
   },
-  
+  {
+    name: 'Bus',
+    icon: mdiBus,
+    to: { name: routeNames.busList }, 
+    forRole: [Role.SYSADMIN, Role.OWNER],
+  },
+  {
+    name: 'Bus Types',
+    icon: mdiBusDoubleDecker,
+    to: { name: routeNames.busTypeList }, 
+    forRole: [Role.SYSADMIN],
+  },
+  {
+    name: 'Destination',
+    icon: mdiNavigation,
+    to: { name: routeNames.destinationList }, 
+    forRole: [Role.SYSADMIN, Role.OWNER],
+  },
+  {
+    name: 'Duration',
+    icon: mdiClockOutline,
+    to: { name: routeNames.durationList }, 
+    forRole: [Role.SYSADMIN, Role.OWNER],
+  },
+  {
+    name: 'Package',
+    icon: mdiGift,
+    to: { name: routeNames.packageList }, 
+    forRole: [Role.SYSADMIN, Role.OWNER],
+  },
+  {
+    name: 'Booking',
+    icon: mdiBookMarker,
+    to: { name: routeNames.bookingList }, 
+    forRole: [Role.SYSADMIN, Role.OWNER],
+  },
+  {
+    name: 'Payment',
+    icon: mdiCreditCard,
+    to: { name: routeNames.paymentList }, 
+    forRole: [Role.SYSADMIN, Role.OWNER],
+  },
 ];
 
 export const getMenus = (role: Role): Menu[] => {
