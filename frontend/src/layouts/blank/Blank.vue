@@ -6,7 +6,7 @@
         <BlankView />
       </v-layout>
     </v-theme-provider>
-     <Footer v-if="route.name == routeNames.login" />
+     <Footer v-if="route.name == routeNames.loginPage" />
       <PublicFooter v-else />
   </v-app>
 </template>

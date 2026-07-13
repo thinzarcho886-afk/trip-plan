@@ -37,6 +37,9 @@ public class CustomerDTO extends CommonDTO {
 
     @NotNull(message = "Status is required")
     private Status status;
+    
+    private String password;
+    
 
     public CustomerDTO(Customer entity) {
         super(entity);
@@ -46,5 +49,6 @@ public class CustomerDTO extends CommonDTO {
         this.profileImage = entity.getProfileImage();
         this.profileImageUrl = NginxUtil.getFileUrl(entity.getProfileImage(), true);
         this.status = entity.getStatus();
+        this.password = password;
     }
 }

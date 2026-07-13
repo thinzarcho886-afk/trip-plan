@@ -9,6 +9,7 @@ export interface CustomerListParams {
   profileImage: string;
   profileImageUrl: string;
   status: string | Status;
+  password: string;
 }
 
 export const CustomerListParamsModel = (): CustomerListParams => ({
@@ -18,15 +19,18 @@ export const CustomerListParamsModel = (): CustomerListParams => ({
   profileImage: '',
   profileImageUrl:'',
   status:'',
+  password:'',
 });
 
 export interface Customer extends CommonDto {
   name:string;
   email: string;
-  phoneNumder:string;
+  phoneNumber:string;
   profileImage:string;
   profileImageUrl:string;
   status:string |Status;
+  password: string;
+  confirmPassword: string;
   
 
 }
@@ -34,10 +38,27 @@ export interface Customer extends CommonDto {
 export const CustomerModel = (): Customer => ({
   name: '',
   email:'',
-  phoneNumder:'',
+  phoneNumber:'',
   profileImage:'',
   profileImageUrl:'',
-  status:'',
+  status:Status.ACTIVE,
+  password:'',
+  confirmPassword:'',
   
 
 });
+
+export interface CustomerChangePassword {
+  id: string | number;
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
+export const CustomerChangePasswordModel = (): CustomerChangePassword => ({
+  id: '',
+  oldPassword: '',
+  newPassword: '',
+  confirmNewPassword: '',
+});
+

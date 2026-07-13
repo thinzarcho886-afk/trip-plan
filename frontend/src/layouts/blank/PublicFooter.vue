@@ -4,15 +4,16 @@
       <v-row>
         <v-col cols="12" md="4" class="text-left pr-md-6">
           <div class="d-flex align-center mb-3">
-            <v-img
-            src="../../assets/logoHome.png"
-            max-width="40"
-            max-height="40"
-            contain
-            class="mr-3"
-          ></v-img>
-            <span class="text-h6 font-weight-black text-purple-darken-4">{{t('Hostel Directory System')}}</span>
-          </div>
+                 <v-icon size="30" color="#06402B" class="mr-2" :icon="mdiBeach"></v-icon>
+
+<div class="d-flex flex-column lh-tight">
+      <span class="text-subtitle-1 font-weight-black text-green text-uppercase">
+        {{t('Budget Friendly')}}
+      </span>
+      <span class="text-caption font-weight-bold text-green-darken-4" style="margin-top: -4px;">
+       {{t('Trip Planner Management System')}}
+      </span>
+    </div>           </div>
           
           <p class="text-body-2 text-grey-darken-1 leading-relaxed">
            {{t('Connecting UCSH students with the best hostels')}}
@@ -60,6 +61,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { useDisplay } from 'vuetify'; 
+import {mdiBeach} from '@mdi/js';
 import { version } from '../../../package.json'; 
 import { useI18n } from 'vue-i18n';
 

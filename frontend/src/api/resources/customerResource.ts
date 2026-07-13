@@ -5,13 +5,19 @@ type CustomerApiResource =
   | 'getCustomers'
   | 'register'
   | 'update'
-  | 'getById';
+  | 'getById'
+  | 'saveCustomer'
+  | 'getByCustomerId'
+  | 'updateCustomer';
 
-const baseUrl = '/auth/customer';
 
 export const customerApiResource: ApiResources<CustomerApiResource> = {
-  getCustomers: { method: 'get', url: baseUrl },
-  register: { method: 'post', url: baseUrl },
-  update: { method: 'put', url: baseUrl },
-  getById: { method: 'get', url: baseUrl + '/:id' },
+  getCustomers: { method: 'get', url: '/auth/customer'},
+  register: { method: 'post', url: '/auth/customer' },
+  update: { method: 'put', url: '/auth/customer' },
+  getById: { method: 'get', url: '/auth/customer/:id' },
+  
+  getByCustomerId: { method: 'get', url: '/customer/:id' },
+  updateCustomer: { method: 'put', url: '/customer' },
+  saveCustomer: { method: 'post', url: '/customer' },
 };

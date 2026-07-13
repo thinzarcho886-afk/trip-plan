@@ -11,9 +11,9 @@
             <v-form ref="formRef" @submit.prevent="submitForm">
               <div class="d-flex justify-center mb-6">
                 <ImageInput
-                  :image-url="form.imageUrl"
-                  v-model="form.image"
-                  @delete="form.imageUrl = ''"
+                  :image-url="form.profileImageUrl"
+                  v-model="form.profileImageUrl"
+                  @delete="form.profileImageUrl = ''"
                   image-height="180px"
                   image-width="200%"
                   width="200%"
@@ -40,44 +40,6 @@
                 :rules="[rules.required, rules.maxLength(255), rules.email]"
               >
               </v-text-field>
-
-              <v-text-field
-                v-model="form.phone"
-                label="Phone"
-                density="compact"
-                variant="outlined"
-                :rules="[rules.required, rules.maxLength(255), rules.phone]"
-              >
-              </v-text-field>
-
-              <v-text-field
-                v-model="form.address"
-                label="Address"
-                density="compact"
-                variant="outlined"
-                :rules="[rules.required, rules.maxLength(255)]"
-              >
-              </v-text-field>
-
-              <v-select
-                v-model="form.role"
-                :items="['OWNER', 'STUDENT']"
-                label="Role"
-                density="compact"
-                variant="outlined"
-              >
-              </v-select>
-
-              <h3 class="text-h6 mt-4">Account Information</h3>
-              <v-text-field
-                v-model="form.username"
-                label="Username"
-                density="compact"
-                variant="outlined"
-                :rules="[rules.required, rules.maxLength(255)]"
-              >
-              </v-text-field>
-
               <v-text-field
                 v-model="form.password"
                 label="Password"
@@ -88,9 +50,41 @@
               >
               </v-text-field>
 
+              <v-text-field
+                v-model="form.phoneNumber"
+                label="Phone"
+                density="compact"
+                variant="outlined"
+                :rules="[rules.required, rules.maxLength(255), rules.phone]"
+              >
+              </v-text-field>
+
+              
+
+              <!-- <v-select
+                v-model="form.role"
+                :items="['OWNER', 'STUDENT']"
+                label="Role"
+                density="compact"
+                variant="outlined"
+              >
+              </v-select> -->
+
+              <!-- <h3 class="text-h6 mt-4">Account Information</h3>
+              <v-text-field
+                v-model="form.username"
+                label="Username"
+                density="compact"
+                variant="outlined"
+                :rules="[rules.required, rules.maxLength(255)]"
+              >
+              </v-text-field> -->
+
+              
+
               <v-btn
                 type="submit"
-                color="primary"
+                color="#06402B"
                 block
                 size="large"
                 class="mt-4 font-weight-bold"
@@ -109,9 +103,9 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import { userApiResource } from '../api/resources/userResource';
+import { customerApiResource } from '../api/resources/customerResource';
 import useApi, { ApiStatus } from '../api';
-import { User, UserModel } from '../models/UserModel';
+import { Customer, CustomerModel } from '../models/CustomerModel';
 import { UserLoginResponse } from '../models/UserLoginModel';
 import {
   required,
@@ -140,15 +134,13 @@ const formRef = ref();
 // const imageUrl = ref<string | null>(null);
 
 const form = ref({
-  image: '',
-  imageUrl: '',
-  name: '',
+  profileImage: '',
+  profileImageUrl: '',
   email: '',
-  phone: '',
-  address: '',
+  phoneNumber: '',
   status: 'ACTIVE',
-  role: 'OWNER',
-  username: '',
+  role: 'CUSTOMER',
+  name: '',
   password: '',
 });
 
@@ -167,26 +159,15 @@ const submitForm = async () => {
   }
 
   if (form.value.role == 'OWNER') {
-    formData.append('ownerImage', form.value.imageUrl);
-    formData.append('ownerImageUrl', form.value.image);
-    formData.append('ownerName', form.value.name);
-    formData.append('ownerEmail', form.value.email);
-    formData.append('ownerPhone', form.value.phone);
-    formData.append('ownerAddress', form.value.address);
-    // formData.append("status","INACTIVE")
-    formData.append('ownerStatus', 'ACTIVE');
-  } else {
-    formData.append('studentImage', form.value.imageUrl);
-    formData.append('studentImageUrl', form.value.image);
-    formData.append('studentName', form.value.name);
-    formData.append('studentEmail', form.value.email);
-    formData.append('studentPhone', form.value.phone);
-    formData.append('studentAddress', form.value.address);
-    // formData.append("status","ACTIVE")
-    formData.append('studentStatus', 'ACTIVE');
-  }
+    formData.append('profileImageUrl', form.value.profileImageUrl);
+    formData.append('profileImage', form.value.profileImage);
+    formData.append('name', form.value.name);
+    formData.append('email', form.value.email);
+    formData.append('phoneNumber', form.value.phoneNumber);
+    formData.append('status', 'ACTIVE');
+  } 
 
-  await call(userApiResource.register, { data: formData });
+  await call(customerApiResource.saveCustomer, { data: formData });
 
   if (status.value == ApiStatus.SUCCESS) {
     alert('Account created!');

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :order="0" density="comfortable" elevation="1" color="purple">
+  <v-app-bar :order="0" density="comfortable" elevation="1" color="#9CCC65">
     <template #prepend>
       <v-app-bar-nav-icon @click="emits('nav-toggle')"></v-app-bar-nav-icon>
     </template>

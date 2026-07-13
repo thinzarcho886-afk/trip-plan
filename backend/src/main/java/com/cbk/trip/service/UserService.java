@@ -111,4 +111,16 @@ public class UserService {
     public User checkValidUser(Long id) {
         return CommonUtil.checkValidById(id, userRepository);
     }
+    
+
+	@Transactional(rollbackFor = Exception.class)
+	public void changePassword(Long userId, String password) {
+		User user = checkValidUser(userId);
+		user.setPassword(passwordEncoder.encode(password));
+		userRepository.save(user);
+	}
+
+	public User getByName(String name) {
+		return userRepository.getByUsername(name);
+	}
 }

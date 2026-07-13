@@ -4,7 +4,7 @@
       class="pa-6"
       elevation="6"
       rounded="lg"
-      style="background-color: #f3e5f5"
+      style="background-color: #c1db9b"
     >
       <h2
         class="text-h5 font-weight-bold #2C5E82--text text--darken-3 mb-6 text-center"
@@ -19,7 +19,7 @@
       <h3>{{ t('Top Searched Hostels') }}</h3>
       <v-btn
         variant="flat"
-        color="purple"
+        color="#06402B"
         rounded="lg"
         @click="goToDetails()"
         >{{ t('View All') }}</v-btn

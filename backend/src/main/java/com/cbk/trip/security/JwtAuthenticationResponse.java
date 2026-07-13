@@ -2,6 +2,7 @@ package com.cbk.trip.security;
 
 import java.io.Serializable;
 
+import com.cbk.trip.dto.CustomerDTO;
 import com.cbk.trip.dto.UserDTO;
 
 import lombok.AllArgsConstructor;

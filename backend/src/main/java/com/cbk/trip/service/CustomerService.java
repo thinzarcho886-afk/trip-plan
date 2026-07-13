@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cbk.trip.dto.CustomerDTO;
 import com.cbk.trip.dto.PageableDTO;
+import com.cbk.trip.dto.UserDTO;
 import com.cbk.trip.entity.Customer;
 import com.cbk.trip.entity.User;
 import com.cbk.trip.enums.Status;
@@ -43,20 +44,22 @@ public class CustomerService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void save(@Valid CustomerDTO dto, boolean isUpdate) throws IOException {
+    public UserDTO save(@Valid CustomerDTO dto, boolean isUpdate) throws IOException {
         Customer customer;
+        User user=null;
         if (isUpdate) {
             customer = CommonUtil.checkValidById(dto.getId(), customerRepository);
-           
+        
+            Optional<User> userOptional=userRepository.findByCustomerId(customer.getId());
+            if(userOptional.isPresent()) {
+            	user = userOptional.get();
+            }
         } else {
             customer = new Customer();
             if (customerRepository.existsByEmail(dto.getEmail())) {
                 throw new BadRequestException("Email is duplicated.");
-                
             }
-           
         }
-        
 
         customer.setName(dto.getName());
         customer.setEmail(dto.getEmail());
@@ -73,15 +76,34 @@ public class CustomerService {
 
         Customer savedCustomer = customerRepository.save(customer);
 
+        UserDTO userDTO = null;
         if (!isUpdate) {
-        	User user = new User();
+            user= new User();
             user.setUsername(savedCustomer.getEmail());
-            user.setPassword(CommonUtil.passwordEncoder("DefaultPass@123")); 
+            user.setPassword(CommonUtil.passwordEncoder(dto.getPassword())); 
             user.setRole(UserRole.CUSTOMER); 
             user.setCustomerId(savedCustomer.getId()); 
             user.setStatus(Status.ACTIVE); 
-            userRepository.save(user);
+            User savedUser = userRepository.save(user);
+
+            userDTO = new UserDTO(savedUser);
+            userDTO.setPassword(dto.getPassword()); 
         }
+        else {
+            if (user != null) {
+                user.setUsername(savedCustomer.getEmail());
+                user.setStatus(savedCustomer.getStatus());
+                
+                if (dto.getPassword() != null && !dto.getPassword().trim().isEmpty()) {
+                    user.setPassword(CommonUtil.passwordEncoder(dto.getPassword()));
+                }
+
+                User savedUser = userRepository.save(user);
+                userDTO = new UserDTO(savedUser);
+            }
+        }
+        
+        return userDTO;
     }
     
     public CustomerDTO getById(Long id) {
@@ -93,4 +115,9 @@ public class CustomerService {
     public List<CustomerDTO> getByStatus(Status status) {
         return CommonUtil.getDTOList(customerRepository.findByStatus(status), CustomerDTO::new);
     }
+
+	public Customer getByName(String name) {
+		Customer customer = customerRepository.findByName(name);
+		return customer;
+	}
 }

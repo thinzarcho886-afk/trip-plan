@@ -10,6 +10,26 @@
           :label="t('Customer Name')"
         ></v-text-field>
       </v-col>
+      <v-col cols="12" sm="6">
+        <v-text-field
+          v-model="searchParams.email"
+          density="compact"
+          variant="outlined"
+          :rules="[rules.email]"
+          hide-details
+          :label="t('Customer Email')"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-text-field
+          v-model="searchParams.phoneNumber"
+          density="compact"
+          variant="outlined"
+          hide-details
+          :rules="[rules.phone]"
+          :label="t('Phone')"
+        ></v-text-field>
+      </v-col>
 
       <v-col cols="12" sm="6">
         <EnumPicker
@@ -27,10 +47,10 @@
     <div class="pt-6 d-flex" style="gap: 0.5rem">
       <v-btn variant="text" @click="onClose"> {{ t('Close') }} </v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="primary" variant="text" @click="onReset">
+      <v-btn color="green" variant="text" @click="onReset">
         {{ t('Reset') }}
       </v-btn>
-      <v-btn color="primary" variant="flat" @click="onSearch">
+      <v-btn color="green" variant="flat" @click="onSearch">
         {{ t('Search') }}
       </v-btn>
     </div>
@@ -45,11 +65,20 @@ import { routeNames } from '../../router/routes';
 import { useRouteFilter } from '../../utils/useRouteFilter';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
+import { required, minLength, maxLength, email, phone} from '../../utils/validations';
 import { Role } from '../../constants/Role';
 import EnumPicker from '../common/EnumPicker.vue';
 import { CustomerListParams, CustomerListParamsModel } from '../../models/CustomerModel';
 
 const { t } = useI18n({ useScope: 'global' });
+
+const rules = {
+  required,
+  minLength,
+  maxLength,
+  email,
+  phone,
+};
 
 const authStore = useAuthStore();
 const emits = defineEmits(['search', 'close']);

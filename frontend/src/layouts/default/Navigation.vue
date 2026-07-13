@@ -3,7 +3,7 @@
     <template v-slot:default="{ isHovering, props: hoverProps }">
       <v-navigation-drawer
         :width="isHovering ? 96 : 58"
-        color="primary"
+        color="#9CCC65"
         v-bind="hoverProps"
         v-model="drawer"
         :permanent="drawer"
@@ -19,7 +19,7 @@
           class="d-flex justify-center align-center"
           @click="goToUser"
         >
-          <v-avatar :image="appLogoUrl" rounded="lg" size="51"></v-avatar>
+      <v-icon size="30" color="#06402B" class="mr-2" :icon="mdiBeach"></v-icon>
         </div>
 
         <v-divider></v-divider>
@@ -40,13 +40,13 @@
                 <div>
                   <v-icon
                     :icon="menu.icon"
-                    :color="isActive ? 'primary' : ''"
+                    :color="isActive ? '#9CCC65' : ''"
                   ></v-icon>
                 </div>
                 <div
                   v-if="isHovering"
                   class="menu-name text-center pt-1 text-truncate-two-line"
-                  :class="{ 'text-primary': isActive }"
+                  :class="{ 'text-green': isActive }"
                 >
                   {{ t(menu.name) }}
                 </div>
@@ -99,8 +99,8 @@ import { ref, watch, computed } from 'vue';
 import { getMenus, Menu, getCurrentMenu } from '../../constants/Menus';
 import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../../store/auth';
-import appLogoUrl from '../../assets/logoHome.png';
-import { mdiChevronLeft } from '@mdi/js';
+import appLogoUrl from '../../assets/travel.png';
+import { mdiChevronLeft, mdiBagSuitcase, mdiBeach } from '@mdi/js';
 import { useI18n } from 'vue-i18n';
 import { routeNames } from '../../router/routes';
 

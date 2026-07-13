@@ -56,7 +56,7 @@
 
       <v-card-actions class="px-4 pb-4 d-flex justify-space-between">
         <v-btn
-          color="#2C5E82"
+          color="#06402B"
           variant="elevated"
           @click="handleCancel"
           class="px-8"
@@ -65,7 +65,7 @@
         </v-btn>
 
         <v-btn
-          color="#2C5E82"
+          color="#06402B"
           variant="elevated"
           @click="handleUpdatePassword"
           :loading="status == ApiStatus.LOADING"
@@ -81,11 +81,8 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 import axios from 'axios';
-import { User, UserModel } from '../models/UserModel.js';
-import {
-  UserChangePassword,
-  UserChangePasswordModel,
-} from '../models/UserModel';
+import { Customer, CustomerChangePassword, CustomerChangePasswordModel, CustomerModel } from '../models/CustomerModel.js';
+
 import {
   required,
   maxLength,
@@ -106,7 +103,7 @@ const rules = {
   minLength,
   password,
 };
-const userModel = ref<User>(UserModel());
+const customerModel = ref<Customer>(CustomerModel());
 const isLoading = ref(false);
 const form = reactive({
   id: '',
@@ -114,7 +111,7 @@ const form = reactive({
   newPassword: '',
   confirmNewPassword: '',
 });
-const changePasswordModel = ref<UserChangePassword>(UserChangePasswordModel());
+const changePasswordModel = ref<CustomerChangePassword>(CustomerChangePasswordModel());
 const loginFormRef = ref<null | any>(null);
 
 const { call, response, error, status } = useApi();

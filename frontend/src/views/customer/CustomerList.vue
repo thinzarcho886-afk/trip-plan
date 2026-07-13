@@ -6,7 +6,7 @@
     :filters="filters"
   >
     <template #filters="{ onSearch, onClose }">
-      <StudentListSearch @search="onSearch" @close="onClose" />
+      <CustomerListSearch @search="onSearch" @close="onClose" />
     </template>
 
     <template #datatable="{ clearFilter }">
@@ -28,7 +28,7 @@
 
         <template v-slot:[`item.name`]="{ item }">
           <router-link
-            class="text-decoration-none text-primary font-weight-bold"
+            class="text-decoration-none text-green font-weight-bold"
             :to="getDetailRoute(item)"
           >
             {{ item.name }}
@@ -121,7 +121,7 @@ const actions = computed<ActionButton[]>(() => {
         icon: mdiPlus,
         label: 'Add New',
         to: { name: routeNames.customerDetail, params: { id: 'new' } },
-        color: 'primary',
+        color: 'green',
       },
     ];
   else return [];

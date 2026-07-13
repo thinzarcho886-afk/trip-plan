@@ -10,12 +10,12 @@
           <div class="text-center mb-8">
             <v-icon
               size="30"
-              color="primary"
+              color="#06402B"
               class="mr-2"
-              :icon="mdiCity"
+              :icon="mdiBeach"
             ></v-icon>
-            <div class="text-h6 font-weight-bold text-primary">
-              Hostel Directory System
+            <div class="text-h6 font-weight-bold text-green">
+             Budget Friendly Trip Planner Management System
             </div>
           </div>
 
@@ -40,7 +40,7 @@
             <div class="d-flex justify-center mt-2">
               <v-btn
                 type="submit"
-                color="primary"
+                color="#06402B"
                 size="x-large"
                 rounded="pill"
                 width="280"
@@ -55,7 +55,7 @@
               <span class="text-grey-darken-1">Don't have an account? </span>
               <router-link
                 to="/registerPage"
-                class="text-primary font-weight-bold text-decoration-none"
+                class="text-green font-weight-bold text-decoration-none"
               >
                 Create Account
               </router-link>
@@ -75,7 +75,7 @@ import { userApiResource } from '../api/resources/userResource';
 import { useAuthStore } from '../store/auth';
 import { routeNames } from '../router/routes';
 
-import { mdiCity } from '@mdi/js';
+import { mdiBeach, mdiCity } from '@mdi/js';
 import {
   UserLoginModel,
   UserLogin,
