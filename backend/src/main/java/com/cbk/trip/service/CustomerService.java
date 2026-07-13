@@ -2,6 +2,7 @@ package com.cbk.trip.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -46,13 +47,16 @@ public class CustomerService {
         Customer customer;
         if (isUpdate) {
             customer = CommonUtil.checkValidById(dto.getId(), customerRepository);
+           
         } else {
             customer = new Customer();
+            if (customerRepository.existsByEmail(dto.getEmail())) {
+                throw new BadRequestException("Email is duplicated.");
+                
+            }
+           
         }
-        if (customerRepository.existsByEmail(dto.getEmail())) {
-            throw new BadRequestException("Email is duplicated.");
-            
-        }
+        
 
         customer.setName(dto.getName());
         customer.setEmail(dto.getEmail());
