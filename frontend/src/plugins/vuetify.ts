@@ -12,8 +12,8 @@ export enum AppTheme {
 const light: ThemeDefinition = {
   dark: false,
   colors: {
-    primary: '#800080', // #1867C0
-    secondary: '#5CBBF6',
+    primary: '#9CC477', // #1867C0 //#800080
+    secondary: '#D1E4C4',//#5CBBF6
   },
 };
 
