@@ -38,10 +38,14 @@ export interface User extends CommonDto {
   username: string;
   password?: string;
   confirmPassword?: string;
+  customerId:any;
+  name:string;
 
 }
 
 export const UserModel = (): User => ({
+  customerId:null,
+  name:'',
   studentId: '',
   studentImage:'',
   studentImageUrl:'',

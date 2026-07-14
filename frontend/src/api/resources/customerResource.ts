@@ -16,7 +16,6 @@ export const customerApiResource: ApiResources<CustomerApiResource> = {
   register: { method: 'post', url: '/auth/customer' },
   update: { method: 'put', url: '/auth/customer' },
   getById: { method: 'get', url: '/auth/customer/:id' },
-  
   getByCustomerId: { method: 'get', url: '/customer/:id' },
   updateCustomer: { method: 'put', url: '/customer' },
   saveCustomer: { method: 'post', url: '/customer' },

@@ -79,7 +79,7 @@ public class CustomerService {
         UserDTO userDTO = null;
         if (!isUpdate) {
             user= new User();
-            user.setUsername(savedCustomer.getEmail());
+            user.setUsername(savedCustomer.getName());
             user.setPassword(CommonUtil.passwordEncoder(dto.getPassword())); 
             user.setRole(UserRole.CUSTOMER); 
             user.setCustomerId(savedCustomer.getId()); 
@@ -105,7 +105,7 @@ public class CustomerService {
         
         return userDTO;
     }
-    
+   
     public CustomerDTO getById(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found with id: " + id));

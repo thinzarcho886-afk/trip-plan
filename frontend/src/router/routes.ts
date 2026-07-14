@@ -161,7 +161,7 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: {
           requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.OWNER], // optional, specifiy for more restrict
+          allowedRoles: [Role.SYSADMIN], // optional, specifiy for more restrict
         },
       },
       {
@@ -185,7 +185,7 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: {
           requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN, Role.OWNER],
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
       {
@@ -197,7 +197,7 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: {
           requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN, Role.OWNER],
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
       {
@@ -209,7 +209,7 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: {
           requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN, Role.OWNER],
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
       {
@@ -221,7 +221,7 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: {
           requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN, Role.OWNER],
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
     ],

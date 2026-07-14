@@ -12,13 +12,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cbk.trip.dto.CustomerDTO;
 import com.cbk.trip.dto.PageableDTO;
 import com.cbk.trip.dto.UserDTO;
 import com.cbk.trip.entity.User;
+import com.cbk.trip.entity.Customer;
+
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.enums.UserRole;
 import com.cbk.trip.exception.BadRequestException;
 import com.cbk.trip.repository.UserRepository;
+import com.cbk.trip.repository.CustomerRepository;
 import com.cbk.trip.specification.UserSpecs; 
 import com.cbk.trip.utils.CommonUtil;
 
@@ -27,6 +31,15 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private CustomerRepository customerRepository;
+    
+    
+
+    @Autowired
+    private CustomerService customerService;
+    
     
     @Autowired
     private org.springframework.security.authentication.AuthenticationManager authenticationManager;
@@ -100,7 +113,11 @@ public class UserService {
     public UserDTO getById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-        return new UserDTO(user);
+        UserDTO userDTO = new UserDTO(user);
+      Long customerId = userDTO.getCustomerId();
+      CustomerDTO customer=customerService.getById(customerId);
+      userDTO.setCustomerName(customer.getName());
+      return new UserDTO(user);
     }
 
     public boolean isUsernameDuplicate(Long id, String username) {

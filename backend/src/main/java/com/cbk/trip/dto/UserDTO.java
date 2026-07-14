@@ -47,6 +47,7 @@ public class UserDTO implements Serializable {
         this.username = entity.getUsername();
         this.role = entity.getRole();
         this.status = entity.getStatus();
+        this.customerName = customerName;
         this.customerId = entity.getCustomerId();
         this.createdBy = entity.getCreatedBy();
         this.createdDateInMilliSeconds = entity.getCreatedDate() == null ? null : entity.getCreatedDate().toEpochMilli();

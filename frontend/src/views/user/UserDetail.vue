@@ -63,7 +63,19 @@
                 :readonly="!!userModel.id"
               ></v-text-field>
             </v-col> -->
-
+            <!-- <v-col cols="12" md="4">
+              <v-text-field
+                name="name"
+                v-model="userModel.name"
+                :rules="[
+                  rules.required,
+                  rules.minLength(5),
+                  rules.maxLength(50),
+                ]"
+                :label="t('Customer Name')"
+                :readonly="!!userModel.id"
+              ></v-text-field>
+            </v-col> -->
             <v-col cols="12" md="4">
               <EnumPicker
                 v-model:value="userModel.role"
@@ -73,6 +85,21 @@
                 :readonly="!!userModel.id"
               ></EnumPicker>
             </v-col>
+             <v-col
+                        cols="12"
+                        sm="6"
+                        class="py-1"
+                         v-if="userModel.role === Role.CUSTOMER"
+                      >
+                        <customer-picker
+                          v-model:customer-id="userModel.customerId"
+                          v-model:name="userModel.name"
+                          :params="{ status: Status.ACTIVE }"
+                          :label="t('Customer')"
+                          :readonly="!!userModel.id"
+                        >
+                        </customer-picker>
+                      </v-col>
 
            <!-- <v-col cols="12" md="4" v-if="userModel.role && userModel.role == Role.OWNER">
             <user-picker
@@ -150,7 +177,7 @@
 
 
 
-            <v-col cols="12" md="4">
+            <v-col cols="12" md="4" v-if="isUpdate">
               <v-btn :to="goChangePassword()" color="primary" variant="tonal">
                 {{ t('Change Password') }}
               </v-btn>
@@ -191,9 +218,10 @@ import { ActionButton } from '../../interfaces/ActionButton.js';
 import UserPicker from '../../components/user/UserPicker.vue';
 import { useI18n } from 'vue-i18n';
 import EnumPicker from '../../components/common/EnumPicker.vue';
-
+import CustomerPicker from '../../components/customer/CustomerPicker.vue';
+import { useAuthStore } from '../../store/auth.js';
 const { t } = useI18n({ useScope: 'global' });
-
+const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
 const formValid = ref(true);
@@ -202,9 +230,9 @@ const isUpdate = ref(false);
 
 const userModel = ref<any>({
   ...UserModel(),
-  role: 'OWNER',
-  studentId: null,
-  ownerId: null,
+  role: 'CUSTOMER',
+  customerId: null,
+ // ownerId: null,
 });
 
 const rules = {
@@ -222,6 +250,7 @@ const getDetail = async (id: any) => {
   if (status.value == ApiStatus.SUCCESS) {
     userModel.value = response.value?.data as User;
     userModel.value.role = userModel.value.role || '';
+    userModel.value.name=userModel.value.name || '';
   }
 };
 
@@ -231,28 +260,6 @@ const onSave = async () => {
 
   let apiUrl = userApiResource.save;
   if (isUpdate.value) apiUrl = userApiResource.update;
-
-  // if (userModel.value.role === 'STUDENT') {
-  //   userModel.value.ownerId = null;
-
-  //   userModel.value.studentStatus = Status.ACTIVE;
-  //   userModel.value.studentName = userModel.value.username;
-  //   userModel.value.studentEmail = 'student@gmail.com';
-  //   userModel.value.studentPhone = '091234567';
-  //   userModel.value.studentAddress = 'YGN';
-  //   userModel.value.studentImage = '';
-  // }
-
-  // if (userModel.value.role === 'OWNER') {
-  //   userModel.value.studentId = null;
-
-  //   userModel.value.ownerStatus = Status.ACTIVE;
-  //   userModel.value.ownerName = userModel.value.username;
-  //   userModel.value.ownerEmail = 'owner@gmail.com';
-  //   userModel.value.ownerPhone = '091234567';
-  //   userModel.value.ownerAddress = 'YGN';
-  //   userModel.value.ownerImage = '';
-  // }
 
   const payload = { ...userModel.value };
   if (isUpdate.value) {

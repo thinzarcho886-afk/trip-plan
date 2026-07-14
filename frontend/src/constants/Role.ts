@@ -1,7 +1,5 @@
 export enum Role {
   SYSADMIN = 'SYSADMIN',
   ADMIN = 'ADMIN',
-  OWNER = 'OWNER',
-  STUDENT = 'STUDENT',
-  CUSTOMER ='CUSTOMER',
+  CUSTOMER='CUSTOMER',
 }

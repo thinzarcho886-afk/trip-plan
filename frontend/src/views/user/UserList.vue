@@ -22,6 +22,9 @@
           </router-link>
         </template>
         <template v-slot:[`item.role`]="{ item }">
+            {{ item.role }}
+        </template>
+        <template v-slot:[`item.role`]="{ item }">
           <ListEnum :value="item.role" :menu="Menu.User"></ListEnum>
         </template>
         <template v-slot:[`item.status`]="{ item }">
@@ -82,7 +85,7 @@ const userListMeta = computed<ListMeta>(() => {
       { title: t('Updated By'), key: 'updatedBy', width: 150 },
 
     ],
-    apiResource: userApiResource.getList,
+    apiResource: userApiResource.getUsers,
     responseKey: 'list',
     defaultSort: [{ key: 'createdDate', order: 'desc' }],
   };

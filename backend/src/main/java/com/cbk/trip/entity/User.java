@@ -48,7 +48,9 @@ public class User extends BaseEntity {
 
     @Column(name = "customer_id")
     private Long customerId;
-
+    
+   
+    
     @Enumerated(EnumType.STRING)
 	@Column(name = "status")
 	private Status status = Status.ACTIVE;
