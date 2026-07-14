@@ -92,8 +92,8 @@
                          v-if="userModel.role === Role.CUSTOMER"
                       >
                         <customer-picker
-                          v-model:customer-id="userModel.customerId"
-                          v-model:name="userModel.name"
+                          v-model:id="userModel.customerId"
+                          v-model:name="userModel.customerName"
                           :params="{ status: Status.ACTIVE }"
                           :label="t('Customer')"
                           :readonly="!!userModel.id"
@@ -150,7 +150,7 @@
               <v-text-field
                 name="password"
                 v-model="userModel.password"
-                :rules="[rules.required]"
+                :rules="[rules.required,rules.password]"
                 :label="t('Password')"
                 :type="showPassword ? 'text' : 'password'"
                 :append-inner-icon="showPassword ? mdiEye : mdiEyeOff"
@@ -166,6 +166,7 @@
                 v-model="userModel.confirmPassword"
                 :rules="[
                   rules.required,
+                  rules.password,
                   (v) => v == userModel.password || 'Password are not match',
                 ]"
                 :label="t('Confirm Password')"
@@ -206,7 +207,7 @@
 import { ref, onMounted, computed } from 'vue';
 import Detail from '../../layouts/default/Detail.vue';
 import { routeNames } from '../../router/routes.js';
-import { required, minLength, maxLength } from '../../utils/validations.js';
+import { required, minLength, maxLength ,password} from '../../utils/validations.js';
 import useApi, { ApiStatus } from '../../api/index.js';
 import { userApiResource } from '../../api/resources/userResource.js';
 import { useRoute, useRouter } from 'vue-router';
@@ -239,6 +240,7 @@ const rules = {
   required,
   minLength,
   maxLength,
+  password,
 };
 const showPassword = ref(false);
 

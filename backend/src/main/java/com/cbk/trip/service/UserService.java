@@ -117,7 +117,7 @@ public class UserService {
       Long customerId = userDTO.getCustomerId();
       CustomerDTO customer=customerService.getById(customerId);
       userDTO.setCustomerName(customer.getName());
-      return new UserDTO(user);
+      return userDTO;
     }
 
     public boolean isUsernameDuplicate(Long id, String username) {
