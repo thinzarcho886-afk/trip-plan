@@ -27,7 +27,7 @@ public class DestinationController {
     DestinationService destinationService;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
     public ResponseEntity<?> getDestinations(
             @Param("name") String name, 
             @Param("status") Status status,
@@ -38,7 +38,7 @@ public class DestinationController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SYSADMIN')")
     public ResponseEntity<?> register(@Valid @RequestBody DestinationDTO dto, Errors errors) {
 
         // Duplicate Check
@@ -55,7 +55,7 @@ public class DestinationController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SYSADMIN')")
     public ResponseEntity<?> update(@Valid @RequestBody DestinationDTO dto, Errors errors) {
 
         if (destinationService.isNameDuplicate(dto.getName(), dto.getId())) {

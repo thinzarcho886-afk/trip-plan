@@ -1,30 +1,23 @@
  <template>
   <List
-    :title="t('Customer', 2)"
+    :title="t('Bus', 2)"
     :breadcrumbs="breadcrumbs"
     :actions="actions"
     :filters="filters"
   >
     <template #filters="{ onSearch, onClose }">
-      <CustomerListSearch @search="onSearch" @close="onClose" />
+      <BusListSearch @search="onSearch" @close="onClose" />
     </template>
 
     <template #datatable="{ clearFilter }">
       <ListDataTable
-        v-bind="customerListMeta"
+        v-bind="busListMeta"
         :api-params="apiParams"
         @clear-filter="clearFilter"
         :use-mobile="true"
       >
 
-      <template v-slot:item.profileImageUrl="{ item }">
-          <v-avatar size="40" rounded="lg" class="my-1">
-            <v-img
-              :src="item.profileImageUrl || 'https://via.placeholder.com/40'"
-              cover
-            ></v-img>
-          </v-avatar>
-        </template>
+      
 
         <template v-slot:[`item.name`]="{ item }">
           <router-link
@@ -33,14 +26,6 @@
           >
             {{ item.name }}
           </router-link>
-        </template>
-
-        <template v-slot:item.email="{ item }">
-          <span>{{ item.email }}</span>
-        </template>
-
-        <template v-slot:item.phoneNumber="{ item }">
-          <span>{{ item.phoneNumber }}</span>
         </template>
 
         
@@ -84,22 +69,20 @@ import { mdiPlus , mdiPencil} from '@mdi/js';
 import { ActionButton } from '../../interfaces/ActionButton.js';
 import ListStatus from '../../components/common/ListStatus.vue';
 import { useI18n } from 'vue-i18n';
-import CustomerListSearch from '../../components/customer/CustomerListSearch.vue';
+import BusListSearch from '../../components/bus/BusListSearch.vue';
 import { CustomerListParams } from '../../models/CustomerModel.js';
 import { useAuthStore } from '../../store/auth.js';
 import ListDateTime from '../../components/common/ListDateTime.vue';
-import { Role } from '../../constants/Role.js';
-import { customerApiResource } from '../../api/resources/customerResource.js';
+import { busApiResource } from '../../api/resources/busResource.js';
+import { BusListParams } from '../../models/BusModel.js';
 const { t } = useI18n({ useScope: 'global' });
 const authStore = useAuthStore();
 
-const customerListMeta = computed<ListMeta>(() => {
+const busListMeta = computed<ListMeta>(() => {
   return {
     headers: [
-      { title: t('Image'), key: 'profileImageUrl', minWidth: 150 },
+     
       { title: t('Name'), key: 'name', minWidth: 150 },
-      { title: t('Email'), key: 'email', minWidth: 150 },
-      { title: t('Phone'), key: 'phoneNumber', minWidth: 150 },
       { title: t('Status'), key: 'status', minWidth: 150 },
       { title: t('Created Date'), key: 'createdDate', width: 150 },
       { title: t('Created By'), key: 'createdBy', width: 150 },
@@ -108,7 +91,7 @@ const customerListMeta = computed<ListMeta>(() => {
       { title: t('Action'), key: 'action', sortable:false},
 
     ],
-    apiResource: customerApiResource.getCustomers,
+    apiResource: busApiResource.getBuses,
     responseKey: 'list',
     defaultSort: [{ key: 'createdDate', order: 'desc' }],
   };
@@ -119,16 +102,16 @@ const apiParams = ref();
 // custom breadcrumbs
 const breadcrumbs = computed(() => [
   { title: t('General') },
-  { title: t('Customer', 2), to: { name: routeNames.customerList } },
+  { title: t('Bus', 2), to: { name: routeNames.busList } },
 ]);
 
 const actions = computed<ActionButton[]>(() => {
-  if (!authStore.user?.customerId)
+  if (!authStore.user?.busId)
     return [
       {
         icon: mdiPlus,
-        label: 'Add Customer',
-        to: { name: routeNames.customerDetail, params: { id: 'new' } },
+        label: 'Add Bus',
+        to: { name: routeNames.busDetail, params: { id: 'new' } },
         color: 'green',
       },
     ];
@@ -136,12 +119,12 @@ const actions = computed<ActionButton[]>(() => {
 });
 
 const filters = {
-  component: CustomerListSearch,
-  onSearch: (params: CustomerListParams) => (apiParams.value ={ ...params,role:Role.CUSTOMER}),
+  component: BusListSearch,
+  onSearch: (params: BusListParams) => (apiParams.value ={ ...params }),
 };
 
 const getDetailRoute = (item: any) => {
-  return { name: routeNames.customerDetail, params: { id: item.id } };
+  return { name: routeNames.busDetail, params: { id: item.id } };
 };
 
 const handleSearch = (params: any) => {

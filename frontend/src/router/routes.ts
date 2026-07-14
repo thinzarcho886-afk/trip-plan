@@ -19,7 +19,11 @@ export const routeNames = {
   loginPage: 'LoginPage',
   changePassword: 'ChangePassword',
   customerList: 'CustomerList',
-  customerDetail: 'CustomerDetail'
+  customerDetail: 'CustomerDetail',
+  destinationList:'DestinationList',
+  destinationDetail: 'DestinationDetail',
+  busList: 'BusList',
+  busDetail: 'BusDetail',
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -206,6 +210,54 @@ export const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "customerDetail" */ '../views/customer/CustomerDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+       {
+        path: 'destination',
+        name: routeNames.destinationList,
+        component: () =>
+          import(
+            /* webpackChunkName: "destinationList" */ '../views/destination/DestinationList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'destination/:id',
+        name: routeNames.destinationDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "destinationDetail" */ '../views/destination/DestinationDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'bus',
+        name: routeNames.busList,
+        component: () =>
+          import(
+            /* webpackChunkName: "busList" */ '../views/bus/BusList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'bus/:id',
+        name: routeNames.busDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "busDetail" */ '../views/bus/BusDetail.vue'
           ),
         meta: {
           requiresAuth: true,

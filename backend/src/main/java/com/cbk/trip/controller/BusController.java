@@ -35,7 +35,7 @@ public class BusController {
 	@Autowired
 	BusService busService;
 
-	@PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@GetMapping
 	public ResponseEntity<?> getBuses(@Param("name") String name, @Param("status") Status status,
 			@PageableDefault(size = Integer.MAX_VALUE, sort = "updatedDate") Pageable pageable) {
@@ -44,7 +44,7 @@ public class BusController {
 		return new ResponseEntity<>(busDTO, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('SYSADMIN')")
 	@PostMapping
 	public ResponseEntity<?> register(@Valid @RequestBody BusDTO busDTO, Errors errors) {
 
@@ -60,7 +60,7 @@ public class BusController {
 		return new ResponseEntity<>(respondDTO, HttpStatus.CREATED);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('SYSADMIN')")
 	@PutMapping
 	public ResponseEntity<?> update(@Valid @RequestBody BusDTO busDTO, Errors errors) {
 
@@ -75,7 +75,7 @@ public class BusController {
 		busService.save(busDTO, true);
 		return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Bus updated"), HttpStatus.OK);
 	}
-	@PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable(required = true, name = "id") Long id) {
 
