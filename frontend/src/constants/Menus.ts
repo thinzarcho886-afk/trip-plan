@@ -28,7 +28,7 @@ export const menus: Menu[] = [
     icon: mdiHome,
     name: 'Home',
     to: { name: routeNames.home },
-    forRole: [Role.SYSADMIN, Role.OWNER],
+    forRole: [Role.SYSADMIN],
   },
   {
     name: 'Customer',
@@ -46,13 +46,13 @@ export const menus: Menu[] = [
     name: 'Hotels',
     icon: mdiHomeAnalytics,
     to: { name: routeNames.hostelList },
-    forRole: [Role.SYSADMIN, Role.OWNER],
+    forRole: [Role.SYSADMIN, ],
   },
   {
     name: 'Bus',
     icon: mdiBus,
     to: { name: routeNames.busList }, 
-    forRole: [Role.SYSADMIN, Role.OWNER],
+    forRole: [Role.SYSADMIN, ],
   },
   {
     name: 'Bus Types',
@@ -64,31 +64,31 @@ export const menus: Menu[] = [
     name: 'Destination',
     icon: mdiNavigation,
     to: { name: routeNames.destinationList }, 
-    forRole: [Role.SYSADMIN, Role.OWNER],
+    forRole: [Role.SYSADMIN, ],
   },
   {
     name: 'Duration',
     icon: mdiClockOutline,
     to: { name: routeNames.durationList }, 
-    forRole: [Role.SYSADMIN, Role.OWNER],
+    forRole: [Role.SYSADMIN,],
   },
   {
     name: 'Package',
     icon: mdiGift,
     to: { name: routeNames.packageList }, 
-    forRole: [Role.SYSADMIN, Role.OWNER],
+    forRole: [Role.SYSADMIN, ],
   },
   {
     name: 'Booking',
     icon: mdiBookMarker,
     to: { name: routeNames.bookingList }, 
-    forRole: [Role.SYSADMIN, Role.OWNER],
+    forRole: [Role.SYSADMIN,],
   },
   {
     name: 'Payment',
     icon: mdiCreditCard,
     to: { name: routeNames.paymentList }, 
-    forRole: [Role.SYSADMIN, Role.OWNER],
+    forRole: [Role.SYSADMIN, ],
   },
 ];
 

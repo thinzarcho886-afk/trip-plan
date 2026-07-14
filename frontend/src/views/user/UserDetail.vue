@@ -87,7 +87,8 @@
             </v-col>
              <v-col
                         cols="12"
-                        sm="6"
+                        md="6"
+                        sm="4"
                         class="py-1"
                          v-if="userModel.role === Role.CUSTOMER"
                       >
@@ -150,7 +151,7 @@
               <v-text-field
                 name="password"
                 v-model="userModel.password"
-                :rules="[rules.required,rules.password]"
+                :rules="[rules.required]"
                 :label="t('Password')"
                 :type="showPassword ? 'text' : 'password'"
                 :append-inner-icon="showPassword ? mdiEye : mdiEyeOff"
@@ -166,7 +167,6 @@
                 v-model="userModel.confirmPassword"
                 :rules="[
                   rules.required,
-                  rules.password,
                   (v) => v == userModel.password || 'Password are not match',
                 ]"
                 :label="t('Confirm Password')"
@@ -207,7 +207,7 @@
 import { ref, onMounted, computed } from 'vue';
 import Detail from '../../layouts/default/Detail.vue';
 import { routeNames } from '../../router/routes.js';
-import { required, minLength, maxLength ,password} from '../../utils/validations.js';
+import { required, minLength, maxLength } from '../../utils/validations.js';
 import useApi, { ApiStatus } from '../../api/index.js';
 import { userApiResource } from '../../api/resources/userResource.js';
 import { useRoute, useRouter } from 'vue-router';
@@ -240,7 +240,6 @@ const rules = {
   required,
   minLength,
   maxLength,
-  password,
 };
 const showPassword = ref(false);
 

@@ -35,7 +35,7 @@ public class BusTypeController {
 	@Autowired
 	BusTypeService busTypeService;
 
-	@PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@GetMapping
 	public ResponseEntity<?> getBusTypes(@Param("name") String name, @Param("availableSeats") Integer availableSeats,
 			@Param("status") Status status,
@@ -45,7 +45,7 @@ public class BusTypeController {
 		return new ResponseEntity<>(busTypeDTO, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@PostMapping
 	public ResponseEntity<?> register(@Valid @RequestBody BusTypeDTO busTypeDTO, Errors errors) {
 
@@ -61,7 +61,7 @@ public class BusTypeController {
 		return new ResponseEntity<>(respondDTO, HttpStatus.CREATED);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@PutMapping
 	public ResponseEntity<?> update(@Valid @RequestBody BusTypeDTO busTypeDTO, Errors errors) {
 
@@ -77,7 +77,7 @@ public class BusTypeController {
 		return new ResponseEntity<>(CommonUtil.responseSuccessMessage("BusType updated"), HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable(required = true, name = "id") Long id) {
 		BusTypeDTO busTypeDTO = busTypeService.getById(id);

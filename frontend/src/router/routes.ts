@@ -20,6 +20,8 @@ export const routeNames = {
   changePassword: 'ChangePassword',
   customerList: 'CustomerList',
   customerDetail: 'CustomerDetail',
+  busTypeList:'BusTypeList',
+  busTypeDetail:'BusTypeDetail',
   destinationList:'DestinationList',
   destinationDetail: 'DestinationDetail',
   busList: 'BusList',
@@ -216,6 +218,13 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
+
+       {
+        path: 'busTypes',
+        name: routeNames.busTypeList,
+        component: () =>
+          import(
+            /* webpackChunkName: "busTypeList" */ '../views/busType/BusTypeList.vue'
        {
         path: 'destination',
         name: routeNames.destinationList,
@@ -229,6 +238,11 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: 'busTypes/:id',
+        name: routeNames.busTypeDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "busTypeDetail" */ '../views/busType/BusTypeDetail.vue'
         path: 'destination/:id',
         name: routeNames.destinationDetail,
         component: () =>
