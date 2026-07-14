@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar elevation="0" height="80" color="#9CCC65" class="px-6">
+  <v-app-bar elevation="0" height="80" color="secondary" class="px-6">
     <div
       class="d-flex align-center"
       @click="goToDashboard"

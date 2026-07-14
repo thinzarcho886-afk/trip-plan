@@ -119,7 +119,7 @@ const actions = computed<ActionButton[]>(() => {
     return [
       {
         icon: mdiPlus,
-        label: 'Add New',
+        label: 'Add Customer',
         to: { name: routeNames.customerDetail, params: { id: 'new' } },
         color: 'green',
       },

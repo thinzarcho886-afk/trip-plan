@@ -2,8 +2,8 @@
   <v-hover>
     <template v-slot:default="{ isHovering, props: hoverProps }">
       <v-navigation-drawer
-        :width="isHovering ? 96 : 58"
-        color="#9CCC65"
+        :width="isHovering ? 180 : 120"
+        color="primary"
         v-bind="hoverProps"
         v-model="drawer"
         :permanent="drawer"
@@ -15,13 +15,25 @@
             position: relative;
             z-index: 9999;
             pointer-events: auto !important;
+            background-color: #9E9E9E !important; 
           "
-          class="d-flex justify-center align-center"
+          class="d-flex justify-center align-center px-2 text-center"
           @click="goToUser"
         >
-      <v-icon size="30" color="#06402B" class="mr-2" :icon="mdiBeach"></v-icon>
-        </div>
+          <!-- <v-avatar :image="appLogoUrl" rounded="lg" size="51"></v-avatar> -->
 
+          <span 
+            style="
+              color: #333333 !important;   
+              font-size: 11px !important;   
+              line-height: 1.2 !important;  
+              font-family: 'Times New Roman', serif; 
+              font-weight: bold;
+            "
+          >
+            Budget Friendly Trip Planner<br />Management System
+          </span>
+        </div>
         <v-divider></v-divider>
 
         <v-list density="comfortable" class="py-0">

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :order="0" density="comfortable" elevation="1" color="#9CCC65">
+  <v-app-bar :order="0" density="comfortable" elevation="1" color="secondary">
     <template #prepend>
       <v-app-bar-nav-icon @click="emits('nav-toggle')"></v-app-bar-nav-icon>
     </template>
@@ -13,13 +13,21 @@
         <LocaleSelect></LocaleSelect>
       </div>
 
-      
-
-      <v-btn
+      <!-- <v-btn
         :icon="mdiAccount"
         variant="tonal"
         id="account-menu-activator"
-      ></v-btn>
+      ></v-btn> -->
+
+      <!-- Change from an icon button to a flat text/tonal button -->
+      <v-btn
+        variant="flat"
+        id="account-menu-activator"
+        class="text-none font-weight-bold px-4"
+        style="background-color: #82AF64 !important; color: #333333 !important; border-radius: 8px;"
+      >
+        {{ authStore.user?.username || 'Admin' }}
+      </v-btn>
 
       <v-menu
         activator="#account-menu-activator"
