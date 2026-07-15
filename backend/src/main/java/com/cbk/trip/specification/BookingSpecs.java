@@ -1,0 +1,52 @@
+package com.cbk.trip.specification;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import org.springframework.data.jpa.domain.Specification;
+
+import com.cbk.trip.entity.Booking;
+import com.cbk.trip.entity.Booking_;
+import com.cbk.trip.enums.Status;
+
+public class BookingSpecs {
+
+    public static Specification<Booking> getByFilter(Long packageId, Long customerId, Long paymentMethodId, Status status) {
+        return new Specification<Booking>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Predicate toPredicate(Root<Booking> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                final Collection<Predicate> predicates = new ArrayList<>();
+
+                if (!Objects.isNull(packageId)) {
+                    final Predicate packagePredicate = criteriaBuilder.equal(root.get(Booking_.PKG).get("id"), packageId);
+                    predicates.add(packagePredicate);
+                }
+
+                if (!Objects.isNull(customerId)) {
+                    final Predicate customerPredicate = criteriaBuilder.equal(root.get(Booking_.CUSTOMER).get("id"), customerId);
+                    predicates.add(customerPredicate);
+                }
+
+                if (!Objects.isNull(paymentMethodId)) {
+                    final Predicate paymentMethodPredicate = criteriaBuilder.equal(root.get(Booking_.PAYMENT_METHOD).get("id"), paymentMethodId);
+                    predicates.add(paymentMethodPredicate);
+                }
+
+                if (!Objects.isNull(status)) {
+                    final Predicate statusPredicate = criteriaBuilder.equal(root.get(Booking_.STATUS), status);
+                    predicates.add(statusPredicate);
+                }
+
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+    }
+}

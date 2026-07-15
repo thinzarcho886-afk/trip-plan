@@ -6,5 +6,5 @@ package com.cbk.trip.enums;
  *
  */
 public enum Status {
-	ACTIVE, INACTIVE
+	ACTIVE, INACTIVE,DRAFT, BOOKED, FINISHED, CANCEL
 }
