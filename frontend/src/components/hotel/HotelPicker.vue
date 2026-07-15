@@ -4,9 +4,9 @@
     v-model:model-Value="modelValue"
     return-object
     item-value="id"
-    item-title="hostelName"
+    item-title="hotelName"
     :loading="status == ApiStatus.LOADING"
-    ref="hostelPublicPickerRef"
+    ref="hotelPublicPickerRef"
   ></v-autocomplete>
 </template>
 
@@ -14,30 +14,30 @@
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import useApi, { ApiStatus } from '../../api';
-import { hostelPublicApiResource } from '../../api/resources/hostelPublicResource';
+import { hotelApiResource } from '../../api/resources/hotelResource';
 
-const props = defineProps(['hostelPublicId', 'hostelName', 'params']);
-const emits = defineEmits(['update:hostelPublicId', 'update:hostelName']);
+const props = defineProps(['hotelId', 'hotelName', 'params']);
+const emits = defineEmits(['update:hotelId', 'update:hotelName']);
 const { t } = useI18n();
 
 const items = ref([]);
 
 const modelValue = computed({
   get() {
-    return props.hostelPublicId && props.hostelName ? { id: props.hostelPublicId, hostelName: props.hostelName } : null;
+    return props.hotelId && props.hotelName ? { id: props.hotelId, hotelName: props.hotelName } : null;
   },
   set(e: any) {
-    emits('update:hostelPublicId', e.id ?? null);
-    emits('update:hostelName', e.hostelName ?? null);
+    emits('update:hotelId', e.id ?? null);
+    emits('update:hotelName', e.hotelName ?? null);
   },
 });
 
 const { call, response, status } = useApi();
 
-const hostelPublicPickerRef = ref<null | any>(null);
+const hotelPickerRef = ref<null | any>(null);
 
 const onApiCall = async (params: any) => {
-  await call(hostelPublicApiResource.getHostels, { params });
+  await call(hotelApiResource.getList, { params });
 
   if (status.value == ApiStatus.SUCCESS) {
     const data: any = response.value?.data;
@@ -51,7 +51,7 @@ onMounted(()=> {
     ...props.params,
       page: null,
       size: null,
-      sort: 'hostelName,asc',
+      sort: 'hotelName,asc',
   }
   onApiCall(params);
 })

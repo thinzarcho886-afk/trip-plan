@@ -7,7 +7,7 @@ export interface HotelListParams {
   hotelImage: string;
   hotelImageUrl: string;
   destinationId: number | null;
-  status: string | Status;
+  status: Status | string;
 }
 
 export const HotelListParamsModel = (): HotelListParams => ({
@@ -26,11 +26,10 @@ export interface Hotel extends CommonDto {
   imageUrl?: string | null;
   description: string;
   pricePerNight: number | null;
-  status:string |Status;
+  status: Status | string;
 }
 
 export const HotelModel = (): Hotel => ({
-  id: null,
   name: '',
   destinationId: null,
   address: '',

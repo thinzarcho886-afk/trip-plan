@@ -1,7 +1,7 @@
 <template>
   <Detail
     v-bind="{
-      title: isEditMode ? t('Hotel Edit Form') : t('Hotel Register Form'),
+      title: t('Hotel'),
       loading: status === ApiStatus.LOADING,
       error: status === ApiStatus.ERROR,
       message: status == ApiStatus.ERROR && error?.message,
@@ -14,7 +14,7 @@
       <v-form
         v-model="formValid"
         ref="detailFormRef"
-        @submit.prevent="() => {}"
+        @submit.prevent="onSave"
         class="pa-6"
       >
         <v-container fluid class="pa-0">
@@ -31,7 +31,7 @@
                   width="100%"
                   class="mx-auto"
                   :label="t('Hotel Image')"
-                  accept="image/png, image/jpeg, image/jpg"
+                  :disabled="isUpdate && authStore.user.role !== Role.SYSADMIN"
                 ></ImageInput>
               </v-card>
             </v-col>
@@ -40,19 +40,19 @@
             <v-col cols="12" md="8">
               <v-row dense>
                 
-                <!-- Hotel Name (Required & Async Duplicate Validation Rule) -->
+                <!-- Hotel Name -->
                 <v-col cols="12" sm="6" class="py-1">
                   <v-text-field
-                    name="hotelName"
-                    v-model="hotelModel.hotelName"
+                    name="name"
+                    v-model="hotelModel.name"
                     :label="t('Hotel Name') + ' *'"
-                    :rules="[rules.required, rules.duplicateCheck]"
+                    :rules="[rules.required]"
                     variant="outlined"
                     density="comfortable"
                   ></v-text-field>
                 </v-col>
 
-                <!-- Active Destination Selection List Dropdown -->
+                <!-- Active Destination Dropdown -->
                 <v-col cols="12" sm="6" class="py-1">
                   <v-select
                     v-model="hotelModel.destinationId"
@@ -63,10 +63,12 @@
                     :rules="[rules.required]"
                     variant="outlined"
                     density="comfortable"
+                    :loading="destinationApi.status.value === ApiStatus.LOADING"
+                    :no-data-text="t('No data available')"
                   ></v-select>
                 </v-col>
 
-                <!-- Price Per Night Input Field -->
+                <!-- Price Per Night -->
                 <v-col cols="12" sm="6" class="py-1">
                   <v-text-field
                     name="pricePerNight"
@@ -79,23 +81,20 @@
                   ></v-text-field>
                 </v-col>
 
-                <!-- Status View Segment (Visible on creation/modification context) -->
-                <v-col cols="12" sm="6" class="py-1">
-                  <v-select
+                <!-- Status Select -->
+                <v-col cols="12" sm="6" class="py-1 d-flex align-center">
+                  <v-switch
+                    name="status"
+                    :label="hotelModel.status === 'ACTIVE' ? t('ACTIVE') : t('INACTIVE')"
                     v-model="hotelModel.status"
-                    :items="[
-                              { title: t('ACTIVE'), value: 'ACTIVE' },
-                              { title: t('INACTIVE'), value: 'INACTIVE' }
-                            ]"
-                    :label="t('Status') + ' *'"
-                    :rules="[rules.required]"
-                    variant="outlined"
-                    density="comfortable"
-                    :disabled="!isEditMode"
-                  ></v-select>
+                    :true-value="Status.ACTIVE"
+                    :false-value="Status.INACTIVE"
+                    color="green"
+                    hide-details
+                  ></v-switch>
                 </v-col>
 
-                <!-- Address Input Box -->
+                <!-- Address Box -->
                 <v-col cols="12" class="py-1">
                   <v-textarea
                     name="address"
@@ -108,7 +107,7 @@
                   ></v-textarea>
                 </v-col>
 
-                <!-- Description Input Box -->
+                <!-- Description Box -->
                 <v-col cols="12" class="py-1">
                   <v-textarea
                     name="description"
@@ -144,74 +143,74 @@ import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
 import { hotelApiResource } from '../../api/resources/hotelResource.js';
 import { destinationApiResource } from '../../api/resources/destinationResource.js';
+import { Hotel, HotelModel } from '../../models/HotelModel.js';
+import { Role } from '../../constants/Role.js';
+import { Status } from '../../constants/Status.js';
 
 const route = useRoute();
 const router = useRouter();
 const formValid = ref(true);
 const detailFormRef = ref<null | any>(null);
-const hotelModel = ref<any>({
-  id: null,
-  hotelName: '',
-  destinationId: null,
-  address: '',
-  imageUrl: null,
-  pricePerNight: null,
-  description: '',
-  status: 'ACTIVE' 
-});
+const isUpdate = ref(false);
 
+const hotelModel = ref<any>(HotelModel());
+const roles = ref([
+  { id: 1, name: 'Admin' },
+  { id: 2, name: 'Customer' },
+ 
+]);
 const originalModelString = ref('');
 const activeDestinationList = ref([]);
 const { t } = useI18n();
 const authStore = useAuthStore();
-const { call, response, error, status } = useApi();
 
-const isEditMode = computed(() => route.params.id !== 'new');
+const { call, response, error, status } = useApi();
+const destinationApi = useApi();
+
+status.value = ApiStatus.IDLE; 
+const isEditMode = ref(false);
 
 const rules = {
   required,
   positiveNumber: (v: number) => v > 0 || t('Price must be greater than 0'),
-  duplicateCheck: async (value: string) => {
-    if (!value) return true;
-    if (isEditMode.value && value === JSON.parse(originalModelString.value).hotelName) return true;
-    
-    const isDuplicate = await hotelApiResource.checkDuplicateName({ name: value });
-    return !isDuplicate || t('Hotel Name already exists');
-  }
 };
 
 const getDetail = async (id: any) => {
   await call(hotelApiResource.getById, null, { id });
   if (status.value == ApiStatus.SUCCESS) {
-    hotelModel.value = response.value?.data;
-    originalModelString.value = JSON.stringify(hotelModel.value);
+    hotelModel.value = response.value?.data as Hotel;
   }
 };
 
 const loadActiveDestinations = async () => {
-  // Status ACTIVE ဖြစ်သော Destination များကိုသာ ဆွဲထုတ်ယူရန်
-  const res = await destinationApiResource.getActiveDestinations();
-  activeDestinationList.value = res?.data || [];
+  await destinationApi.call(destinationApiResource.getByStatus, null, { status: 'ACTIVE' });
+  if (destinationApi.status.value === ApiStatus.SUCCESS) {
+    activeDestinationList.value = destinationApi.response.value?.data || [];
+  } else {
+    activeDestinationList.value = [];
+  }
 };
 
 const onSave = async () => {
-  const { valid } = await detailFormRef.value.validate();
+  const { valid } = await detailFormRef.value?.validate() || { valid: false };
   if (!valid) return;
 
-  const currentAdmin = authStore.user?.username || 'Admin';
-  let apiUrl = hotelApiResource.register;
+  let apiUrl = hotelApiResource.save;
+  if (isEditMode.value) apiUrl = hotelApiResource.update;
+  hotelModel.value.name = (hotelModel.value as any).name;
+  hotelModel.value.destinationId = (hotelModel.value as any).destinationId;
+  hotelModel.value.address = (hotelModel.value as any).address;
+  hotelModel.value.imageUrl = (hotelModel.value as any).imageUrl;
+  hotelModel.value.pricePerNight = (hotelModel.value as any).pricePerNight;
+  hotelModel.value.description = (hotelModel.value as any).description;
+  hotelModel.value.status = (hotelModel.value as any).status;
 
-  if (isEditMode.value) {
-    apiUrl = hotelApiResource.update;
-    hotelModel.value.updatedBy = currentAdmin;
-  } else {
-    hotelModel.value.createdBy = currentAdmin;
-    hotelModel.value.updatedBy = currentAdmin;
-  }
+  const payload = { ...hotelModel.value };
 
-  await call(apiUrl, { data: hotelModel.value });
+  await call(apiUrl, { data: payload });
+
   if (status.value == ApiStatus.SUCCESS) {
-    router.push({ name: routeNames.hotelList });
+    router.go(-1);
   }
 };
 
@@ -231,14 +230,16 @@ const breadcrumbs = ref([
   { title: t('Detail') },
 ]);
 
-const actions = computed<ActionButton[]>(() => [
+const actions: ActionButton[] = [
   {
     icon: mdiArrowLeft,
-    label: 'Go Back',
-    onClick: () => { router.push({ name: routeNames.hotelList }); },
-    color: 'secondary',
+    label: 'Back',
+    onClick: () => {
+      router.go(-1);
+    },
+    color: '',
     useLoading: false,
-    useDisabled: status.value === ApiStatus.LOADING,
+    useDisabled: false,
   },
   {
     icon: mdiUndo,
@@ -246,22 +247,23 @@ const actions = computed<ActionButton[]>(() => [
     onClick: handleReset,
     color: 'warning',
     useLoading: false,
-    useDisabled: status.value === ApiStatus.LOADING,
+    useDisabled: false,
   },
   {
     icon: mdiContentSave,
     label: 'Save',
     onClick: onSave,
-    color: 'primary',
-    useLoading: status.value === ApiStatus.LOADING,
-    useDisabled: status.value === ApiStatus.LOADING,
+    color: 'green',
+    useLoading: true,
+    useDisabled: true,
   },
-]);
+];
 
 onMounted(async () => {
   await loadActiveDestinations();
   let { id } = route.params;
   if (id !== 'new') {
+    isEditMode.value = true;
     await getDetail(id);
   } else {
     originalModelString.value = JSON.stringify(hotelModel.value);

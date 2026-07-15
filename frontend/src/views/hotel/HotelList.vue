@@ -87,7 +87,7 @@ const hotelListMeta = computed<ListMeta>(() => {
       { title: t('Updated By'), key: 'updatedBy', width: 150 },
       { title: t('Action'), key: 'actions', width: 100, sortable: false },
     ],
-    apiResource: hotelApiResource.getHotels,
+    apiResource: hotelApiResource.getList,
     responseKey: 'list',
     defaultSort: [{ key: 'createdDate', order: 'desc' }],
   };
