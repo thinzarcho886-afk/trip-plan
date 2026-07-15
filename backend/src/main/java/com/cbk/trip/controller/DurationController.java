@@ -26,7 +26,7 @@ import com.cbk.trip.service.DurationService;
 import com.cbk.trip.utils.CommonUtil;
 
 @RestController
-@RequestMapping("/api/duration")
+@RequestMapping("/api/auth/duration")
 public class DurationController {
 
     @Autowired
@@ -41,7 +41,7 @@ public class DurationController {
         return new ResponseEntity<>(durationService.getDurations(name, status, pageable), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('SYSADMIN')")
     @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody DurationDTO durationDTO, Errors errors) throws IOException {
         if (errors.hasErrors()) {
@@ -52,7 +52,7 @@ public class DurationController {
         return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Duration registered successfully"), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('SYSADMIN')")
     @PutMapping
     public ResponseEntity<?> update(@Valid @RequestBody DurationDTO durationDTO, Errors errors) throws IOException {
         if (errors.hasErrors()) {

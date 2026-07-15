@@ -30,6 +30,7 @@ export const menus: Menu[] = [
     to: { name: routeNames.home },
     forRole: [Role.SYSADMIN],
   },
+  
   {
     name: 'Customer',
     icon: mdiAccountGroup,
@@ -75,19 +76,19 @@ export const menus: Menu[] = [
   {
     name: 'Package',
     icon: mdiGift,
-    to: { name: routeNames.packageList }, 
+    // to: { name: routeNames.packageList }, 
     forRole: [Role.SYSADMIN, ],
   },
   {
     name: 'Booking',
     icon: mdiBookMarker,
-    to: { name: routeNames.bookingList }, 
+    // to: { name: routeNames.bookingList }, 
     forRole: [Role.SYSADMIN,],
   },
   {
     name: 'Payment',
     icon: mdiCreditCard,
-    to: { name: routeNames.paymentList }, 
+    // to: { name: routeNames.paymentList }, 
     forRole: [Role.SYSADMIN, ],
   },
 ];

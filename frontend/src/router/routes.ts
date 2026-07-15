@@ -3,6 +3,7 @@ import { Role } from '../constants/Role';
 
 export const routeNames = {
   home: 'Home',
+
   userHome: 'UserHome',
   login: 'Login',
   userList: 'UserList',
@@ -23,6 +24,11 @@ export const routeNames = {
   busTypeList:'BusTypeList',
   busTypeDetail:'BusTypeDetail',
   destinationList:'DestinationList',
+  durationList:'DurationList',
+  durationDetail:'DurationDetail',
+  packageList :'PackageList',
+  bookingList:'BookingList',
+  paymentList:'PaymentList',
   destinationDetail: 'DestinationDetail',
   busList: 'BusList',
   busDetail: 'BusDetail',
@@ -103,24 +109,6 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: '/changePassword',
-        name: 'routeNames.changePassword',
-        component: () =>
-          import(
-            /* webpackChunkName: "ChangePassword" */ '../views/changePassword.vue'
-          ),
-        meta: { requiresAuth: true },
-      },
-      {
-        path: 'edit-profile',
-        name: routeNames.editProfile,
-        component: () =>
-          import(
-            /* webpackChunkName: "EditProfile" */ '../views/EditProfile.vue'
-          ),
-        meta: {},
-      },
-      {
         path: 'about',
         name: 'routeNames.aboutUsPage',
         component: () =>
@@ -167,7 +155,7 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: {
           requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN], // optional, specifiy for more restrict
+          allowedRoles: [Role.SYSADMIN,Role.ADMIN], // optional, specifiy for more restrict
         },
       },
       {
@@ -224,7 +212,12 @@ export const routes: RouteRecordRaw[] = [
         name: routeNames.busTypeList,
         component: () =>
           import(
-            /* webpackChunkName: "busTypeList" */ '../views/busType/BusTypeList.vue'
+            /* webpackChunkName: "busTypeList" */ '../views/busType/BusTypeList.vue'),
+         meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
        {
         path: 'destination',
         name: routeNames.destinationList,
@@ -238,11 +231,41 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: 'duration',
+        name: routeNames.durationList,
+        component: () =>
+          import(
+            /* webpackChunkName: "durationList" */ '../views/duration/DurationList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'duration',
+        name: routeNames.durationDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "durationList" */ '../views/duration/DurationDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
         path: 'busTypes/:id',
         name: routeNames.busTypeDetail,
         component: () =>
           import(
-            /* webpackChunkName: "busTypeDetail" */ '../views/busType/BusTypeDetail.vue'
+            /* webpackChunkName: "busTypeDetail" */ '../views/busType/BusTypeDetail.vue'),
+             meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+          },
+        {
         path: 'destination/:id',
         name: routeNames.destinationDetail,
         component: () =>
