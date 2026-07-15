@@ -46,7 +46,7 @@ export const menus: Menu[] = [
   {
     name: 'Hotels',
     icon: mdiHomeAnalytics,
-    to: { name: routeNames.hostelList },
+    to: { name: routeNames.hotelList },
     forRole: [Role.SYSADMIN, ],
   },
   {

@@ -21,8 +21,6 @@ export const routeNames = {
   changePassword: 'ChangePassword',
   customerList: 'CustomerList',
   customerDetail: 'CustomerDetail',
-  busTypeList:'BusTypeList',
-  busTypeDetail:'BusTypeDetail',
   destinationList:'DestinationList',
   durationList:'DurationList',
   durationDetail:'DurationDetail',
@@ -32,6 +30,8 @@ export const routeNames = {
   destinationDetail: 'DestinationDetail',
   busList: 'BusList',
   busDetail: 'BusDetail',
+  hotelList: 'HotelList',
+  hotelDetail: 'HotelDetail',
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -313,6 +313,32 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
+
+      {
+        path: 'hotel',
+        name: routeNames.hotelList,
+        component: () =>
+          import(
+            /* webpackChunkName: "hotelList" */  '../views/hotel/HotelList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'hotel/:id',
+        name: routeNames.hotelDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "hotelDetail" */  '../views/hotel/HotelDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+
     ],
   },
 ];
