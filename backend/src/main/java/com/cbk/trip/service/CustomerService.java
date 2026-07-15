@@ -1,6 +1,8 @@
 package com.cbk.trip.service;
 
 import java.io.IOException;
+import org.springframework.util.StringUtils;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -65,8 +67,12 @@ public class CustomerService {
         customer.setEmail(dto.getEmail());
         customer.setPhoneNumber(dto.getPhoneNumber());
         customer.setStatus(dto.getStatus());
+        if (StringUtils.isEmpty(dto.getProfileImageUrl())) {
+            customer.setProfileImage(null);
+        
+        }
 
-        if (dto.getProfileImageUrl() != null && dto.getProfileImageUrl().startsWith("data:image")) {
+        else if (dto.getProfileImageUrl() != null && dto.getProfileImageUrl().startsWith("data:image")) {
             if (!isUpdate) {
                 customer.setProfileImage(NginxUtil.saveImage(dto.getProfileImageUrl(), "customer_profile"));
             } else {

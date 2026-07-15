@@ -17,7 +17,8 @@ import com.cbk.trip.enums.Status;
 
 public class PaymentMethodSpecs {
 
-    public static Specification<PaymentMethod> getByFilter(String name, Integer accountNumber, String accountName, Status status) {
+    // ✅ ပြင်ဆင်ပြီး - Integer accountNumber မှ String accountNumber သို့ ပြောင်းလဲခြင်း
+    public static Specification<PaymentMethod> getByFilter(String name, String accountNumber, String accountName, Status status) {
         return new Specification<PaymentMethod>() {
 
             private static final long serialVersionUID = 1L;
@@ -31,10 +32,11 @@ public class PaymentMethodSpecs {
                     predicates.add(namePredicate);
                 }
 
-                if (accountNumber != null) {
+                // ✅ ပြင်ဆင်ပြီး - accountNumber က String ဖြစ်သွားပြီမို့လို့ .as(String.class) နှင့် .toString() သုံးစရာမလိုတော့ဘဲ တိုက်ရိုက် Like Query စစ်ဆေးနိုင်ပါပြီ
+                if (!StringUtils.isEmpty(accountNumber)) {
                     final Predicate accNumPredicate = criteriaBuilder.like(
-                            root.get(PaymentMethod_.ACCOUNT_NUMBER).as(String.class), 
-                            "%" + accountNumber.toString() + "%");
+                            root.get(PaymentMethod_.ACCOUNT_NUMBER), 
+                            "%" + accountNumber + "%");
                     predicates.add(accNumPredicate);
                 }
                 

@@ -1,9 +1,9 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Role } from '../constants/Role';
+import HotelDetail from '../views/hotel/HotelDetail.vue';
 
 export const routeNames = {
   home: 'Home',
-
   userHome: 'UserHome',
   login: 'Login',
   userList: 'UserList',
@@ -22,16 +22,17 @@ export const routeNames = {
   customerList: 'CustomerList',
   customerDetail: 'CustomerDetail',
   destinationList:'DestinationList',
-  durationList:'DurationList',
-  durationDetail:'DurationDetail',
-  packageList :'PackageList',
-  bookingList:'BookingList',
-  paymentList:'PaymentList',
   destinationDetail: 'DestinationDetail',
   busList: 'BusList',
   busDetail: 'BusDetail',
-  hotelList: 'HotelList',
-  hotelDetail: 'HotelDetail',
+  paymentList: 'PaymentList',
+  paymentDetail:'PaymentDetail',
+  hotelList:'HotelList',
+  hotelDetail:'HotelDetail',
+  busTypeList:'BusTypeList',
+  busTypeDetail:'BusTypeDetail',
+  durationList: 'DurationList',
+  durationDetail: 'DurationDetail',
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -109,6 +110,24 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: '/changePassword',
+        name: 'routeNames.changePassword',
+        component: () =>
+          import(
+            /* webpackChunkName: "ChangePassword" */ '../views/changePassword.vue'
+          ),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'edit-profile',
+        name: routeNames.editProfile,
+        component: () =>
+          import(
+            /* webpackChunkName: "EditProfile" */ '../views/EditProfile.vue'
+          ),
+        meta: {},
+      },
+      {
         path: 'about',
         name: 'routeNames.aboutUsPage',
         component: () =>
@@ -155,7 +174,7 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: {
           requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN,Role.ADMIN], // optional, specifiy for more restrict
+          allowedRoles: [Role.SYSADMIN], // optional, specifiy for more restrict
         },
       },
       {
@@ -206,14 +225,26 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
-
-       {
-        path: 'busTypes',
-        name: routeNames.busTypeList,
+      {
+        path: 'payment',
+        name: routeNames.paymentList,
         component: () =>
           import(
-            /* webpackChunkName: "busTypeList" */ '../views/busType/BusTypeList.vue'),
-         meta: {
+            /* webpackChunkName: "paymentList" */ '../views/payment/PaymentList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'payment/:id',
+        name: routeNames.paymentDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "paymentDetail" */ '../views/payment/PaymentDetail.vue'
+          ),
+        meta: {
           requiresAuth: true,
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
@@ -231,41 +262,6 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'duration',
-        name: routeNames.durationList,
-        component: () =>
-          import(
-            /* webpackChunkName: "durationList" */ '../views/duration/DurationList.vue'
-          ),
-        meta: {
-          requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
-        },
-      },
-      {
-        path: 'duration',
-        name: routeNames.durationDetail,
-        component: () =>
-          import(
-            /* webpackChunkName: "durationList" */ '../views/duration/DurationDetail.vue'
-          ),
-        meta: {
-          requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
-        },
-      },
-      {
-        path: 'busTypes/:id',
-        name: routeNames.busTypeDetail,
-        component: () =>
-          import(
-            /* webpackChunkName: "busTypeDetail" */ '../views/busType/BusTypeDetail.vue'),
-             meta: {
-          requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
-        },
-          },
-        {
         path: 'destination/:id',
         name: routeNames.destinationDetail,
         component: () =>
@@ -295,6 +291,30 @@ export const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "busDetail" */ '../views/bus/BusDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+       {
+        path: 'busType',
+        name: routeNames.busTypeList,
+        component: () =>
+          import(
+            /* webpackChunkName: "busTypeList" */ '../views/busType/BusTypeList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'busType/:id',
+        name: routeNames.busTypeDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "busTypeDetail" */ '../views/busType/BusTypeDetail.vue'
           ),
         meta: {
           requiresAuth: true,
@@ -332,6 +352,30 @@ export const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "hotelDetail" */  '../views/hotel/HotelDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'duration',
+        name: routeNames.durationList,
+        component: () =>
+          import(
+            /* webpackChunkName: "durationList" */  '../views/duration/DurationList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'duration/:id',
+        name: routeNames.durationDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "durationDetail" */  '../views/duration/DurationDetail.vue'
           ),
         meta: {
           requiresAuth: true,

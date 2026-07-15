@@ -23,7 +23,7 @@ public class PaymentMethod extends BaseEntity {
     private String name;
 
     @Column(name = "account_number")
-    private Integer accountNumber; 
+    private String accountNumber; 
 
     @Column(name = "account_name")
     private String accountName;

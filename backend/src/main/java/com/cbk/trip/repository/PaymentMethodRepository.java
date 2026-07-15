@@ -17,6 +17,7 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Lo
 
     Optional<PaymentMethod> findByAccountNumber(Integer accountNumber);
 
-    Optional<PaymentMethod> findByAccountNumberAndIdNot(Integer accountNumber, Long id);
+    Optional<PaymentMethod> findByAccountNumberAndIdNot(String accountNumber, Long id);
+
 
 }

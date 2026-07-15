@@ -28,7 +28,7 @@ export const menus: Menu[] = [
     icon: mdiHome,
     name: 'Home',
     to: { name: routeNames.home },
-    forRole: [Role.SYSADMIN],
+    forRole: [Role.SYSADMIN, Role.OWNER],
   },
   
   {
@@ -53,7 +53,7 @@ export const menus: Menu[] = [
     name: 'Bus',
     icon: mdiBus,
     to: { name: routeNames.busList }, 
-    forRole: [Role.SYSADMIN, ],
+    forRole: [Role.SYSADMIN, Role.OWNER],
   },
   {
     name: 'Bus Types',
@@ -65,13 +65,13 @@ export const menus: Menu[] = [
     name: 'Destination',
     icon: mdiNavigation,
     to: { name: routeNames.destinationList }, 
-    forRole: [Role.SYSADMIN, ],
+    forRole: [Role.SYSADMIN, Role.OWNER],
   },
   {
     name: 'Duration',
     icon: mdiClockOutline,
     to: { name: routeNames.durationList }, 
-    forRole: [Role.SYSADMIN,],
+    forRole: [Role.SYSADMIN, Role.OWNER],
   },
   {
     name: 'Package',
@@ -88,7 +88,7 @@ export const menus: Menu[] = [
   {
     name: 'Payment',
     icon: mdiCreditCard,
-    // to: { name: routeNames.paymentList }, 
+    to: { name: routeNames.paymentList }, 
     forRole: [Role.SYSADMIN, ],
   },
 ];

@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.cbk.trip.entity.PaymentMethod;
 import com.cbk.trip.enums.Status;
+import com.cbk.trip.utils.NginxUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -24,7 +25,7 @@ public class PaymentMethodDTO extends CommonDTO {
 	private String name;
 
 	@NotNull(message = "Account number is required")
-	private Integer accountNumber; 
+	private String accountNumber; 
 
 	@NotBlank(message = "Account name is required")
 	@Length(max = 100)
@@ -34,6 +35,7 @@ public class PaymentMethodDTO extends CommonDTO {
 	private String description;
 
 	private String imageUrl;
+	private String image;
 
 	private Status status = Status.ACTIVE;
 
@@ -46,7 +48,8 @@ public class PaymentMethodDTO extends CommonDTO {
 		this.accountNumber = entity.getAccountNumber();
 		this.accountName = entity.getAccountName();
 		this.description = entity.getDescription();
-		this.imageUrl = entity.getImageUrl();
+		this.imageUrl = NginxUtil.getFileUrl(entity.getImageUrl(), true);
+
 		this.status = entity.getStatus();
 	}
 }
