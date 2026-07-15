@@ -1,11 +1,10 @@
-<!-- Inside frontend/src/views/hotel/HotelDetail.vue -->
 <template>
   <Detail
     v-bind="{
-      title: isEditMode ? t('Hotel Edit Form') : t('Hotel Register Form'),
-      loading: status === ApiStatus.LOADING || destinationApi.status.value === ApiStatus.LOADING,
-      error: status === ApiStatus.ERROR || destinationApi.status.value === ApiStatus.ERROR,
-      message: (status === ApiStatus.ERROR && error?.message) || (destinationApi.status.value === ApiStatus.ERROR && destinationApi.error.value?.message),
+      title: t('Hotel'),
+      loading: status === ApiStatus.LOADING,
+      error: status === ApiStatus.ERROR,
+      message: status == ApiStatus.ERROR && error?.message,
       formValid: formValid,
       breadcrumbs,
       actions,
@@ -32,7 +31,7 @@
                   width="100%"
                   class="mx-auto"
                   :label="t('Hotel Image')"
-                  accept="image/png, image/jpeg, image/jpg"
+                  :disabled="isUpdate && authStore.user.role !== Role.SYSADMIN"
                 ></ImageInput>
               </v-card>
             </v-col>
@@ -83,19 +82,16 @@
                 </v-col>
 
                 <!-- Status Select -->
-                <v-col cols="12" sm="6" class="py-1">
-                  <v-select
+                <v-col cols="12" sm="6" class="py-1 d-flex align-center">
+                  <v-switch
+                    name="status"
+                    :label="hotelModel.status === 'ACTIVE' ? t('ACTIVE') : t('INACTIVE')"
                     v-model="hotelModel.status"
-                    :items="[
-                              { title: t('ACTIVE'), value: 'ACTIVE' },
-                              { title: t('INACTIVE'), value: 'INACTIVE' }
-                            ]"
-                    :label="t('Status') + ' *'"
-                    :rules="[rules.required]"
-                    variant="outlined"
-                    density="comfortable"
-                    :disabled="!isEditMode"
-                  ></v-select>
+                    :true-value="Status.ACTIVE"
+                    :false-value="Status.INACTIVE"
+                    color="green"
+                    hide-details
+                  ></v-switch>
                 </v-col>
 
                 <!-- Address Box -->
@@ -148,11 +144,14 @@ import { useAuthStore } from '../../store/auth';
 import { hotelApiResource } from '../../api/resources/hotelResource.js';
 import { destinationApiResource } from '../../api/resources/destinationResource.js';
 import { Hotel, HotelModel } from '../../models/HotelModel.js';
+import { Role } from '../../constants/Role.js';
+import { Status } from '../../constants/Status.js';
 
 const route = useRoute();
 const router = useRouter();
 const formValid = ref(true);
 const detailFormRef = ref<null | any>(null);
+const isUpdate = ref(false);
 
 const hotelModel = ref<any>(HotelModel());
 const roles = ref([
