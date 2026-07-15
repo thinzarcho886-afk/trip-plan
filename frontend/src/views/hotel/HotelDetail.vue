@@ -157,7 +157,7 @@ const hotelModel = ref<any>({
   imageUrl: null,
   pricePerNight: null,
   description: '',
-  status: 'ACTIVE' // Register ပြုလုပ်ပြီးသည်နှင့် Default 'ACTIVE' သတ်မှတ်ပေးရန်
+  status: 'ACTIVE' 
 });
 
 const originalModelString = ref('');
@@ -173,7 +173,6 @@ const rules = {
   positiveNumber: (v: number) => v > 0 || t('Price must be greater than 0'),
   duplicateCheck: async (value: string) => {
     if (!value) return true;
-    // Edit mode တွင် နာမည်မပြောင်းလဲပါက duplicate မစစ်ဆေးပါ
     if (isEditMode.value && value === JSON.parse(originalModelString.value).hotelName) return true;
     
     const isDuplicate = await hotelApiResource.checkDuplicateName({ name: value });
