@@ -4,9 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.cbk.trip.enums.Status;
@@ -14,11 +11,6 @@ import com.cbk.trip.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * * @author HtetAungThan
- * @since 11/Jan/2025
- *
- */
 @Getter
 @Setter
 @Entity
@@ -31,7 +23,7 @@ public class PaymentMethod extends BaseEntity {
     private String name;
 
     @Column(name = "account_number")
-    private String accountNumber;
+    private Integer accountNumber; 
 
     @Column(name = "account_name")
     private String accountName;
@@ -43,6 +35,6 @@ public class PaymentMethod extends BaseEntity {
     private String imageUrl;
 
     @Enumerated(EnumType.STRING)
-   	@Column(name = "status")
-   	private Status status = Status.ACTIVE;
+    @Column(name = "status")
+    private Status status = Status.ACTIVE;
 }

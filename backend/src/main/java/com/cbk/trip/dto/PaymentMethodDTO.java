@@ -1,7 +1,7 @@
 package com.cbk.trip.dto;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.NotBlank;
-
 import org.hibernate.validator.constraints.Length;
 
 import com.cbk.trip.entity.PaymentMethod;
@@ -12,11 +12,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * * @author HtetAungThan
- * @since 11/Jan/2025
- *
- */
 @Getter
 @Setter
 @JsonInclude(Include.NON_NULL)
@@ -28,9 +23,8 @@ public class PaymentMethodDTO extends CommonDTO {
 	@Length(max = 100)
 	private String name;
 
-	@NotBlank(message = "Account number is required")
-	@Length(max = 50)
-	private String accountNumber;
+	@NotNull(message = "Account number is required")
+	private Integer accountNumber; 
 
 	@NotBlank(message = "Account name is required")
 	@Length(max = 100)

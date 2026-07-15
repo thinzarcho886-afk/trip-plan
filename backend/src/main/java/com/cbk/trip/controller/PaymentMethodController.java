@@ -36,46 +36,44 @@ public class PaymentMethodController {
 	@PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
 	@GetMapping
 	public ResponseEntity<?> getPaymentMethods(@Param("name") String name, 
-			@Param("accountNumber") String accountNumber,
-			@Param("accountName") String accountName,
-			@Param("status") Status status,
-			@PageableDefault(size = 10, sort = "updatedDate") Pageable pageable) {
+	        @Param("accountNumber") Integer accountNumber, 
+	        @Param("accountName") String accountName,
+	        @Param("status") Status status,
+	        @PageableDefault(size = 10, sort = "updatedDate") Pageable pageable) {
 
-		PageableDTO result = paymentMethodService.getPaymentMethods(name, accountNumber, accountName, status, pageable);
-		return new ResponseEntity<>(result, HttpStatus.OK);
+	    PageableDTO result = paymentMethodService.getPaymentMethods(name, accountNumber, accountName, status, pageable);
+	    return new ResponseEntity<>(result, HttpStatus.OK);
 	}
-
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping
 	public ResponseEntity<?> register(@Valid @RequestBody PaymentMethodDTO dto, Errors errors) {
 
-		if (paymentMethodService.isAccountNumberDuplicate(dto.getAccountNumber(), null)) {
-			errors.rejectValue("accountNumber", "error.duplicate", "Account number is already duplicated.");
-		}
+	    if (paymentMethodService.isAccountNumberDuplicate(dto.getAccountNumber(), null)) {
+	        errors.rejectValue("accountNumber", "error.duplicate", "Account number is already duplicated.");
+	    }
 
-		if (errors.hasErrors()) {
-			return CommonUtil.getFieldErrors(errors);
-		}
+	    if (errors.hasErrors()) {
+	        return CommonUtil.getFieldErrors(errors);
+	    }
 
-		return new ResponseEntity<>(paymentMethodService.save(dto, false), HttpStatus.CREATED);
+	    return new ResponseEntity<>(paymentMethodService.save(dto, false), HttpStatus.CREATED);
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping
 	public ResponseEntity<?> update(@Valid @RequestBody PaymentMethodDTO dto, Errors errors) {
 
-		if (paymentMethodService.isAccountNumberDuplicate(dto.getAccountNumber(), dto.getId())) {
-			errors.rejectValue("accountNumber", "error.duplicate", "Account number is already duplicated.");
-		}
+	    if (paymentMethodService.isAccountNumberDuplicate(dto.getAccountNumber(), dto.getId())) {
+	        errors.rejectValue("accountNumber", "error.duplicate", "Account number is already duplicated.");
+	    }
 
-		if (errors.hasErrors()) {
-			return CommonUtil.getFieldErrors(errors);
-		}
+	    if (errors.hasErrors()) {
+	        return CommonUtil.getFieldErrors(errors);
+	    }
 
-		paymentMethodService.save(dto, true);
-		return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Payment Method updated"), HttpStatus.OK);
+	    paymentMethodService.save(dto, true);
+	    return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Payment Method updated"), HttpStatus.OK);
 	}
-
 	@PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
 	@GetMapping("/by-status/{status}")
 	public ResponseEntity<?> getByStatus(@PathVariable Status status) {

@@ -10,18 +10,13 @@ import org.springframework.stereotype.Repository;
 import com.cbk.trip.entity.PaymentMethod;
 import com.cbk.trip.enums.Status;
 
-/**
- * * @author HtetAungThan
- * @since 11/Jan/2025
- *
- */
 @Repository
 public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Long>, JpaSpecificationExecutor<PaymentMethod> {
 
     List<PaymentMethod> findByStatus(Status status);
 
-    Optional<PaymentMethod> findByAccountNumber(String accountNumber);
+    Optional<PaymentMethod> findByAccountNumber(Integer accountNumber);
 
-    Optional<PaymentMethod> findByAccountNumberAndIdNot(String accountNumber, Long id);
+    Optional<PaymentMethod> findByAccountNumberAndIdNot(Integer accountNumber, Long id);
 
 }

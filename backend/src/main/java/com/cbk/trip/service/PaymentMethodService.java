@@ -21,30 +21,26 @@ import com.cbk.trip.repository.PaymentMethodRepository;
 import com.cbk.trip.specification.PaymentMethodSpecs;
 import com.cbk.trip.utils.CommonUtil;
 
-/**
- * @author HtetAungThan
- * @since 11/Jan/2025
- */
 @Service
 public class PaymentMethodService {
 
 	@Autowired
 	PaymentMethodRepository paymentMethodRepository;
 
-	public boolean isAccountNumberDuplicate(String accountNumber, Long id) {
+	public boolean isAccountNumberDuplicate(Integer accountNumber, Long id) {
 		Optional<PaymentMethod> exist = paymentMethodRepository.findByAccountNumberAndIdNot(accountNumber, id != null ? id : -1L);
 		return exist.isPresent();
 	}
 
-	public PageableDTO getPaymentMethods(String name, String accountNumber, String accountName, Status status, Pageable pageable) {
-		Specification<PaymentMethod> spec = PaymentMethodSpecs.getByFilter(name, accountNumber, accountName, status);
-		Page<PaymentMethod> page = paymentMethodRepository.findAll(spec, pageable);
-		
-		List<PaymentMethodDTO> dtoList = page.getContent().stream()
-				.map(PaymentMethodDTO::new)
-				.collect(Collectors.toList());
+	public PageableDTO getPaymentMethods(String name, Integer accountNumber, String accountName, Status status, Pageable pageable) {
+	    Specification<PaymentMethod> spec = PaymentMethodSpecs.getByFilter(name, accountNumber, accountName, status);
+	    Page<PaymentMethod> page = paymentMethodRepository.findAll(spec, pageable);
+	    
+	    List<PaymentMethodDTO> dtoList = page.getContent().stream()
+	            .map(PaymentMethodDTO::new)
+	            .collect(Collectors.toList());
 
-		return new PageableDTO(dtoList, page);
+	    return new PageableDTO(dtoList, page);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -52,7 +48,7 @@ public class PaymentMethodService {
 		PaymentMethod entity = isUpdate ? CommonUtil.checkValidById(dto.getId(), paymentMethodRepository) : new PaymentMethod();
 
 		entity.setName(dto.getName());
-		entity.setAccountNumber(dto.getAccountNumber());
+		entity.setAccountNumber(dto.getAccountNumber()); 
 		entity.setAccountName(dto.getAccountName());
 		entity.setDescription(dto.getDescription());
 		entity.setImageUrl(dto.getImageUrl());
