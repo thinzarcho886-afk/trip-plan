@@ -27,7 +27,7 @@ public class HotelController {
     HotelService hotelService;
 
     // 1 & 2. List & Filter
-    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
     @GetMapping
     public ResponseEntity<?> getHotels(@Param("name") String name, 
                                        @Param("destinationId") Long destinationId,
@@ -38,7 +38,7 @@ public class HotelController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SYSADMIN')")
     @PostMapping
     public ResponseEntity<?> register(@Valid @RequestBody HotelDTO hotelDTO, Errors errors) {
 
@@ -54,7 +54,7 @@ public class HotelController {
         return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Hotel registered"), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('SYSADMIN')")
     @PutMapping
     public ResponseEntity<?> update(@Valid @RequestBody HotelDTO hotelDTO, Errors errors) {
 
@@ -70,7 +70,7 @@ public class HotelController {
         return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Hotel updated"), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN','CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
     @GetMapping("/by-status/{status}")
     public ResponseEntity<?> getByStatus(@PathVariable Status status) {
         return new ResponseEntity<>(hotelService.getByStatus(status), HttpStatus.OK);

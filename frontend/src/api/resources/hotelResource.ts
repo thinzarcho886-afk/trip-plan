@@ -4,14 +4,19 @@ type HotelApiResource =
   | 'getList'
   | 'getById'
   | 'save'
-  | 'update';
+  | 'update'
+  | 'getDestinationByStatus';
 
 const baseURL = '/auth/hotel';
 
 
 export const hotelApiResource: ApiResources<HotelApiResource> = {
-  getList: { method: 'get', url: '/api/auth/hotel' },
-  getById: { method: 'get', url: '/api/auth/hotel/:id' },
-  save: { method: 'post', url: '/api/auth/hotel' },
-  update: { method: 'put', url: '/api/auth/hotel' },
+  getList: { method: 'get', url: '/auth/hotel' },
+  getById: { method: 'get', url: '/auth/hotel/:id' },
+  save: { method: 'post', url: '/auth/hotel' },
+  update: { method: 'put', url: '/auth/hotel' },
+  getDestinationByStatus: {
+    method: 'put',
+    url: '/auth/destination/by-status/:status',
+  },
 };
