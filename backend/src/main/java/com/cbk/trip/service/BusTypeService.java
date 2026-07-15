@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cbk.trip.dto.BusDTO;
 import com.cbk.trip.dto.BusTypeDTO;
 import com.cbk.trip.dto.PageableDTO;
 import com.cbk.trip.entity.Bus;
@@ -68,7 +69,18 @@ public class BusTypeService {
 
 	public BusTypeDTO getById(Long id) {
 		BusType busType = CommonUtil.checkValidById(id, busTypeRepository);
-		return new BusTypeDTO(busType);
+		BusTypeDTO dto = new BusTypeDTO(busType);
+		
+		// Map Bus List from Transport repository to DTO
+		List<Transport> transports = transportRepository.findByBusTypeId(id); // transportRepository တွင် findByBusTypeId ဆောက်ထားရန်လိုသည်
+		List<BusDTO> busDTOList = new ArrayList<>();
+		for (Transport transport : transports) {
+			if (transport.getBus() != null) {
+				busDTOList.add(new BusDTO(transport.getBus()));
+			}
+		}
+		dto.setBuses(busDTOList);
+		return dto;
 	}
 
 	public List<BusTypeDTO> getBusTypeByStatus(Status status) {

@@ -83,4 +83,21 @@ public class BusTypeController {
 		BusTypeDTO busTypeDTO = busTypeService.getById(id);
 		return new ResponseEntity<>(busTypeDTO, HttpStatus.OK);
 	}
+	
+	
+	
+	
+	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
+	@PostMapping("/{busTypeId}/add-bus/{busId}")
+	public ResponseEntity<?> addBusToTransport(@PathVariable Long busTypeId, @PathVariable Long busId) {
+		busTypeService.addBusToTransport(busTypeId, busId);
+		return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Bus added to BusType successfully"), HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
+	@PostMapping("/{busTypeId}/remove-bus/{busId}")
+	public ResponseEntity<?> removeBusFromTransport(@PathVariable Long busTypeId, @PathVariable Long busId) {
+		busTypeService.removeBusFromTransport(busTypeId, busId);
+		return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Bus removed from BusType successfully"), HttpStatus.OK);
+	}
 }

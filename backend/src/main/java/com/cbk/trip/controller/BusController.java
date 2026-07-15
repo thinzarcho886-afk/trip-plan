@@ -37,10 +37,10 @@ public class BusController {
 
 	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@GetMapping
-	public ResponseEntity<?> getBuses(@Param("name") String name, @Param("status") Status status,
+	public ResponseEntity<?> getBuses(@Param("name") String name, @Param("status") Status status,@Param("busTypeId")Long busTypeId,
 			@PageableDefault(size = Integer.MAX_VALUE, sort = "updatedDate") Pageable pageable) {
 
-		PageableDTO busDTO = busService.getBuses(name, status, pageable);
+		PageableDTO busDTO = busService.getBuses(name, status,busTypeId, pageable);
 		return new ResponseEntity<>(busDTO, HttpStatus.OK);
 	}
 

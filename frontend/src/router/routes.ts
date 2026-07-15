@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Role } from '../constants/Role';
 import HotelDetail from '../views/hotel/HotelDetail.vue';
+import TransportDetail from '../views/transport/TransportDetail.vue';
 
 export const routeNames = {
   home: 'Home',
@@ -33,6 +34,8 @@ export const routeNames = {
   busTypeDetail:'BusTypeDetail',
   durationList: 'DurationList',
   durationDetail: 'DurationDetail',
+  transportList: 'TransportList',
+  transportDetail: 'TransportDetail',
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -376,6 +379,30 @@ export const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "durationDetail" */  '../views/duration/DurationDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+       {
+        path: 'transport',
+        name: routeNames.transportList,
+        component: () =>
+          import(
+            /* webpackChunkName: "transportList" */ '../views/transport/TransportList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'transport/:id',
+        name: routeNames.transportDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "transportDetail" */ '../views/transport/TransportDetail.vue'
           ),
         meta: {
           requiresAuth: true,

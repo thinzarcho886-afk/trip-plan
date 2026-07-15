@@ -35,8 +35,8 @@ public class BusService {
 		return bus.isPresent();
 	}
 
-	public PageableDTO getBuses(String name, Status status, Pageable pageable) {
-		Page<Bus> page = busRepository.findAll(BusSpecs.getByFilter(name, status), pageable);
+	public PageableDTO getBuses(String name, Status status, Long busTypeId, Pageable pageable) {
+		Page<Bus> page = busRepository.findAll(BusSpecs.getByFilter(name, status, busTypeId), pageable);
 		List<BusDTO> busDTOList = page.getContent().stream().map(BusDTO::new).collect(Collectors.toList());
 		return new PageableDTO(busDTOList, page);
 	}

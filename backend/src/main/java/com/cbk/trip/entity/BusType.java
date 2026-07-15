@@ -1,12 +1,13 @@
 package com.cbk.trip.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.OneToMany; // ✅ OneToMany mapping အတွက် import ထည့်ပါသည်
 import javax.persistence.Table;
 
 import com.cbk.trip.enums.Status;
@@ -38,4 +39,7 @@ public class BusType extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status")
 	private Status status = Status.ACTIVE;
+
+	@OneToMany(mappedBy = "busType")
+	private List<Transport> transports = new ArrayList<>();
 }

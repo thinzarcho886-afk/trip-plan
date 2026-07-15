@@ -1,5 +1,8 @@
 package com.cbk.trip.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -41,6 +44,7 @@ public class BusTypeDTO extends CommonDTO {
 	private String description;
 
 	private Status status = Status.ACTIVE;
+	private List<BusDTO> buses = new ArrayList<>(); 
 
 	public BusTypeDTO(BusType entity) {
 		super(entity);
@@ -48,5 +52,12 @@ public class BusTypeDTO extends CommonDTO {
 		this.availableSeats = entity.getAvailableSeats();
 		this.description = entity.getDescription();
 		this.status = entity.getStatus();
+		if (entity.getTransports() != null) {
+			entity.getTransports().forEach(transport -> {
+				if (transport.getBus() != null) {
+					this.buses.add(new BusDTO(transport.getBus()));
+				}
+			});
+		}
 	}
 }

@@ -42,13 +42,19 @@
             </button>
          </div>
         </template>
+        
+         <template v-slot:[`item.action`]="{ item }">
+          <v-btn icon size="small" :to="getDetailRoute(item)">
+            <v-icon>{{ mdiPencil }}</v-icon>
+          </v-btn>
+        </template>
       </ListDataTable>
     </template>
   </List>
 </template>
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { mdiPlus } from '@mdi/js';
+import { mdiPlus , mdiPencil} from '@mdi/js';
 import List from '../../layouts/default/List.vue';
 import ListDataTable from '../../components/common/ListDataTable.vue';
 import { routeNames } from '../../router/routes.js';
@@ -100,6 +106,7 @@ const busTypeListMeta = computed<ListMeta>(() => {
       { title: t('Created By'), key: 'createdBy', width: 150 },
       { title: t('Updated Date'), key: 'updatedDate', width: 150 },
       { title: t('Updated By'), key: 'updatedBy', width: 150 },
+       { title: t('Action'), key: 'action', sortable:false },
     ],
     apiResource: busTypeApiResource.getBusTypes,
     responseKey: 'list',

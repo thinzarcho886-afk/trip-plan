@@ -24,3 +24,11 @@ export const BusModel = (): Bus => ({
 
 
 });
+
+export interface BusDetail extends CommonDto{
+  id:any;
+  name:string;
+  status: Status | string;
+  
+}
+
