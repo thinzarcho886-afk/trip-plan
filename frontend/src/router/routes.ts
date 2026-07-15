@@ -20,12 +20,12 @@ export const routeNames = {
   changePassword: 'ChangePassword',
   customerList: 'CustomerList',
   customerDetail: 'CustomerDetail',
-  busTypeList:'BusTypeList',
-  busTypeDetail:'BusTypeDetail',
   destinationList:'DestinationList',
   destinationDetail: 'DestinationDetail',
   busList: 'BusList',
   busDetail: 'BusDetail',
+  hotelList: 'HotelList',
+  hotelDetail: 'HotelDetail',
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -218,13 +218,6 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
-
-       {
-        path: 'busTypes',
-        name: routeNames.busTypeList,
-        component: () =>
-          import(
-            /* webpackChunkName: "busTypeList" */ '../views/busType/BusTypeList.vue'
        {
         path: 'destination',
         name: routeNames.destinationList,
@@ -238,11 +231,6 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
-        path: 'busTypes/:id',
-        name: routeNames.busTypeDetail,
-        component: () =>
-          import(
-            /* webpackChunkName: "busTypeDetail" */ '../views/busType/BusTypeDetail.vue'
         path: 'destination/:id',
         name: routeNames.destinationDetail,
         component: () =>
@@ -290,6 +278,32 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
+
+      {
+        path: 'hotel',
+        name: routeNames.hotelList,
+        component: () =>
+          import(
+            /* webpackChunkName: "hotelList" */  '../views/hotel/HotelList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'hotel/:id',
+        name: routeNames.hotelDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "hotelDetail" */  '../views/hotel/HotelDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+
     ],
   },
 ];
