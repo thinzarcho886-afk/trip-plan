@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Role } from '../constants/Role';
 import HotelDetail from '../views/hotel/HotelDetail.vue';
-import TransportDetail from '../views/transport/TransportDetail.vue';
+import PackageList from '../views/packaged/PackageList.vue';
 
 export const routeNames = {
   home: 'Home',
@@ -23,17 +23,20 @@ export const routeNames = {
   customerList: 'CustomerList',
   customerDetail: 'CustomerDetail',
   destinationList:'DestinationList',
+  durationList:'DurationList',
+  durationDetail:'DurationDetail',
+  bookingList:'BookingList',
+  paymentList:'PaymentList',
+  paymentDetail:'PaymentDetail',
   destinationDetail: 'DestinationDetail',
   busList: 'BusList',
   busDetail: 'BusDetail',
-  paymentList: 'PaymentList',
-  paymentDetail:'PaymentDetail',
+  packageList: 'PackageList',
+  packageDetail:'PackageDetail',
   hotelList:'HotelList',
   hotelDetail:'HotelDetail',
   busTypeList:'BusTypeList',
   busTypeDetail:'BusTypeDetail',
-  durationList: 'DurationList',
-  durationDetail: 'DurationDetail',
   transportList: 'TransportList',
   transportDetail: 'TransportDetail',
 };
@@ -265,6 +268,41 @@ export const routes: RouteRecordRaw[] = [
         },
       },
       {
+        path: 'duration',
+        name: routeNames.durationList,
+        component: () =>
+          import(
+            /* webpackChunkName: "durationList" */ '../views/duration/DurationList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'duration/:id',
+        name: routeNames.durationDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "durationList" */ '../views/duration/DurationDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'busTypes/:id',
+        name: routeNames.busTypeDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "busTypeDetail" */ '../views/busType/BusTypeDetail.vue'),
+             meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+          },
+        {
         path: 'destination/:id',
         name: routeNames.destinationDetail,
         component: () =>
@@ -336,6 +374,30 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
+      {
+        path: 'package',
+        name: routeNames.packageList,
+        component: () =>
+          import(
+            /* webpackChunkName: "packageList" */  '../views/packaged/PackageList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'package/:id',
+        name: routeNames.packageDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "packageDetail" */  '../views/packaged/PackageDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
 
       {
         path: 'hotel',
@@ -361,55 +423,6 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
-      {
-        path: 'duration',
-        name: routeNames.durationList,
-        component: () =>
-          import(
-            /* webpackChunkName: "durationList" */  '../views/duration/DurationList.vue'
-          ),
-        meta: {
-          requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
-        },
-      },
-      {
-        path: 'duration/:id',
-        name: routeNames.durationDetail,
-        component: () =>
-          import(
-            /* webpackChunkName: "durationDetail" */  '../views/duration/DurationDetail.vue'
-          ),
-        meta: {
-          requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
-        },
-      },
-       {
-        path: 'transport',
-        name: routeNames.transportList,
-        component: () =>
-          import(
-            /* webpackChunkName: "transportList" */ '../views/transport/TransportList.vue'
-          ),
-        meta: {
-          requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
-        },
-      },
-      {
-        path: 'transport/:id',
-        name: routeNames.transportDetail,
-        component: () =>
-          import(
-            /* webpackChunkName: "transportDetail" */ '../views/transport/TransportDetail.vue'
-          ),
-        meta: {
-          requiresAuth: true,
-          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
-        },
-      },
-
     ],
   },
 ];

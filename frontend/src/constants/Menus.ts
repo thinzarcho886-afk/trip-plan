@@ -76,7 +76,7 @@ export const menus: Menu[] = [
   {
     name: 'Package',
     icon: mdiGift,
-    // to: { name: routeNames.packageList }, 
+    to: { name: routeNames.packageList }, 
     forRole: [Role.SYSADMIN, ],
   },
   {

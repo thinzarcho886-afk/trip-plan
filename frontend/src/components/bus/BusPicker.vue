@@ -49,17 +49,6 @@ const onApiCall = async (params: any) => {
     items.value = data['list'] || [];
   }
 };
-
-onMounted(() => {
-  const params = {
-    ...props.params,
-    page: null,
-    size: null,
-    sort: 'name,asc',
-  };
-  onApiCall(params);
-});
-
 watch(
   [() => props.busTypeId, () => props.busId],
   async ([busTypeId, busId], [oldBusTypeId, oldId]) => {
@@ -70,27 +59,20 @@ watch(
       sort: 'name,asc',
     };
 
-    if (
-      busTypeId == oldBusTypeId &&
-      ((!!busId && oldId == '') || busId != oldId)
-    ) {
-      // value မပြောင်းဘဲ တူနေပါက ဘာမှမလုပ်ဘဲ ကျော်သွားရန်
+    // Logic အမှန်
+    if (busTypeId == oldBusTypeId && ((!!busId && oldId == '') || (busId != oldId))) {
       return;
     }
 
     if (!!busTypeId) {
       items.value = [];
 
-      // ကနဦးတန်ဖိုး (Init value) ရှင်းလင်းမသွားစေရန် စစ်ဆေးခြင်း
       if (!(!oldBusTypeId && !oldId && !!busId)) {
         modelValue.value = { id: '', name: '' };
-
         await nextTick();
-
         const { resetValidation } = busPickerRef.value;
         if (typeof resetValidation == 'function') resetValidation();
       }
-
       params.busTypeId = busTypeId;
     }
 
@@ -100,8 +82,50 @@ watch(
     )
       onApiCall(params);
   },
-  {
-    immediate: true,
-  },
+  { immediate: true }
 );
+// watch(
+//   [() => props.busTypeId, () => props.busId],
+//   async ([busTypeId, busId], [oldBusTypeId, oldId]) => {
+//     const params = {
+//       ...props.params,
+//       page: null,
+//       size: null,
+//       sort: 'name,asc',
+//     };
+
+//     if (
+//       busTypeId == oldBusTypeId &&
+//       ((!!busId && oldId == '') || busId != oldId)
+//     ) {
+//       // value မပြောင်းဘဲ တူနေပါက ဘာမှမလုပ်ဘဲ ကျော်သွားရန်
+//       return;
+//     }
+
+//     if (!!busTypeId) {
+//       items.value = [];
+
+//       // ကနဦးတန်ဖိုး (Init value) ရှင်းလင်းမသွားစေရန် စစ်ဆေးခြင်း
+//       if (!(!oldBusTypeId && !oldId && !!busId)) {
+//         modelValue.value = { id: '', name: '' };
+
+//         await nextTick();
+
+//         const { resetValidation } = busPickerRef.value;
+//         if (typeof resetValidation == 'function') resetValidation();
+//       }
+
+//       params.busTypeId = busTypeId;
+//     }
+
+//     if (
+//       (typeof props.busTypeId !== 'undefined' && params.busTypeId) ||
+//       typeof props.busTypeId === 'undefined'
+//     )
+//       onApiCall(params);
+//   },
+//   {
+//     immediate: true,
+//   },
+// );
 </script>

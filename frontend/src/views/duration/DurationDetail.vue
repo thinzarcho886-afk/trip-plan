@@ -1,7 +1,7 @@
 <template>
   <Detail
     v-bind="{
-      title: t('durationModel'),
+      title: t('Duration'),
       loading: status == ApiStatus.LOADING,
       error: status == ApiStatus.ERROR,
       message: status == ApiStatus.ERROR && error.message,
@@ -93,7 +93,7 @@ const { call, response, error, status } = useApi();
 const authStore = useAuthStore();
 
 const getDetail = async (id: any) => {
-  await call(durationApiResource.getDurations, null, { id });
+  await call(durationApiResource.getById, null, { id });
 
   if (status.value == ApiStatus.SUCCESS) {
     durationModel.value = response.value?.data as Duration;

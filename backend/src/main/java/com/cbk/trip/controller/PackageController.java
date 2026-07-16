@@ -20,7 +20,7 @@ import com.cbk.trip.service.PackageService;
 import com.cbk.trip.utils.CommonUtil;
 
 @RestController
-@RequestMapping("/api/package")
+@RequestMapping("/api/auth/package")
 public class PackageController {
 
     @Autowired

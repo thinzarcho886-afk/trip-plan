@@ -6,7 +6,7 @@
     item-value="id"
     item-title="name"
     :loading="status == ApiStatus.LOADING"
-    ref="BusTypePickerRef"
+    ref="DestinationPickerRef"
   ></v-autocomplete>
 </template>
 
@@ -15,34 +15,34 @@ import { ref, computed, onMounted } from 'vue';
 import useApi, { ApiStatus } from '../../api';
 import { nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { busTypeApiResource } from '../../api/resources/busTypeResource';
+import { destinationApiResource } from '../../api/resources/destinationResource';
 
-const props = defineProps(['busTypeId', 'busTypeName', 'params']);
-const emits = defineEmits(['update:busTypeId', 'update:busTypeName']);
+const props = defineProps(['destinationId', 'destinationName', 'params']);
+const emits = defineEmits(['update:destinationId', 'update:destinationName']);
 const { t } = useI18n();
 
 const items = ref([]);
 
 const modelValue = computed({
   get() {
-    return props.busTypeId && props.busTypeName ? { id: props.busTypeId, name: props.busTypeName } : null;
+    return props.destinationId && props.destinationName ? { id: props.destinationId, name: props.destinationName } : null;
   },
   set(e: any) {
-    emits('update:busTypeId', e.id ?? null);
-    emits('update:busTypeName', e.name ?? null);
+    emits('update:destinationId', e.id ?? null);
+    emits('update:destinationName', e.name ?? null);
   },
 });
 
 const { call, response, status } = useApi();
 
-const BusTypePickerRef = ref<null | any>(null);
-const hintText = computed(() => t('selectFirst', { value: t('Bus Type') }));
+const DestinationPickerRef = ref<null | any>(null);
+const hintText = computed(() => t('selectFirst', { value: t('Destination') }));
 // const showHint = computed(
-//   () => typeof props.BusTypeid != 'undefined' && !props.BusTypeid
+//   () => typeof props.destinationdestinationId != 'undefined' && !props.destinationdestinationId
 // );
 
 const onApiCall = async (params: any) => {
-  await call(busTypeApiResource.getBusTypes, { params });
+  await call(destinationApiResource.getDestinations, { params });
 
   if (status.value == ApiStatus.SUCCESS) {
     const data: any = response.value?.data;
@@ -53,7 +53,7 @@ const onApiCall = async (params: any) => {
 onMounted(()=> {
   const params = {
     ...props.params,
-    id: props.busTypeId,
+    id: props.destinationId,
       page: null,
       size: null,
       sort: 'name,asc',
