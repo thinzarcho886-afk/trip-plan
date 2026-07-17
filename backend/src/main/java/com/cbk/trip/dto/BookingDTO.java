@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import com.cbk.trip.entity.Booking;
+import com.cbk.trip.enums.BookingStatus;
 import com.cbk.trip.enums.Status;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -34,7 +35,7 @@ public class BookingDTO extends CommonDTO {
     private Integer travelersQty;
 
     @NotNull(message = "Status is required")
-    private Status status;
+    private BookingStatus status;
 
     private String paymentReceiveImage;
     private String note;

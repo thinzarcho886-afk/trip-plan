@@ -17,24 +17,24 @@ import lombok.Setter;
 @Table(name = "payment_method")
 public class PaymentMethod extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
-    @Column(name = "account_number")
-    private String accountNumber; 
+	@Column(name = "account_number")
+	private String accountNumber;
 
-    @Column(name = "account_name")
-    private String accountName;
+	@Column(name = "account_name")
+	private String accountName;
 
-    @Column(name = "description")
-    private String description;
+	@Column(name = "description")
+	private String description;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+	@Column(name = "image_url")
+	private String imageUrl;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private Status status = Status.ACTIVE;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
+	private Status status = Status.ACTIVE;
 }

@@ -4,9 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.cbk.trip.enums.Status;
@@ -16,6 +13,7 @@ import lombok.Setter;
 
 /**
  * * @author HtetAungThan
+ * 
  * @since 11/Jan/2025
  *
  */

@@ -1,9 +1,15 @@
 package com.cbk.trip.entity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import com.cbk.trip.enums.Status;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.cbk.trip.enums.BookingStatus;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,35 +18,33 @@ import lombok.Setter;
 @Entity
 @Table(name = "booking")
 public class Booking extends BaseEntity {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
+	@ManyToOne
+	@JoinColumn(name = "package_id")
+	private Package pkg;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "package_id", nullable = false)
-    @NotNull(message = "Package is required")
-    private Package pkg;
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
-    @NotNull(message = "Customer is required")
-    private Customer customer;
+	@ManyToOne
+	@JoinColumn(name = "payment_method_id")
+	private PaymentMethod paymentMethod;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_method_id", nullable = false)
-    @NotNull(message = "Payment Method is required")
-    private PaymentMethod paymentMethod;
+	@Column(name = "travelers_qty")
+	private Integer travelersQty = 1;
 
-    @Column(name = "travelers_qty")
-    @Positive(message = "Travelers quantity must be greater than zero")
-    private Integer travelersQty;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
+	private BookingStatus status = BookingStatus.DRAFT;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private Status status = Status.DRAFT;
+	@Column(name = "payment_receive_image")
+	private String paymentReceiveImage;
 
-    @Column(name = "payment_receive_image")
-    private String paymentReceiveImage;
-
-    @Column(name = "note")
-    private String note;
+	@Column(name = "note")
+	private String note;
 }

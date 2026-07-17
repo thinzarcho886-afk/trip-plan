@@ -44,7 +44,8 @@ public class BusTypeDTO extends CommonDTO {
 	private String description;
 
 	private Status status = Status.ACTIVE;
-	private List<BusDTO> buses = new ArrayList<>(); 
+	private List<BusDTO> buses = new ArrayList<>();
+	private List<TransportDTO> transportList = new ArrayList<>();
 
 	public BusTypeDTO(BusType entity) {
 		super(entity);
@@ -54,6 +55,7 @@ public class BusTypeDTO extends CommonDTO {
 		this.status = entity.getStatus();
 		if (entity.getTransports() != null) {
 			entity.getTransports().forEach(transport -> {
+				this.transportList.add(new TransportDTO(transport));
 				if (transport.getBus() != null) {
 					this.buses.add(new BusDTO(transport.getBus()));
 				}

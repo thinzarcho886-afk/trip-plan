@@ -15,10 +15,6 @@ import com.cbk.trip.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * @author HtetAungThan
- * @since 11/Jan/2025
- */
 @Getter
 @Setter
 @Entity
@@ -31,7 +27,7 @@ public class BusType extends BaseEntity {
 	private String name;
 
 	@Column(name = "available_seats")
-	private Integer availableSeats;
+	private Integer availableSeats = 0;
 
 	@Column(name = "description")
 	private String description;

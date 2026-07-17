@@ -1,5 +1,7 @@
 package com.cbk.trip.dto;
 
+import java.io.Serializable;
+
 import com.cbk.trip.entity.PackageDetail;
 import com.cbk.trip.utils.NginxUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,16 +15,17 @@ import lombok.Setter;
 @Setter
 @JsonInclude(Include.NON_NULL)
 @NoArgsConstructor
-public class PackageDetailDTO extends CommonDTO {
+public class PackageDetailDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Long id;
     private String placeToVisit;
     private String imageUrl;
     private String imageFullUrl;
 
     public PackageDetailDTO(PackageDetail entity) {
-        super(entity);
+    	this.id = entity.getId();
         this.placeToVisit = entity.getPlaceToVisit();
         this.imageUrl = entity.getImageUrl();
         this.imageFullUrl = NginxUtil.getFileUrl(entity.getImageUrl(), false);

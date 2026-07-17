@@ -1,5 +1,7 @@
 package com.cbk.trip.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,9 +10,16 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "package_detail")
-public class PackageDetail extends BaseEntity {
+public class PackageDetail implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
     @Column(name = "place_to_visit")
     private String placeToVisit;
