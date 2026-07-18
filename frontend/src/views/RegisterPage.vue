@@ -12,7 +12,7 @@
               <div class="d-flex justify-center mb-6">
                 <ImageInput
                   :image-url="form.profileImageUrl"
-                  v-model="form.profileImageUrl"
+                  v-model="form.profileImage"
                   @delete="form.profileImageUrl = ''"
                   image-height="180px"
                   image-width="200%"

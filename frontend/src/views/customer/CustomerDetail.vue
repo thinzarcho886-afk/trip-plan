@@ -23,7 +23,7 @@
               <v-card variant="outlined" class="pa-4 w-100" rounded="lg" style="border-style: dashed;">
                 <ImageInput
                   :image-url="customerModel.profileImageUrl"
-                  v-model="customerModel.profileImageUrl"
+                  v-model="customerModel.profileImage"
                   @delete="customerModel.profileImageUrl =''"
                   image-height="180px"
                   image-width="100%"
