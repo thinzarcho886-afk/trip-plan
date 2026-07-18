@@ -23,7 +23,7 @@
               <v-card variant="outlined" class="pa-4 w-100" rounded="lg" style="border-style: dashed;">
                 <ImageInput
                   :image-url="paymentModel.imageUrl"
-                  v-model="paymentModel.imageUrl"
+                  v-model="paymentModel.image"
                   @delete="paymentModel.imageUrl = ''; paymentModel.image = '';"                  image-height="180px"
                   image-width="100%"
                   width="100%"
@@ -179,8 +179,7 @@ const onSave = async () => {
   paymentModel.value.description = (paymentModel.value as any).description;
 
   paymentModel.value.status = (paymentModel.value as any).status;
- paymentModel.value.image = paymentModel.value.imageUrl; 
- paymentModel.value.imageUrl = paymentModel.value.imageUrl;
+ paymentModel.value.imageUrl = (paymentModel.value as any).imageUrl;
   const payload = { ...paymentModel.value };
   if (isUpdate.value) {
     delete (payload as any).password;
