@@ -8,15 +8,16 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.cbk.trip.entity.Customer;
-import com.cbk.trip.entity.User;
 import com.cbk.trip.enums.Status;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long>, JpaSpecificationExecutor<Customer> {
 
-    List<Customer> findByStatus(Status status);
-    Customer findByEmail(String email);
-    Optional<Customer> findById(Long id);
-	boolean existsByEmail(String email);
+	List<Customer> findByStatus(Status status);
+
+	Customer findByEmail(String email);
+
+	Optional<Customer> findById(Long id);
+
 	Customer findByName(String name);
 }

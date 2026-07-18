@@ -30,8 +30,8 @@ public class Customer extends BaseEntity {
 	@Column(name = "phone_number")
 	private String phoneNumber;
 
-	@Column(name = "profile_image")
-	private String profileImage;
+	@Column(name = "profile_image_url")
+	private String profileImageUrl;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status")

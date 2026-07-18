@@ -46,9 +46,7 @@ public class CustomerDTO extends CommonDTO {
         this.name = entity.getName();
         this.email = entity.getEmail();
         this.phoneNumber = entity.getPhoneNumber();
-        this.profileImage = entity.getProfileImage();
-        this.profileImageUrl = NginxUtil.getFileUrl(entity.getProfileImage(), true);
+        this.profileImageUrl = NginxUtil.getFileUrl(entity.getProfileImageUrl(), true);
         this.status = entity.getStatus();
-        this.password = password;
     }
 }
