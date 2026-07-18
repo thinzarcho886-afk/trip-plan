@@ -42,8 +42,8 @@ public class Booking extends BaseEntity {
 	@Column(name = "status")
 	private BookingStatus status = BookingStatus.DRAFT;
 
-	@Column(name = "payment_receive_image")
-	private String paymentReceiveImage;
+	@Column(name = "payment_receive_image_url")
+	private String paymentReceiveImageUrl;
 
 	@Column(name = "note")
 	private String note;
