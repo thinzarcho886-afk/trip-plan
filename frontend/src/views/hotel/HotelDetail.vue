@@ -24,7 +24,7 @@
               <v-card variant="outlined" class="pa-4 w-100" rounded="lg" style="border-style: dashed; background-color: #f8f9fa;">
                 <ImageInput
                   :image-url="hotelModel.imageUrl"
-                  v-model="hotelModel.imageUrl"
+                  v-model="hotelModel.image"
                   @delete="hotelModel.imageUrl = null"
                   image-height="180px"
                   image-width="100%"

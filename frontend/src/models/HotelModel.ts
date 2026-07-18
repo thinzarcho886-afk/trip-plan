@@ -18,6 +18,7 @@ export interface Hotel extends CommonDto {
   hotelName:string;
   destinationName?: string;
   address: string;
+  image:string;
   imageUrl?: string | null;
   description: string;
   pricePerNight: number | null;
@@ -29,6 +30,7 @@ export const HotelModel = (): Hotel => ({
   hotelId:null,
   hotelName:'',
   address: '',
+  image: '',
   imageUrl: null,
   description: '',
   pricePerNight: null,
