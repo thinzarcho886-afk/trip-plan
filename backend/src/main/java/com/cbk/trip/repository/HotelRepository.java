@@ -12,12 +12,7 @@ import com.cbk.trip.enums.Status;
 
 @Repository
 public interface HotelRepository extends JpaRepository<Hotel, Long>, JpaSpecificationExecutor<Hotel> {
+	Optional<Hotel> findByName(String name);
 
-    Optional<Hotel> findByName(String name);
-
-    Optional<Hotel> findByNameAndIdNot(String name, Long id);
-
-    List<Hotel> findByStatus(Status status);
-
-    Optional<Hotel> findById(Long id);
+	List<Hotel> findByStatus(Status status);
 }

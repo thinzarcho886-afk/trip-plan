@@ -1,11 +1,13 @@
 package com.cbk.trip.dto;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Range;
+
 import com.cbk.trip.entity.Hotel;
 import com.cbk.trip.enums.Status;
+import com.cbk.trip.utils.NginxUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -31,13 +33,13 @@ public class HotelDTO extends CommonDTO {
 	@NotBlank(message = "Address is required")
 	private String address;
 
-	private String imageUrl; 
-	private String imagePath; 
+	private String imageUrl;
+	private String image;
+
 	@NotBlank(message = "Description is required")
 	private String description;
 
-	@NotNull(message = "Price is required")
-	@DecimalMin(value = "0.01", message = "Price per night must be greater than zero")
+	@Range(min = 1, message = "Price per night must be greater than zero.")
 	private Double pricePerNight;
 
 	private Status status = Status.ACTIVE;
@@ -46,7 +48,7 @@ public class HotelDTO extends CommonDTO {
 		super(entity);
 		this.name = entity.getName();
 		this.address = entity.getAddress();
-		this.imageUrl = entity.getImageUrl();
+		this.imageUrl = NginxUtil.getFileUrl(entity.getImageUrl(), true);
 		this.description = entity.getDescription();
 		this.pricePerNight = entity.getPricePerNight();
 		this.status = entity.getStatus();
