@@ -15,9 +15,5 @@ public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Lo
 
     List<PaymentMethod> findByStatus(Status status);
 
-    Optional<PaymentMethod> findByAccountNumber(Integer accountNumber);
-
-    Optional<PaymentMethod> findByAccountNumberAndIdNot(String accountNumber, Long id);
-
-
+    Optional<PaymentMethod> findByAccountNumber(String accountNumber);
 }

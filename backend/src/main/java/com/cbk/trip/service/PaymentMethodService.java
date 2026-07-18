@@ -31,44 +31,49 @@ public class PaymentMethodService {
 	PaymentMethodRepository paymentMethodRepository;
 
 	public boolean isAccountNumberDuplicate(String accountNumber, Long id) {
-		Optional<PaymentMethod> exist = paymentMethodRepository.findByAccountNumberAndIdNot(accountNumber, id != null ? id : -1L);
-		return exist.isPresent();
+		boolean isDuplicate = false;
+		Optional<PaymentMethod> accountNumberExists = paymentMethodRepository.findByAccountNumber(accountNumber);
+		if (accountNumberExists.isPresent()) {
+			if (id == null) {
+				isDuplicate = true;
+			} else {
+				if (!accountNumberExists.get().getId().equals(id)) {
+					isDuplicate = true;
+				}
+			}
+		}
+		return isDuplicate;
 	}
 
-	public PageableDTO getPaymentMethods(String name, String accountNumber, String accountName, Status status, Pageable pageable) {
-	    Specification<PaymentMethod> spec = PaymentMethodSpecs.getByFilter(name, accountNumber, accountName, status);
-	    Page<PaymentMethod> page = paymentMethodRepository.findAll(spec, pageable);
-	    
-	    List<PaymentMethodDTO> dtoList = page.getContent().stream()
-	            .map(PaymentMethodDTO::new)
-	            .collect(Collectors.toList());
+	public PageableDTO getPaymentMethods(String name, String accountNumber, String accountName, Status status,
+			Pageable pageable) {
+		Specification<PaymentMethod> spec = PaymentMethodSpecs.getByFilter(name, accountNumber, accountName, status);
+		Page<PaymentMethod> page = paymentMethodRepository.findAll(spec, pageable);
 
-	    return new PageableDTO(dtoList, page);
+		List<PaymentMethodDTO> dtoList = page.getContent().stream().map(PaymentMethodDTO::new)
+				.collect(Collectors.toList());
+
+		return new PageableDTO(dtoList, page);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public PaymentMethodDTO save(@Valid PaymentMethodDTO dto, boolean isUpdate) throws IOException{
-		PaymentMethod entity = isUpdate ? CommonUtil.checkValidById(dto.getId(), paymentMethodRepository) : new PaymentMethod();
-
-		entity.setName(dto.getName());
-		entity.setAccountNumber(dto.getAccountNumber());
-		entity.setAccountName(dto.getAccountName());
-		entity.setDescription(dto.getDescription());
-		if (StringUtils.isEmpty(dto.getImageUrl())) {
-		    entity.setImageUrl(null);
-		} else if (dto.getImageUrl().startsWith("data:image")) {
-		    if (!isUpdate) {
-		        entity.setImageUrl(NginxUtil.saveImage(dto.getImageUrl(), "payment_method"));
-		    } else {
-		        entity.setImageUrl(NginxUtil.updateImage(dto.getImageUrl(), entity.getImageUrl(), "payment_method", false));
-		    }
+	public PaymentMethodDTO save(@Valid PaymentMethodDTO dto, boolean isUpdate) throws IOException {
+		PaymentMethod paymentMethod = isUpdate ? CommonUtil.checkValidById(dto.getId(), paymentMethodRepository)
+				: new PaymentMethod();
+		if (isUpdate) {
+			paymentMethod = CommonUtil.checkValidById(dto.getId(), paymentMethodRepository);
+			paymentMethod.setImageUrl(NginxUtil.updateImage(dto.getImage(), paymentMethod.getImageUrl(),
+					"payment_method_image", StringUtils.isEmpty(dto.getImageUrl())));
 		} else {
-		    entity.setImageUrl(dto.getImageUrl());
+			paymentMethod.setImageUrl(NginxUtil.saveImage(dto.getImage(), "payment_method_image"));
 		}
-		
-		entity.setStatus(dto.getStatus());
+		paymentMethod.setName(dto.getName());
+		paymentMethod.setAccountNumber(dto.getAccountNumber());
+		paymentMethod.setAccountName(dto.getAccountName());
+		paymentMethod.setDescription(dto.getDescription());
+		paymentMethod.setStatus(dto.getStatus());
 
-		return new PaymentMethodDTO(paymentMethodRepository.save(entity));
+		return new PaymentMethodDTO(paymentMethodRepository.save(paymentMethod));
 	}
 
 	public List<PaymentMethodDTO> getByStatus(Status status) {
