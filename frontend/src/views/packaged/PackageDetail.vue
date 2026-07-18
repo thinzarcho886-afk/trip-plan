@@ -15,16 +15,9 @@
          <v-container fluid class="pa-0">
           <v-tabs v-model="tab" density="comfortable">
             <v-tab value="info">
-              <v-badge
-                :model-value="formValid === false"
-                dot
-                floating
-                color="error"
-              >
                 {{ t('Register Form') }}
-              </v-badge>
             </v-tab>
-            <v-tab value="roomDetail">
+             <v-tab value="packageDetail" @click="openDialog">
               {{ t('Add Place To Visits') }}
             </v-tab>
           </v-tabs>
@@ -85,8 +78,8 @@
                       <v-row>
                        <v-col cols="12" sm="6" class="py-1">
                         <hotel-picker
-                          v-model:id="packageModel.hotelId"
-                          v-model:name="packageModel.hotelName"
+                          v-model:hotel-id="packageModel.hotelId"
+                          v-model:hotel-name="packageModel.hotelName"
                           :params="{ status: Status.ACTIVE }"
                           :label="t('Hotel')"
                          
@@ -202,23 +195,33 @@
         </v-container>
         </v-window-item>
         <v-window-item value="packageDetail">
-  <v-container fluid>
-    <v-row>
-      <v-col cols="12">
-        <PackageDetailList
-          :items="packageModel.packageDetailList" 
-          v-model:formValid="detailListForm"
-          :id="packageModel.id"
-          :title="t('Place to Visit')" 
-          @update:delete="packageModel.deletePackageDetailIds = $event"
-        ></PackageDetailList>
-      </v-col>
-    </v-row>
-  </v-container>
-</v-window-item>
+          <PackageDetailList :items="(packageModel.packageDetails || [])" />
+        </v-window-item>
         </v-window>
         </v-container>
       </v-form>
+       <!-- Add Place Dialog -->
+      <v-dialog v-model="dialog" max-width="500">
+        <v-card class="pa-4">
+          <v-card-title>Add New Place</v-card-title>
+          <v-card-text>
+            <v-text-field v-model="tempItem.placeToVisit" label="Place Name"></v-text-field>
+         <v-file-input 
+        v-model="tempItem.imageFile" 
+        label="Upload Photo" 
+        prepend-icon="mdi-camera"
+        variant="outlined"
+        density="comfortable"
+      ></v-file-input>
+    </v-card-text>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="grey" @click="dialog = false">Cancel</v-btn>
+      <v-btn color="primary" @click="savePlace">Save</v-btn>
+    </v-card-actions>
+        </v-card>
+      </v-dialog>
     </template>
   </Detail>
 </template>
@@ -243,6 +246,7 @@ import DurationPicker from '../../components/duration/DurationPicker.vue';
 import DestinationPicker from '../../components/destination/DestinationPicker.vue';
 import BusPicker from '../../components/bus/BusPicker.vue';
 import PackageDetailList from '../../components/packaged/PackageDetailList.vue';
+import HotelPicker from '../../components/hotel/HotelPicker.vue';
 const tab = ref<string | null>(null);
 const { t } = useI18n({ useScope: 'global' });
 const route = useRoute();
@@ -255,7 +259,14 @@ const packageModel = ref<Package>(PackageModel());
 const rules = { required, maxLength };
 const { call, response, error, status } = useApi();
 const authStore = useAuthStore();
-
+const dialog = ref(true);
+const tempItem = ref({ 
+  placeToVisit: '', 
+  id: undefined, 
+  imageUrl: '', 
+  imageFile:null,
+  imageFullUrl: '' 
+});
 const departureDateInput = computed({
   get() {
     // API ကလာတဲ့ ISO String ကို 'YYYY-MM-DD' format ပြောင်းပေးခြင်း
@@ -292,16 +303,59 @@ const onSave = async () => {
     router.push({ name: routeNames.packageList });
   }
 };
+const openDialog = () => {
+    dialog.value = true;
+  } ;
 
-// const onReset = () => {
-//   if (initialData.value) {
-//     // Edit ဆိုရင် မူလ Data ကို ပြန်ယူ
-//     packageModel.value = JSON.parse(JSON.stringify(initialData.value));
-//   } else {
-//     // Create ဆိုရင် Form ကို ရှင်းထုတ်
-//     packageModel.value = packageModel();
+const savePlace = () => {
+  if (!packageModel.value.packageDetails) {
+    packageModel.value.packageDetails = [];
+  }
+  
+  // Data အသစ်ကို တွန်းထည့်မယ်
+  // ဒီနေရာမှာ tempItem ထဲက data တွေအကုန် ပါသွားပါမယ်
+  packageModel.value.packageDetails.push({ ...tempItem.value });
+
+  // Data အသစ်ထည့်ပြီးတာနဲ့ UI ပြန်လည်ပတ်အောင် 
+  packageModel.value.packageDetails = [...packageModel.value.packageDetails];
+
+  // Reset လုပ်ပါ
+  tempItem.value = { 
+    placeToVisit: '', 
+    imageFile: null, 
+    id: undefined, 
+    imageUrl: '', 
+    imageFullUrl: '' 
+  };
+  
+  dialog.value = false;
+};
+// const onSave = async () => {
+//   const { valid } = await detailFormRef.value.validate();
+//   if (!valid) return;
+
+//   let apiUrl = packageModel.value.id ? packageApiResource.update : packageApiResource.create;
+//   await call(apiUrl, { data: packageModel.value });
+
+//   if (status.value == ApiStatus.SUCCESS) {
+//     if (!packageModel.value.id) {
+//        packageModel.value.id = response.value.data.id;
+//        tab.value = 'packageDetail'; 
+//     }
 //   }
 // };
+
+const addPlace=()=>{
+if (!packageModel.value.packageDetails) {
+  packageModel.value.packageDetails = [];
+}
+packageModel.value.packageDetails.push({
+  placeToVisit: '',
+  imageUrl: '',
+  imageFullUrl: '',
+  id:undefined,
+});
+};
 
 const actions = computed<ActionButton[]>(() => [
   {
@@ -329,6 +383,9 @@ const breadcrumbs = computed(() => [
 onMounted(() => {
   let { id } = route.params;
   if (id != 'new') getDetail(id);
+  if (!packageModel.value.packageDetails) {
+    packageModel.value.packageDetails = [];
+  }
 });
 </script>
 

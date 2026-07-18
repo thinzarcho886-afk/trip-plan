@@ -9,9 +9,9 @@
         :label="t('Username')"
       ></v-text-field>
     </v-col>
-    <v-col cols="12" sm="6">
+   <v-col cols="12" sm="6">
       <EnumPicker
-        v-model:value="searchParams.roleName"
+        v-model:value="searchParams.role"
         :label="t('Role')"
         :enum="Role"
         :add-all="true"
@@ -56,10 +56,8 @@ import { routeNames } from '../../router/routes';
 import { useRouteFilter } from '../../utils/useRouteFilter';
 import { useI18n } from 'vue-i18n';
 import EnumPicker from '../common/EnumPicker.vue';
-import CompanyPicker from '../company/CompanyPicker.vue';
-
+import { useAuthStore } from '../../store/auth';
 const { t } = useI18n({ useScope: 'global' });
-
 const emits = defineEmits(['search', 'close']);
 const router = useRouter();
 const route = useRoute();

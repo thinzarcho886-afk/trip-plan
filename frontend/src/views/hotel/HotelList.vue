@@ -16,12 +16,12 @@
         @clear-filter="clearFilter"
         :use-mobile="true"
       >
-        <template v-slot:[`item.hotelName`]="{ item }">
+        <template v-slot:[`item.name`]="{ item }">
           <router-link
             class="text-decoration-none text-primary font-weight-bold"
             :to="getDetailRoute(item)"
           >
-            {{ item.hotelName }}
+            {{ item.name }}
           </router-link>
         </template>
 
@@ -77,7 +77,7 @@ const apiParams = ref();
 const hotelListMeta = computed<ListMeta>(() => {
   return {
     headers: [
-      { title: t('Hotel Name'), key: 'hotelName', minWidth: 150 },
+      { title: t('Hotel Name'), key: 'name', minWidth: 150 },
       { title: t('Address'), key: 'address', minWidth: 150 },
       { title: t('Destination Name'), key: 'destinationName', minWidth: 150 },
       { title: t('Price Per Night'), key: 'pricePerNight', minWidth: 120 },

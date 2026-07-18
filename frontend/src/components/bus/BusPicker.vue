@@ -50,37 +50,27 @@ const onApiCall = async (params: any) => {
   }
 };
 watch(
-  [() => props.busTypeId, () => props.busId],
-  async ([busTypeId, busId], [oldBusTypeId, oldId]) => {
+  [() => props.busTypeId],
+  async ([newBusTypeId], [oldBusTypeId]) => {
+    // Bus Type ပြောင်းသွားရင် Bus ကို reset လုပ်ရမယ်
+    if (newBusTypeId !== oldBusTypeId) {
+      modelValue.value = null; // Bus ကို ရှင်းလိုက်ပါ
+    }
+
+    // API ခေါ်မယ့် Params
     const params = {
       ...props.params,
+      busTypeId: newBusTypeId, // Bus Type အလိုက် Bus စာရင်းယူမယ်
       page: null,
       size: null,
       sort: 'name,asc',
     };
 
-    // Logic အမှန်
-    if (busTypeId == oldBusTypeId && ((!!busId && oldId == '') || (busId != oldId))) {
-      return;
+    if (newBusTypeId) {
+      await onApiCall(params);
+    } else {
+      items.value = []; // Bus Type မရွေးရသေးရင် List ကို ရှင်းထားမယ်
     }
-
-    if (!!busTypeId) {
-      items.value = [];
-
-      if (!(!oldBusTypeId && !oldId && !!busId)) {
-        modelValue.value = { id: '', name: '' };
-        await nextTick();
-        const { resetValidation } = busPickerRef.value;
-        if (typeof resetValidation == 'function') resetValidation();
-      }
-      params.busTypeId = busTypeId;
-    }
-
-    if (
-      (typeof props.busTypeId !== 'undefined' && params.busTypeId) ||
-      typeof props.busTypeId === 'undefined'
-    )
-      onApiCall(params);
   },
   { immediate: true }
 );

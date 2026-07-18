@@ -3,33 +3,31 @@
     <v-row dense>
       <v-col cols="12" sm="6">
         <v-text-field
-          v-model="searchParams.hotelName"
+          v-model="searchParams.packageName"
           density="compact"
           variant="outlined"
           hide-details
-          :label="t('Hotel Name')"
+          :label="t('Package Name')"
         ></v-text-field>
       </v-col>
-
-      <!-- <v-col cols="12" md="6">
-        <v-text-field
-          v-model="searchParams.studentPhone"
-          density="compact"
-          variant="outlined"
-          hide-details
-          :label="t('Phone')"
-        ></v-text-field>
-      </v-col>
-
       <v-col cols="12" md="6">
         <v-text-field
-          v-model="searchParams.studentAddress"
+          v-model="searchParams.destinationName"
           density="compact"
           variant="outlined"
           hide-details
-          :label="t('Address')"
+          :label="t('Destination Name')"
         ></v-text-field>
-      </v-col> -->
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-text-field
+          v-model="searchParams.durationName"
+          density="compact"
+          variant="outlined"
+          hide-details
+          :label="t('Duration Name')"
+        ></v-text-field>
+      </v-col>
 
       <v-col cols="12" sm="6">
         <EnumPicker

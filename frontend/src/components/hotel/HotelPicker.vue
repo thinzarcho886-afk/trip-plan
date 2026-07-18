@@ -4,7 +4,7 @@
     v-model:model-Value="modelValue"
     return-object
     item-value="id"
-    item-title="hotelName"
+    item-title="name"
     :loading="status == ApiStatus.LOADING"
     ref="hotelPublicPickerRef"
   ></v-autocomplete>
@@ -24,11 +24,11 @@ const items = ref([]);
 
 const modelValue = computed({
   get() {
-    return props.hotelId && props.hotelName ? { id: props.hotelId, hotelName: props.hotelName } : null;
+    return props.hotelId && props.hotelName ? { id: props.hotelId, name: props.hotelName } : null;
   },
   set(e: any) {
     emits('update:hotelId', e.id ?? null);
-    emits('update:hotelName', e.hotelName ?? null);
+    emits('update:hotelName', e.name ?? null);
   },
 });
 
@@ -49,9 +49,10 @@ const onApiCall = async (params: any) => {
 onMounted(()=> {
   const params = {
     ...props.params,
+    id:props.hotelId,
       page: null,
       size: null,
-      sort: 'hotelName,asc',
+      sort: 'name,asc',
   }
   onApiCall(params);
 })
