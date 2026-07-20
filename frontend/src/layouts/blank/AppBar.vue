@@ -22,9 +22,9 @@
 
     <div class="d-flex align-center" style="gap: 60px">
       <v-btn variant="text" to="/" :prepend-icon="mdiHome"  class="text-white" exact>{{ t('Home') }}</v-btn>
-      <!-- <v-btn variant="text" to="/public-hostels" :prepend-icon="mdiDomain">{{ t('Hostels') }}</v-btn>
-      <v-btn variant="text" to="/room" :prepend-icon="mdiBed">{{ t('Room') }}</v-btn>
-      <v-btn variant="text" to="/about" :prepend-icon="mdiInformation">{{ t('About Us') }}</v-btn> -->
+     <v-btn variant="text" to="/public-hotels" :prepend-icon="mdiDomain">{{ t('Hotels') }}</v-btn>
+     <!-- <v-btn variant="text" to="/room" :prepend-icon="mdiBed">{{ t('Room') }}</v-btn>-->
+      <v-btn variant="text" to="/about" :prepend-icon="mdiInformation" class="text-white" exact>{{ t('About Us') }}</v-btn>
     </div>
 
     <v-spacer></v-spacer>

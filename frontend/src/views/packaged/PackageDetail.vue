@@ -78,7 +78,7 @@
                     <bus-transport-picker
                       v-model:bus-id="packageModel.transportId"
                       v-model:bus-name="packageModel.busName"
-                      :bus-type-id="packageModel.busTypeId"
+                      :bus-type-id="(packageModel.busTypeId as any)"
                       :params="{ status: Status.ACTIVE }"
                       :label="t('Bus')"
                       density="comfortable"

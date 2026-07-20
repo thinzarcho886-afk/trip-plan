@@ -1,7 +1,7 @@
 <template>
   <v-autocomplete
     :items="items"
-    v-model:model-value="modelValue"
+    v-model="modelValue"
     return-object
     item-value="id"
     item-title="name"
@@ -27,6 +27,7 @@ const { t } = useI18n();
 const items = ref([]);
 const busPickerRef = ref<null | any>(null);
 
+// v-autocomplete အတွက် value ချိတ်ဆက်ခြင်း
 const modelValue = computed({
   get() {
     return props.busId && props.busName

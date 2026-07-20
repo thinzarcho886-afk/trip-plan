@@ -16,6 +16,14 @@
         @clear-filter="clearFilter"
         :use-mobile="true"
       >
+      <template v-slot:item.imageUrl="{ item }">
+          <v-avatar size="40" rounded="lg" class="my-1">
+            <v-img
+              :src="item.imageUrl || 'https://via.placeholder.com/40'"
+              cover
+            ></v-img>
+          </v-avatar>
+        </template>
         <template v-slot:[`item.name`]="{ item }">
           <router-link
             class="text-decoration-none text-primary font-weight-bold"
@@ -73,6 +81,7 @@ const apiParams = ref();
 const hotelListMeta = computed<ListMeta>(() => {
   return {
     headers: [
+       { title: t('Image'), key: 'imageUrl', minWidth: 100, sortable: false },
       { title: t('Hotel Name'), key: 'name', minWidth: 150 },
       { title: t('Address'), key: 'address', minWidth: 150 },
       { title: t('Destination Name'), key: 'destinationName', minWidth: 150 },

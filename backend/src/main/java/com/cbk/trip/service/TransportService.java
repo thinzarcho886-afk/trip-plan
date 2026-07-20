@@ -8,16 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import com.cbk.trip.dto.DurationDTO;
-import com.cbk.trip.dto.HotelDTO;
 import com.cbk.trip.dto.PageableDTO;
 import com.cbk.trip.dto.TransportDTO;
-import com.cbk.trip.entity.Duration;
 import com.cbk.trip.entity.Transport;
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.repository.TransportRepository;
-import com.cbk.trip.specification.HotelSpecs;
 import com.cbk.trip.specification.TransportSpecs;
 import com.cbk.trip.utils.CommonUtil;
 

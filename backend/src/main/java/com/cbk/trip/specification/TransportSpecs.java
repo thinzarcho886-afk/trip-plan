@@ -15,13 +15,8 @@ import org.springframework.util.StringUtils;
 
 import com.cbk.trip.entity.Bus;
 import com.cbk.trip.entity.BusType;
-import com.cbk.trip.entity.Hostel;
-import com.cbk.trip.entity.Room;
-import com.cbk.trip.entity.RoomType;
-import com.cbk.trip.entity.Room_;
 import com.cbk.trip.entity.Transport;
 import com.cbk.trip.entity.Transport_;
-import com.cbk.trip.entity.User;
 import com.cbk.trip.enums.Status;
 
 public class TransportSpecs {

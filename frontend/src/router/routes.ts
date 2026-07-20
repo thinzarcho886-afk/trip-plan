@@ -135,6 +135,12 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: {},
       },
+       {
+        path: '/public-hotels',
+        name: 'routeNames.hotelPublicList',
+        component: () => import(/* webpackChunkName: "hostelPublicList" */ '../views/hotel/HotelPublicList.vue'),
+        meta: { requiresAuth: true }
+      },
       {
         path: 'about',
         name: 'routeNames.aboutUsPage',
