@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import com.cbk.trip.entity.Package;
 import com.cbk.trip.enums.Status;
+import com.cbk.trip.utils.NginxUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -24,6 +25,8 @@ import lombok.Setter;
 public class PackageDTO extends CommonDTO {
 
     private static final long serialVersionUID = 1L;
+    private String packageImageUrl;
+	private String packageImage;
 
     @NotBlank(message = "Name is required")
     private String name;
@@ -72,6 +75,7 @@ public class PackageDTO extends CommonDTO {
     public PackageDTO(Package entity) {
         super(entity);
         this.name = entity.getName();
+        this.packageImageUrl = NginxUtil.getFileUrl(entity.getPackageImageUrl(), true);
 
         if (entity.getDestination() != null) {
             this.destinationId = entity.getDestination().getId();

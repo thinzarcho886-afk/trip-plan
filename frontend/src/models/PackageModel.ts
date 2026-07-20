@@ -32,8 +32,8 @@ export interface Package extends CommonDto {
   extraService: string;
   status: Status;
   packageDetails?: PackageDetail[];
-  imageUrl: string | null;
-  image: string | null;
+  packageImageUrl: string | null;
+  packageImage: string | null;
   busTypeName:string;
   busTypeId:number|null;
   busName:string;
@@ -64,8 +64,8 @@ export const PackageModel = (): Package => ({
   extraService: '',
   status: Status.ACTIVE,
   packageDetails: [],
-  imageUrl:'',
-  image:''
+  packageImageUrl:'',
+  packageImage:''
 });
  export interface PackageDetail extends CommonDto {
   placeToVisit: string;

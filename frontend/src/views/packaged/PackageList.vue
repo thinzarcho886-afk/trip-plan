@@ -16,6 +16,14 @@
         @clear-filter="clearFilter"
         :use-mobile="true"
       >
+      <template v-slot:item.packageImageUrl="{ item }">
+          <v-avatar size="40" rounded="lg" class="my-1">
+            <v-img
+              :src="item.packageImageUrl || 'https://via.placeholder.com/40'"
+              cover
+            ></v-img>
+          </v-avatar>
+        </template>
         <template v-slot:[`item.name`]="{ item }">
           <router-link
             class="text-decoration-none text-primary font-weight-bold"
@@ -105,6 +113,7 @@ const packageModel = ref<Package>(PackageModel());
 const packageListMeta = computed<ListMeta>(() => {
   return {
     headers: [
+      { title: t('Package Image'), key: 'packageImageUrl', minWidth: 150 },
       { title: t('Package Name'), key: 'name', minWidth: 150 },
       { title: t('Bus Type Name'), key: 'busTypeName', minWidth: 150 },
       { title: t('Bus Name'), key: 'busName', minWidth: 150 },

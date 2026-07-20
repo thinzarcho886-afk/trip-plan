@@ -26,6 +26,9 @@ public class Package extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
+	@Column(name = "package_image_url")
+	private String packageImageUrl;
+	
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 

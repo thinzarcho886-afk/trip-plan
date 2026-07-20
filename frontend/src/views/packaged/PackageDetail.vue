@@ -32,7 +32,23 @@
             <v-window-item value="info">
               <v-container fluid class="pa-0">
                 <v-row>
-                  <v-col cols="12" md="6" class="py-1">
+                 <v-col cols="12" md="4" class="d-flex justify-center align-start">
+              <v-card variant="outlined" class="pa-4 w-100" rounded="lg" style="border-style: dashed;">
+                <ImageInput
+                  :image-url="packageModel.packageImageUrl"
+                  v-model="packageModel.packageImage"
+                  @delete="packageModel.packageImageUrl = ''; packageModel.packageImage = '';"                  image-height="180px"
+                  image-width="100%"
+                  width="100%"
+                  class="mx-auto"
+                  :label="t('Image')"
+                ></ImageInput>
+              </v-card>
+            </v-col>
+            </v-row>
+
+                <v-row>
+                  <v-col cols="12" md="6" class="py-1 mt-4">
                     <v-text-field
                       name="name"
                       v-model="packageModel.name"
@@ -48,7 +64,7 @@
                   <v-col cols="12" md="6" class="py-1">
                     <busType-picker
                       v-model:bus-type-id="packageModel.busTypeId"
-                      v-model:bus-type-name="packageModel.busName"
+                      v-model:bus-type-name="packageModel.busTypeName"
                       :params="{ status: Status.ACTIVE }"
                       :label="t('Bus Type')"
                       density="comfortable"
@@ -199,7 +215,6 @@
                     <v-textarea
                       name="description"
                       v-model="packageModel.description"
-                      :rules="[rules.maxLength(300)]"
                       :label="t('Description')"
                       rows="4"
                       variant="outlined"
@@ -229,12 +244,12 @@
                 <v-row>
                   <v-col cols="12">
                    <PackageDetailList 
-  v-model:items="packageModel.packageDetails" 
-  :package-id="packageModel.id"
-  :title="t('Add Place To Visits')"
-  @open-dialog="openDialog"
-  @update:delete="onPlaceDelete"
-/>
+                    v-model:items="packageModel.packageDetails" 
+                    :package-id="packageModel.id"
+                    :title="t('Add Place To Visits')"
+                    @open-dialog="openDialog"
+                    @update:delete="onPlaceDelete"
+                  />
                   </v-col>
                 </v-row>
               </v-container>

@@ -62,6 +62,10 @@ public class PackageService {
                 throw new BadRequestException("Package name is already exists.");
             }
             
+            pkg.setPackageImageUrl(NginxUtil.updateImage(dto.getPackageImage(), pkg.getPackageImageUrl(),
+					"package_image", StringUtils.isEmpty(dto.getPackageImageUrl())));
+	
+            
             if (dto.getDeletePackageDetailIds() != null && dto.getDeletePackageDetailIds().length > 0) {
 	              for (Long packageDetailId : dto.getDeletePackageDetailIds()) {
 	                  if (packageDetailId != null) {
@@ -78,6 +82,8 @@ public class PackageService {
                 throw new BadRequestException("Package name is already exists.");
             }
             pkg = new Package();
+			pkg.setPackageImageUrl(NginxUtil.saveImage(dto.getPackageImage(), "package_image"));
+
         }
 
         // ... Package Field mapping များ (အပြောင်းအလဲမရှိပါ) ...
