@@ -11,13 +11,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted , watch} from 'vue';
 import useApi, { ApiStatus } from '../../api';
 import { nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { packageApiResource } from '../../api/resources/packageResource';
 
-const props = defineProps(['packageId', 'packageName', 'params']);
+const props = defineProps(['packageId', 'packageName', 'params', 'destinationId']);
 const emits = defineEmits(['update:packageId', 'update:packageName','change']);
 const { t } = useI18n();
 
@@ -51,6 +51,59 @@ const onApiCall = async (params: any) => {
     items.value = data['list'];
   }
 };
+
+
+watch(
+  [() => props.destinationId, () => props.packageId],
+  async ([destinationId, packageId], [oldDestinationId, oldId]) => {
+    const params = {
+      ...props.params,
+      page: null,
+      size: null,
+      sort: 'name,asc',
+    };
+
+    if (
+      destinationId == oldDestinationId &&
+      ((!!packageId && oldId == '') || packageId != oldId)
+    ) {
+      // avoid clearing on change picker value
+      return;
+    }
+
+    if (!!destinationId) {
+      items.value = [];
+
+      // to avoid clearing init value
+      if (!(!oldDestinationId && !oldId && !!packageId)) {
+        // not init condition
+        modelValue.value = { id: '', name: '' };
+
+        await nextTick();
+
+        const { resetValidation } = PackagePickerRef.value;
+        if (typeof resetValidation == 'function') resetValidation();
+      }
+
+      params.destinationId = destinationId;
+    }
+
+    if (
+      (typeof props.destinationId !== 'undefined' && params.destinationId) ||
+      typeof props.destinationId === 'undefined'
+    )
+      onApiCall(params);
+  },
+  {
+    immediate: true,
+  },
+);
+
+
+
+
+
+
 onMounted(()=> {
   const params = {
     ...props.params,

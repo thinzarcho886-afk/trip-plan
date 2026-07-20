@@ -27,11 +27,64 @@
         </v-carousel-item>
       </v-carousel>
     </v-card>
+    <v-card class="pa-6 mt-6" elevation="2" rounded="md">
+        <v-row>
+          <v-col cols="12" sm="6" md="4">
+            <destination-picker
+              v-model:destination-id="searchParams.destinationId"
+              v-model:destination-name="searchParams.destinationName"
+              variant="outlined"
+              density="comfortable"
+              :label="t('Choose Destination Name')"
+            >
+            </destination-picker>
+          
+            </v-col>
+          
+
+         
+            <v-col cols="12" sm="6" md="4">
+              <v-btn
+                variant="outlined"
+                color="grey-darken-2"
+                width="110"
+                height="44"
+                class="rounded-lg text-capitalize font-weight-bold mr-2"
+                @click="handleClear"
+              >
+                {{t('Clear')}}
+              </v-btn>
+
+              <v-btn
+                color="primary"
+                width="150"
+                height="44"
+                elevation="2"
+                class="rounded-lg text-capitalize font-weight-bold text-white"
+                :loading="status == ApiStatus.LOADING"
+                @click="handleSearch"
+              >
+                {{t('Search')}}
+              </v-btn>
+              
+            </v-col>
+            <v-btn
+                color="primary"
+                width="150"
+                height="44"
+                elevation="2"
+                class="rounded-lg text-capitalize font-weight-bold text-white mt-3 ms-auto"
+                :loading="status == ApiStatus.LOADING"
+              >
+                {{t('Start Planning')}}
+              </v-btn>
+        </v-row>
+      </v-card>
   </v-container>
 
   <v-container>
     <div class="d-flex justify-space-between align-center my-4">
-      <h3 class="text-h6 font-weight-bold">{{ t('Top Searched Hostels') }}</h3>
+      <h3 class="text-h6 font-weight-bold">{{ t('Popular Packages') }}</h3>
       <v-btn
         variant="flat"
         color="#06402B"
@@ -50,40 +103,66 @@
       ></v-progress-circular>
     </v-row>
 
-    <!-- Hostels Grid List -->
-    <v-row v-else-if="hostelList.length > 0">
-      <v-col
-        v-for="(item, index) in hostelList"
-        :key="item.id || index"
-        cols="12"
-        sm="6"
-        md="2"
-        lg="2.4"
-      >
-        <v-card class="pa-2 text-center" elevation="2" rounded="lg">
-          <v-img
-            :src="item.image || 'https://via.placeholder.com/200x150'"
-            height="120"
-            cover
-            class="rounded-lg mb-2"
-          ></v-img>
+    <!-- Packages / Hostels List -->
+    <template v-else-if="packageList.length > 0">
+      <v-data-iterator :items="packageList" :items-per-page="6">
+        <template v-slot:default="{ items }">
+          <v-row>
+            <v-col
+              v-for="item in items"
+              :key="item.raw.id"
+              cols="12"
+              sm="6"
+              md="4"
+              lg="2.4"
+            >
+              <v-card class="rounded-lg border elevation-1 h-100 d-flex flex-column" flat>
+                <v-img
+                  :src="
+                    item.raw.packageImageUrl || 'https://via.placeholder.com/400'
+                  "
+                  height="180"
+                  cover
+                ></v-img>
+                
+                <v-card-item>
+                  <div
+                    class="text-subtitle-1 font-weight-bold mb-2 text-truncate"
+                    style="color: #2C5E82; text-align: center;"
+                  >
+                    {{ item.raw.name }}
+                  </div>
+                </v-card-item>
 
-          <div class="text-subtitle-2 font-weight-bold mb-2">
-            {{ item.name }}
-          </div>
+                <v-spacer></v-spacer>
 
-          <v-btn
-            size="small"
-            variant="outlined"
-            color="primary"
-            rounded="pill"
-            @click="goToDetails(item.id)"
-          >
-            {{ t('View Detail') }}
-          </v-btn>
-        </v-card>
-      </v-col>
-    </v-row>
+                <div class="pa-4 pt-0">
+                  <v-btn
+                    variant="flat"
+                    color="primary"
+                    rounded="lg"
+                    block
+                    @click="
+                      router.push({
+                        name: 'RoomPublicList',
+                        query: {
+                          hostelId: item.raw.id,
+                          hostelName: item.raw.name,
+                          hostelImage: item.raw.packageImageUrl,
+                        },
+                      })
+                    "
+                  >
+                    {{ t('View Details') }}
+                  </v-btn>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </template>
+      </v-data-iterator>
+    </template>
+
 
     <!-- Empty State -->
     <v-row v-else class="justify-center py-10">
@@ -91,23 +170,242 @@
         {{ t('No hostel data found') }}
       </div>
     </v-row>
+
+     <v-card class="pa-6 mt-5" elevation="2" rounded="md">
+      
+
+
+              <v-row class="flex-column">
+  <!-- ခေါင်းစဉ် (Booking Information) -->
+  <div class="text-black text-subtitle-1 d-flex align-center font-weight-bold">
+    <v-icon
+      :icon="mdiBookOpenOutline"
+      size="small"
+      class="mr-1"
+      color="#06402B"
+    ></v-icon>  
+    {{ t('Booking Information') }}
+  </div>
+
+  <div class="text-black text-subtitle-2 text-grey-darken-1 mt-1 ms-4">
+    {{ t('Fill in your trip details and traveler information') }}
+  </div>
+</v-row>
+        <v-row>
+          <v-col cols="12 mt-6" sm="6" md="4">
+             <destination-picker
+              v-model:destination-id="packageModel.destinationId"
+              v-model:destination-name="packageModel.destinationName"
+              variant="outlined"
+              density="comfortable"
+              :label="t('Choose Destination')"
+            >
+            </destination-picker>
+            
+            <package-picker
+              v-model:package-id="bookingModel.packageId"
+              v-model:package-name="bookingModel.packageName"
+              v-model:destination-id="packageModel.destinationId"
+              variant="outlined"
+              @change="onPackagePickerChange"
+              density="comfortable"
+              :label="t('Choose Package Name')"
+            >
+            </package-picker>
+          </v-col>
+
+          
+ <v-col cols="12 mt-6" sm="6" md="4">
+            <v-text-field
+            v-model="formModel.busTypeName"
+            name="busTypeName"
+            :label="t('Bus Type Name')"
+            :readonly="true"
+            density="comfortable"
+            variant="outlined"
+          ></v-text-field>
+           <v-text-field
+            v-model="formModel.busName"
+            name="busTypeName"
+            :label="t('Bus Name')"
+            :readonly="true"
+            density="comfortable"
+            variant="outlined"
+          ></v-text-field>
+          </v-col>
+         
+
+          <v-row dense justify="start"
+            ><v-col cols="12" sm="6" md="4">
+              <v-btn
+                variant="outlined"
+                color="grey-darken-2"
+                width="110"
+                height="44"
+                class="rounded-lg text-capitalize font-weight-bold mr-2"
+                @click="handleClear"
+              >
+                {{t('Clear')}}
+              </v-btn>
+
+              <v-btn
+                color="primary"
+                width="150"
+                height="44"
+                elevation="2"
+                class="rounded-lg text-capitalize font-weight-bold text-white"
+                :loading="status == ApiStatus.LOADING"
+                @click="handleSearch"
+              >
+                {{t('Search')}}
+              </v-btn>
+            </v-col></v-row
+          >
+        </v-row>
+      </v-card>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted, computed} from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import useApi, { ApiStatus } from '../api';
+import { Package, PackageListParams, PackageListParamsModel, PackageModel } from '../models/PackageModel';
+import { packagePublicApiResource } from '../api/resources/packagePublicResource';
+
+import DestinationPicker from '../components/destination/DestinationPicker.vue';
+
+import PackagePicker from '../components/packaged/PackagePicker.vue';
+import { mdiBookOpenOutline, mdiBookSettings } from '@mdi/js';
+import { Booking, BookingModel } from '../models/BookingModel';
+import { packageApiResource } from '../api/resources/packageResource';
+
+
+const formModel = ref<any>({
+  busTypeName: '',
+  busName: '',
+  destinationName: '',
+  hotelName: '',
+  durationName: '',
+  transportFee: 0,
+  hotelFee: 0,
+  serviceFee: 0,
+  budgetAmount: 0 ,
+  departureDate:'',
+});
+
+const formattedDepartureDate = computed(() => {
+  return formModel.value.departureDate ? formModel.value.departureDate.replace('T', ' ').replace('Z', '').substring(0, 16) : '';
+});
+
+
+
 
 const { t } = useI18n();
 const router = useRouter();
 
-// Slide Show အတွက် ပုံများနှင့် စာတန်းများ
+const packageList = ref<Package[]>([]);
+
+const goToDetails = () => {
+  router.push({
+    name: 'routeNames.hostelPublicList',
+  });
+};
+const isDirty = ref(false);
+
+
+const bookingModel = ref<Booking>(BookingModel());
+const packageModel = ref<Package>(PackageModel());
+
+  
+const onPackagePickerChange = async (selectedPackage: any) => {
+  isDirty.value = true;
+
+  if (!selectedPackage || !selectedPackage.id) {
+    clearPackageDetails();
+
+    return;
+  }
+
+  await call(packageApiResource.getById, null, { id: selectedPackage.id });
+
+  if (status.value === ApiStatus.SUCCESS) {
+    const packageData = response.value?.data;
+    
+    if (packageData) {
+      formModel.value.busTypeName = packageData.busTypeName || '';
+      formModel.value.busName = packageData.busName || '';
+      formModel.value.destinationName = packageData.destinationName || '';
+      formModel.value.hotelName = packageData.hotelName || '';
+      formModel.value.durationName = packageData.durationName || '';
+      
+      formModel.value.transportFee = packageData.transportFee || 0;
+      formModel.value.hotelFee = packageData.hotelFee || 0;
+      formModel.value.serviceFee = packageData.serviceFee || 0;
+      formModel.value.departureDate = packageData.departureDate || '';
+      
+      formModel.value.budgetAmount = packageData.budgetAmount || 0; 
+
+     
+    }
+  }
+};
+
+const clearPackageDetails = () => {
+  formModel.value.busTypeName = '';
+  formModel.value.bus = '';
+  formModel.value.destination = '';
+  formModel.value.hotel = '';
+  formModel.value.duration = '';
+  formModel.value.transportFee = 0;
+  formModel.value.hotelFee = 0;
+  formModel.value.serviceFee = 0;
+  formModel.value.budgetAmount = 0;
+  formModel.value.totalAmount = 0;
+};
+
+
+const { call, response, status } = useApi();
+
+const onApiCall = async (params: any = {}) => {
+  try {
+    await call(packagePublicApiResource.getPackages, { params });
+    if (status.value == ApiStatus.SUCCESS) {
+      const resData = response.value?.data;
+      packageList.value = resData?.list || resData?.data?.list || resData || [];
+    }
+  } catch (error) {
+    console.error('API Error:', error);
+  }
+};
+const searchParams = ref<PackageListParams>(
+  PackageListParamsModel(),
+);
+
+const handleSearch = () => {
+  const activeParams = {
+    destinationId: searchParams.value.destinationId || null,
+
+   
+  };
+
+const startPlanning = () => {
+
+};
+
+  console.log('Sending clean parameters to backend:', activeParams);
+  onApiCall(activeParams);
+};
+const handleClear = () => {
+  searchParams.value = PackageListParamsModel();
+  onApiCall();
+};
+
 const bannerSlides = ref([
   {
     image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1200',
-    title: 'Find the perfect  hotel for your stay',
+    title: 'Find the perfect hotel for your stay',
   },
   {
     image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1200',
@@ -119,21 +417,7 @@ const bannerSlides = ref([
   },
 ]);
 
-// Dummy Data
-const hostelList = ref([
-  { id: 1, name: 'Pyin Oo Lwin', image: 'https://picsum.photos/200/150?random=1' },
-  { id: 2, name: 'Kalaw', image: 'https://picsum.photos/200/150?random=2' },
-  { id: 3, name: 'Taunggyi', image: 'https://picsum.photos/200/150?random=3' },
-  { id: 4, name: 'Inle', image: 'https://picsum.photos/200/150?random=4' },
-  { id: 5, name: 'Chaung Thar', image: 'https://picsum.photos/200/150?random=5' },
-]);
-
-const goToDetails = (id?: number) => {
-  router.push({
-    name: 'routeNames.hostelPublicList',
-    params: id ? { id } : {},
-  });
-};
-
-const { status } = useApi();
+onMounted(() => {
+  onApiCall();
+});
 </script>
