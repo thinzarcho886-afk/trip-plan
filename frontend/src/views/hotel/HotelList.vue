@@ -42,16 +42,12 @@
           ></ListDateTime>
         </template>
 
-        <!-- Action Column -->
-        <template v-slot:item.actions="{ item }">
-          <v-btn
-            :icon="mdiPencil"
-            variant="text"
-            size="small"
-            color="primary"
-            :to="getDetailRoute(item)"
-          ></v-btn>
+        <template v-slot:[`item.action`]="{ item }">
+          <v-btn icon size="small" :to="getDetailRoute(item)">
+            <v-icon>{{ mdiPencil }}</v-icon>
+          </v-btn>
         </template>
+
       </ListDataTable>
     </template>
   </List>
@@ -85,7 +81,7 @@ const hotelListMeta = computed<ListMeta>(() => {
       { title: t('Status'), key: 'status', minWidth: 100 },
       { title: t('Updated Date'), key: 'updatedDate', width: 150 },
       { title: t('Updated By'), key: 'updatedBy', width: 150 },
-      { title: t('Action'), key: 'actions', width: 100, sortable: false },
+      { title: t('Action'), key: 'action',sortable: false },
     ],
     apiResource: hotelApiResource.getList,
     responseKey: 'list',

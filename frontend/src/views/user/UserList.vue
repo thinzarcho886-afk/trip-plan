@@ -40,6 +40,11 @@
             :milliseconds="item.updatedDateInMilliSeconds"
           ></ListDateTime>
         </template>
+        <template v-slot:[`item.action`]="{ item }">
+          <v-btn icon size="small" :to="getDetailRoute(item)">
+            <v-icon>{{ mdiPencil }}</v-icon>
+          </v-btn>
+        </template>
       </ListDataTable>
     </template>
   </List>
@@ -55,7 +60,7 @@ import UserListSearch from '../../components/user/UserListSearch.vue';
 import { ListMeta } from '../../interfaces/ListMeta.js';
 import List from '../../layouts/default/List.vue';
 import { routeNames } from '../../router/routes.js';
-import { mdiPlus } from '@mdi/js';
+import { mdiPlus, mdiPencil } from '@mdi/js';
 import { UserListParams } from '../../models/UserModel.js';
 import { ActionButton } from '../../interfaces/ActionButton.js';
 import ListStatus from '../../components/common/ListStatus.vue';
@@ -83,6 +88,9 @@ const userListMeta = computed<ListMeta>(() => {
       { title: t('Created By'), key: 'createdBy', width: 150 },
       { title: t('Updated Date'), key: 'updatedDate', width: 150 },
       { title: t('Updated By'), key: 'updatedBy', width: 150 },
+      { title: t('Action'), key: 'action', width: 150 },
+
+
 
     ],
     apiResource: userApiResource.getUsers,

@@ -25,12 +25,23 @@ import com.cbk.trip.utils.CommonUtil;
 public class TransportService {
 	 @Autowired
 	   private TransportRepository transportRepository;
+	 
 	 public PageableDTO getTransports( Long busTypeId, Long busId,Pageable pageable) {
 			Specification<Transport> spec = TransportSpecs.getByFilter(busTypeId, busId);
 			Page<Transport> page = transportRepository.findAll(spec, pageable);
 	        List<TransportDTO> dtoList = CommonUtil.getDTOList(page.getContent(), TransportDTO::new);
 	        return new PageableDTO(dtoList, page);
 			
+		}
+	 
+	 public Transport getTransportId(Long busTypeId, Long busId) {
+		    if (busTypeId == null || busId == null) {
+		        return null;
+		    }
+		    
+		    Transport transport = transportRepository.findByBusType_IdAndBus_Id(busTypeId, busId);
+		    
+		    return transport;
 		}
 
 

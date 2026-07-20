@@ -3,65 +3,104 @@
     :items="items"
     v-model:model-value="modelValue"
     return-object
-    item-value="id" 
-    item-title="busName"
+    item-value="id"
+    item-title="name"
     :loading="status == ApiStatus.LOADING"
-    :label="t('Bus')"
     :disabled="!busTypeId" 
-    variant="outlined"
+    :label="t('Bus')"
+    ref="busPickerRef"
     density="comfortable"
+    variant="outlined"
   ></v-autocomplete>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { computed, ref, watch, nextTick } from 'vue';
 import useApi, { ApiStatus } from '../../api';
 import { useI18n } from 'vue-i18n';
-import { transportApiResource } from '../../api/resources/transportResource';
+import { busApiResource } from '../../api/resources/busResource';
 
-// props မှာ busTypeId ကို လက်ခံထားပါ
-const props = defineProps(['busId', 'busName', 'busTypeId', 'params']);
+const props = defineProps(['busId', 'busName', 'params', 'busTypeId']);
 const emits = defineEmits(['update:busId', 'update:busName']);
 const { t } = useI18n();
 
 const items = ref([]);
+const busPickerRef = ref<null | any>(null);
 
 const modelValue = computed({
   get() {
-    return props.busId && props.busName ? { id: props.busId, busName: props.busName } : null;
+    return props.busId && props.busName
+      ? { id: props.busId, name: props.busName }
+      : null;
   },
   set(e: any) {
-    emits('update:busId', e.id ?? null);
-    emits('update:busName', e.busName ?? null);
+    emits('update:busId', e?.id ?? null);
+    emits('update:busName', e?.name ?? null);
   },
 });
 
 const { call, response, status } = useApi();
 
-const onApiCall = async (params:any) => {
-  // busTypeId မရှိရင် API မခေါ်ပါ
+const onApiCall = async (params: any) => {
+  // busTypeId မရှိရင် API မခေါ်ဘဲ ပိတ်ထားမယ်
   if (!props.busTypeId) {
     items.value = [];
     return;
   }
-  await call(transportApiResource.getTransports, { params});
+
+  await call(busApiResource.getBuses, { params });
 
   if (status.value == ApiStatus.SUCCESS) {
     const data: any = response.value?.data;
-    // Backend response format အရ data['list'] သို့မဟုတ် data.content ဖြစ်နိုင်ပါတယ်
-    if(!data) return;
-    items.value = data ['list'];
+    if (!data) return;
+    items.value = data['list'] || [];
   }
 };
 
-onMounted(() => {
-   const params = {
-    ...props.params,
-    id: props.busTypeId, // Backend က filter လုပ်ဖို့ပို့ပေးရပါမယ်
-    page: null,
-    size: null,
-    sort: 'busName,asc',
-  };
-  onApiCall(params);
-})
+// watch ထဲမှာ immediate: true ပါဝင်ပြီးသားဖြစ်လို့ onMounted ထပ်ရေးစရာမလိုတော့ပါဘူး
+watch(
+  [() => props.busTypeId, () => props.busId],
+  async ([busTypeId, busId], [oldBusTypeId, oldId]) => {
+    const params: any = {
+      ...props.params,
+      page: null,
+      size: null,
+      sort: 'name,asc',
+    };
+
+    if (
+      busTypeId == oldBusTypeId &&
+      ((!!busId && oldId == '') || busId != oldId)
+    ) {
+      // value မပြောင်းဘဲ တူနေပါက ဘာမှမလုပ်ဘဲ ကျော်သွားရန်
+      return;
+    }
+
+    if (!!busTypeId) {
+      items.value = [];
+
+      // ကနဦးတန်ဖိုး (Init value) ရှင်းလင်းမသွားစေရန် စစ်ဆေးခြင်း
+      if (!(!oldBusTypeId && !oldId && !!busId)) {
+        modelValue.value = { id: '', name: '' };
+
+        await nextTick();
+
+        const { resetValidation } = busPickerRef.value || {};
+        if (typeof resetValidation == 'function') resetValidation();
+      }
+
+      params.busTypeId = busTypeId; // Backend ကို filter လုပ်ဖို့ busTypeId ထည့်ပေးလိုက်ခြင်း
+    }
+
+    if (
+      (typeof props.busTypeId !== 'undefined' && params.busTypeId) ||
+      typeof props.busTypeId === 'undefined'
+    ) {
+      onApiCall(params);
+    }
+  },
+  {
+    immediate: true,
+  },
+);
 </script>

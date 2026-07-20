@@ -10,11 +10,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cbk.trip.dto.PaymentMethodDTO;
 import com.cbk.trip.dto.TransportDTO;
+import com.cbk.trip.entity.Transport;
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.repository.TransportRepository; // သင့် Repository path အတိုင်းပြင်ပါ
 import com.cbk.trip.service.TransportService; // သင့် Service path အတိုင်းပြင်ပါ
@@ -32,6 +35,19 @@ public class TransportController {
             @PageableDefault(size = 10) Pageable pageable) {
         
         return new ResponseEntity<>(transportService.getTransports(busTypeId, busId,pageable), HttpStatus.OK);
+    }
+    
+    @GetMapping("/bus-type/{busTypeId}/bus/{busId}")
+    public ResponseEntity<?> getByTransportId(
+        @PathVariable(name = "busTypeId") Long busTypeId, 
+        @PathVariable(name = "busId") Long busId
+    ) {
+        Transport transport = transportService.getTransportId(busTypeId, busId);
+        if (transport != null) {
+            return new ResponseEntity<>(transport.getId(), HttpStatus.OK); 
+            }
+        
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
   

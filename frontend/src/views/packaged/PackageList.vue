@@ -72,15 +72,12 @@
         </template>
 
         <!-- Action Column -->
-        <template v-slot:item.actions="{ item }">
-          <v-btn
-            :icon="mdiPencil"
-            variant="text"
-            size="small"
-            color="primary"
-            :to="getDetailRoute(item)"
-          ></v-btn>
+        <template v-slot:[`item.action`]="{ item }">
+          <v-btn icon size="small" :to="getDetailRoute(item)">
+            <v-icon>{{ mdiPencil }}</v-icon>
+          </v-btn>
         </template>
+
       </ListDataTable>
     </template>
   </List>
@@ -109,11 +106,10 @@ const packageListMeta = computed<ListMeta>(() => {
   return {
     headers: [
       { title: t('Package Name'), key: 'name', minWidth: 150 },
-      { title: t('Bus Type Name'), key: 'name', minWidth: 150 },
-      { title: t('Bus Name'), key: 'name', minWidth: 150 },
+      { title: t('Bus Type Name'), key: 'busTypeName', minWidth: 150 },
+      { title: t('Bus Name'), key: 'busName', minWidth: 150 },
       { title: t('Destination'), key: 'destinationName', minWidth: 150 },
       { title: t('Hotel Name'), key: 'hotelName', minWidth: 150 },
-      { title: t('Duration'), key: 'duration', minWidth: 150 },
       { title: t('Departure Date'), key: 'departureDate', minWidth: 150 },
       { title: t('Duration'), key: 'durationName', minWidth: 150 },
       { title: t('Transport Fee'), key: 'transportFee', minWidth: 150 },
@@ -125,7 +121,7 @@ const packageListMeta = computed<ListMeta>(() => {
       { title: t('Status'), key: 'status', minWidth: 100 },
       { title: t('Updated Date'), key: 'updatedDate', width: 150 },
       { title: t('Updated By'), key: 'updatedBy', width: 150 },
-    //   { title: t('Action'), key: 'actions', width: 100, sortable: false },
+     { title: t('Action'), key: 'action', sortable: false },
     ],
     apiResource: packageApiResource.getPackages,
     responseKey: 'list',

@@ -38,14 +38,14 @@ public class TransportSpecs {
 				if (!Objects.isNull(busTypeId)) {
 					Join<Transport, BusType> tranBusTypeJoin = root.join("busType");
 
-					Predicate transportPredicate = criteriaBuilder.equal(tranBusTypeJoin.get("busTypeId"),busTypeId);
+					Predicate transportPredicate = criteriaBuilder.equal(tranBusTypeJoin.get("id"),busTypeId);
 					predicates.add(transportPredicate);
 				}
 				
 				if (!Objects.isNull(busId)) {
 					Join<Transport, Bus> tranBusJoin = root.join("bus");
 
-					Predicate transportPredicate = criteriaBuilder.equal(tranBusJoin.get("busId"),busId);
+					Predicate transportPredicate = criteriaBuilder.equal(tranBusJoin.get("id"),busId);
 					predicates.add(transportPredicate);
 				}
 

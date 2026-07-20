@@ -65,7 +65,7 @@
         </v-btn>
 
         <v-btn
-          color="#06402B"
+          color="#06402Bcu"
           variant="elevated"
           @click="handleUpdatePassword"
           :loading="status == ApiStatus.LOADING"

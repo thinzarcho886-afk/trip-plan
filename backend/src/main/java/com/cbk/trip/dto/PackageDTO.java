@@ -35,10 +35,13 @@ public class PackageDTO extends CommonDTO {
     @NotNull(message = "Hotel is required")
     private Long hotelId;
     private String hotelName;
+    private Long busTypeId;
+    private Long busId;
 
     @NotNull(message = "Transport is required")
     private Long transportId;
-    private String transportName;
+    private String busName;
+    private String busTypeName;
 
     @NotNull(message = "Duration is required")
     private Long durationId;
@@ -64,6 +67,7 @@ public class PackageDTO extends CommonDTO {
     private Status status;
 
     private List<PackageDetailDTO> packageDetails;
+    private Long[] deletePackageDetailIds;
 
     public PackageDTO(Package entity) {
         super(entity);
@@ -83,7 +87,10 @@ public class PackageDTO extends CommonDTO {
             this.transportId = entity.getTransport().getId();
             // Transport name ကို ရယူရန် Bus name ကို အသုံးပြုပါ
             if (entity.getTransport().getBus() != null) {
-                this.transportName = entity.getTransport().getBus().getName();
+            		this.busTypeId= entity.getTransport().getBusType().getId();
+            		this.busId = entity.getTransport().getBus().getId();
+                this.busName = entity.getTransport().getBus().getName();
+                this.busTypeName= entity.getTransport().getBusType().getName();
             }
         }
 
@@ -106,5 +113,6 @@ public class PackageDTO extends CommonDTO {
                     .map(PackageDetailDTO::new)
                     .collect(Collectors.toList());
         }
+        
     }
 }

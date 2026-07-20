@@ -2,6 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 import { Role } from '../constants/Role';
 import HotelDetail from '../views/hotel/HotelDetail.vue';
 import PackageList from '../views/packaged/PackageList.vue';
+import BookingDetail from '../views/booking/BookingDetail.vue';
 
 export const routeNames = {
   home: 'Home',
@@ -26,6 +27,7 @@ export const routeNames = {
   durationList:'DurationList',
   durationDetail:'DurationDetail',
   bookingList:'BookingList',
+  bookingDetail:'BookingDetail',
   paymentList:'PaymentList',
   paymentDetail:'PaymentDetail',
   destinationDetail: 'DestinationDetail',
@@ -249,6 +251,30 @@ export const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "paymentDetail" */ '../views/payment/PaymentDetail.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'booking',
+        name: routeNames.bookingList,
+        component: () =>
+          import(
+            /* webpackChunkName: "bookingList" */ '../views/booking/BookingList.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+          allowedRoles: [Role.SYSADMIN, Role.ADMIN],
+        },
+      },
+      {
+        path: 'booking/:id',
+        name: routeNames.bookingDetail,
+        component: () =>
+          import(
+            /* webpackChunkName: "bookingDetail" */ '../views/booking/BookingDetail.vue'
           ),
         meta: {
           requiresAuth: true,

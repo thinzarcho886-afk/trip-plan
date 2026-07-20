@@ -63,4 +63,15 @@ public class PackageController {
     public ResponseEntity<?> getById(@PathVariable(required = true, name = "id") Long id) {
         return new ResponseEntity<>(packageService.getById(id), HttpStatus.OK);
     }
+    @PostMapping("/create")
+    public ResponseEntity<?> createPackage(@RequestBody PackageDTO dto, @RequestParam boolean isUpdate) throws IOException {
+        packageService.save(dto, isUpdate);
+        return ResponseEntity.ok("Saved successfully");
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updatePackage(@RequestBody PackageDTO dto, @RequestParam boolean isUpdate) throws IOException {
+        packageService.save(dto, isUpdate);
+        return ResponseEntity.ok("Updated successfully");
+    }
 }

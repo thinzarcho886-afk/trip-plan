@@ -1,6 +1,6 @@
  <template>
   <List
-    :title="t('Bus', 2)"
+    :title="t('Booking', 2)"
     :breadcrumbs="breadcrumbs"
     :actions="actions"
     :filters="filters"
@@ -11,20 +11,27 @@
 
     <template #datatable="{ clearFilter }">
       <ListDataTable
-        v-bind="busListMeta"
+        v-bind="bookingListMeta"
         :api-params="apiParams"
         @clear-filter="clearFilter"
         :use-mobile="true"
       >
 
-      
+       <template v-slot:item.paymentReceiveImageUrl="{ item }">
+          <v-avatar size="40" rounded="lg" class="my-1">
+            <v-img
+              :src="item.paymentReceiveImageUrl || 'https://via.placeholder.com/40'"
+              cover
+            ></v-img>
+          </v-avatar>
+        </template>
 
-        <template v-slot:[`item.name`]="{ item }">
+        <template v-slot:[`item.packageName`]="{ item }">
           <router-link
             class="text-decoration-none text-green font-weight-bold"
             :to="getDetailRoute(item)"
           >
-            {{ item.name }}
+            {{ item.packageName }}
           </router-link>
         </template>
 
@@ -33,6 +40,7 @@
         <template v-slot:item.status="{ item }">
           <ListStatus :status="item.status"></ListStatus>
         </template>
+
 
         <template v-slot:item.createdDate="{ item }">
           <ListDateTime
@@ -47,6 +55,10 @@
             :milliseconds="item.updatedDateInMilliSeconds"
           ></ListDateTime>
         </template>
+
+       <template v-slot:item.departureDate="{ item }">
+         <span>{{ item.departureDate ? item.departureDate.split('T')[0] : '' }}</span>
+      </template>
 
          <template v-slot:[`item.action`]="{ item }">
           <v-btn icon size="small" :to="getDetailRoute(item)">
@@ -69,21 +81,27 @@ import { mdiPlus , mdiPencil} from '@mdi/js';
 import { ActionButton } from '../../interfaces/ActionButton.js';
 import ListStatus from '../../components/common/ListStatus.vue';
 import { useI18n } from 'vue-i18n';
-import BusListSearch from '../../components/bus/BusListSearch.vue';
+import BookingListSearch from '../../components/booking/BookingListSearch.vue';
 import { CustomerListParams } from '../../models/CustomerModel.js';
 import { useAuthStore } from '../../store/auth.js';
 import ListDateTime from '../../components/common/ListDateTime.vue';
-import { busApiResource } from '../../api/resources/busResource.js';
-import { BusListParams } from '../../models/BusModel.js';
+import { bookingApiResource } from '../../api/resources/bookingResource.js';
+import { BookingListParams } from '../../models/BookingModel.js';
 const { t } = useI18n({ useScope: 'global' });
 const authStore = useAuthStore();
 
-const busListMeta = computed<ListMeta>(() => {
+const bookingListMeta = computed<ListMeta>(() => {
   return {
     headers: [
+      { title: t('Payment Receive Image'), key: 'paymentReceiveImageUrl', minWidth: 150 },
      
-      { title: t('Name'), key: 'name', minWidth: 150 },
-      { title: t('Status'), key: 'status', minWidth: 150 },
+      { title: t('Package Name'), key: 'packageName', minWidth: 150 },
+      { title: t('Customer Name'), key: 'customerName', minWidth: 150 },
+      { title: t('Payment Method'), key: 'paymentMethodName', minWidth: 150 },
+      { title: t('Travelers Qty'), key: 'travelersQty', minWidth: 150 },
+      { title: t('Departuer Date'), key: 'departureDate', minWidth: 150 },
+      { title: t('Note'), key: 'note', minWidth: 150 },
+      { title: t('Status'), key: 'status', minWidth: 150 },   
       { title: t('Created Date'), key: 'createdDate', width: 150 },
       { title: t('Created By'), key: 'createdBy', width: 150 },
       { title: t('Updated Date'), key: 'updatedDate', width: 150 },
@@ -91,7 +109,7 @@ const busListMeta = computed<ListMeta>(() => {
       { title: t('Action'), key: 'action', sortable:false},
 
     ],
-    apiResource: busApiResource.getBuses,
+    apiResource: bookingApiResource.getBookings,
     responseKey: 'list',
     defaultSort: [{ key: 'createdDate', order: 'desc' }],
   };
@@ -102,16 +120,16 @@ const apiParams = ref();
 // custom breadcrumbs
 const breadcrumbs = computed(() => [
   { title: t('General') },
-  { title: t('Bus', 2), to: { name: routeNames.busList } },
+  { title: t('Booking', 2), to: { name: routeNames.bookingList } },
 ]);
 
 const actions = computed<ActionButton[]>(() => {
-  if (!authStore.user?.busId)
+  if (!authStore.user?.bookingId)
     return [
       {
         icon: mdiPlus,
-        label: 'Add Bus',
-        to: { name: routeNames.busDetail, params: { id: 'new' } },
+        label: 'Add Booking',
+        to: { name: routeNames.bookingDetail, params: { id: 'new' } },
         color: 'primary',
       },
     ];
@@ -119,12 +137,12 @@ const actions = computed<ActionButton[]>(() => {
 });
 
 const filters = {
-  component: BusListSearch,
-  onSearch: (params: BusListParams) => (apiParams.value ={ ...params }),
+  component: BookingListSearch,
+  onSearch: (params: BookingListParams) => (apiParams.value ={ ...params }),
 };
 
 const getDetailRoute = (item: any) => {
-  return { name: routeNames.busDetail, params: { id: item.id } };
+  return { name: routeNames.bookingDetail, params: { id: item.id } };
 };
 
 const handleSearch = (params: any) => {

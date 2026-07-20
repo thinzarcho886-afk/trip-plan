@@ -134,7 +134,7 @@ const actions = computed<ActionButton[]>(() => {
         icon: mdiPlus,
         label: 'Add Payment Method',
         to: { name: routeNames.paymentDetail, params: { id: 'new' } },
-        color: 'green',
+        color: 'primary',
       },
     ];
   else return [];

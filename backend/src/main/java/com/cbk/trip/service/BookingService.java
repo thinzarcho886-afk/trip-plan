@@ -39,7 +39,6 @@ public class BookingService {
 
 	@Autowired
 	private PaymentMethodRepository paymentMethodRepository;
-
 	public PageableDTO getBookings(Long packageId, Long customerId, Long paymentMethodId, Status status,
 			Pageable pageable) {
 		Specification<Booking> specs = BookingSpecs.getByFilter(packageId, customerId, paymentMethodId, status);
@@ -48,31 +47,48 @@ public class BookingService {
 		return new PageableDTO(dtoList, page);
 	}
 
-	@Transactional(rollbackFor = Exception.class)
-	public BookingDTO save(@Valid BookingDTO dto, boolean isUpdate) throws IOException {
-		Booking booking = new Booking();
-		if (isUpdate) {
-			booking = CommonUtil.checkValidById(dto.getId(), bookingRepository);
-			booking.setPaymentReceiveImageUrl(NginxUtil.updateImage(dto.getPaymentReceiveImage(),
-					booking.getPaymentReceiveImageUrl(), "booking_receive", StringUtils.isEmpty(dto.getPaymentReceiveImageUrl())));
-		} else {
-			booking.setPaymentReceiveImageUrl(NginxUtil.saveImage(dto.getPaymentReceiveImage(), "booking_receive"));
-		}
+    @Transactional(rollbackFor = Exception.class)
+    public BookingDTO save(@Valid BookingDTO dto, boolean isUpdate)throws IOException {
+        Booking booking;
+        if (isUpdate) {
+            booking = CommonUtil.checkValidById(dto.getId(), bookingRepository);
+        } else {
+            booking = new Booking();
+        }
+        
+        if (StringUtils.isEmpty(dto.getPaymentReceiveImageUrl())) {
+            booking.setPaymentReceiveImageUrl(null);
+        
+        }
 
-		booking.setPkg(CommonUtil.checkValidById(dto.getPackageId(), packageRepository));
-		booking.setCustomer(CommonUtil.checkValidById(dto.getCustomerId(), customerRepository));
-		booking.setPaymentMethod(CommonUtil.checkValidById(dto.getPaymentMethodId(), paymentMethodRepository));
-		booking.setTravelersQty(dto.getTravelersQty());
-		booking.setStatus(dto.getStatus());
-		booking.setNote(dto.getNote());
+        else if (dto.getPaymentReceiveImageUrl() != null && dto.getPaymentReceiveImageUrl().startsWith("data:image")) {
+            if (!isUpdate) {
+                booking.setPaymentReceiveImageUrl(NginxUtil.saveImage(dto.getPaymentReceiveImageUrl(), "customer_profile"));
+            } else {
+                booking.setPaymentReceiveImageUrl(NginxUtil.updateImage(dto.getPaymentReceiveImageUrl(), booking.getPaymentReceiveImageUrl(), "customer_profile", false));
+            }
+        }
 
-		Booking savedBooking = bookingRepository.save(booking);
-		return new BookingDTO(savedBooking);
-	}
+        booking.setPkg(CommonUtil.checkValidById(dto.getPackageId(), packageRepository));
+        booking.setCustomer(CommonUtil.checkValidById(dto.getCustomerId(), customerRepository));
+        booking.setPaymentMethod(CommonUtil.checkValidById(dto.getPaymentMethodId(), paymentMethodRepository));
+        booking.setTravelersQty(dto.getTravelersQty());
+        booking.setStatus(dto.getStatus());
+        booking.setNote(dto.getNote());
+        
+        
+        Booking savedBooking = bookingRepository.save(booking);
+        return new BookingDTO(savedBooking);
+    }
 
-	public BookingDTO getById(Long id) {
-		Booking booking = bookingRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
-		return new BookingDTO(booking);
-	}
+    @Transactional
+    public void delete(Long id) {
+        bookingRepository.deleteById(id);
+    }
+    
+    public BookingDTO getById(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
+        return new BookingDTO(booking);
+    }
 }

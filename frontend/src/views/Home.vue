@@ -1,6 +1,6 @@
 <template>
   <v-img
-    src="../assets/images/HO.jpg"
+    src="../assets/images/hhome.jpg"
     height="100%"
     width="100%"
     cover

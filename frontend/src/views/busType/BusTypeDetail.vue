@@ -129,7 +129,6 @@ const formValid = ref(true);
 const detailFormRef = ref<null | any>(null);
 const busTypeModel = ref<any>(BusTypeModel());
 
-// ဖျက်ထုတ်လိုက်သော Bus IDs များကို dynamic ယာယီသိမ်းထားရန် Array
 const deleteBusIds = ref<any[]>([]);
 
 const rules = {
@@ -141,25 +140,21 @@ const rules = {
 const { call, response, error, status } = useApi();
 const authStore = useAuthStore();
 
-// Bus Type single data ဆွဲယူရန် လုပ်ဆောင်ချက်
 const getDetail = async (id: any) => {
   await call(busTypeApiResource.getById, null, { id });
 
   if (status.value == ApiStatus.SUCCESS) {
     busTypeModel.value = response.value?.data;
-    // အကယ်၍ busType အောက်တွင် buses list မပါခဲ့လျှင် empty string/array mapping အစားထိုးပေးရန်
     if (!busTypeModel.value.buses) {
       busTypeModel.value.buses = [];
     }
   }
 };
 
-// Table ထဲမှ dynamic ဖျက်လိုက်သည့်အခါ ID များသိမ်းထားခြင်း
 const onBusDelete = (event: any) => {
   deleteBusIds.value = event;
 };
 
-// Form Save (ဆောက်ခြင်း နှင့် ပြင်ဆင်ခြင်း)
 const onSave = async () => {
   const { valid } = await detailFormRef.value.validate();
   if (!valid) return;
@@ -167,22 +162,18 @@ const onSave = async () => {
   let apiUrl = busTypeApiResource.save;
   if (busTypeModel.value.id) apiUrl = busTypeApiResource.update;
 
-  // ၁။ ပထမဦးစွာ BusType Model အား database ထဲသိမ်းပါမည်
   await call(apiUrl, { data: busTypeModel.value });
 
   if (status.value == ApiStatus.SUCCESS) {
     const savedBusType = response.value?.data;
     const busTypeId = savedBusType.id || busTypeModel.value.id;
 
-    // ၂။ Table ထဲရှိ Bus အသစ်များကို Transport table တွဲဆက်ပေးရန် API လှမ်းခေါ်ခြင်း
     if (busTypeModel.value.buses && busTypeModel.value.buses.length > 0) {
       for (const bus of busTypeModel.value.buses) {
-        // dynamic database creation အတွက် backend loop ပတ်ခေါ်ခြင်း
         await call(busTypeApiResource.addBusToTransport, null, { busTypeId, busId: bus.id }); //
       }
     }
 
-    // ၃။ Mapping ဖြုတ်လိုက်သော Bus များကို Transport Table မှ ပယ်ဖျက်ရန် လုပ်ဆောင်ခြင်း
     if (deleteBusIds.value && deleteBusIds.value.length > 0) {
       for (const busId of deleteBusIds.value) {
         await call(busTypeApiResource.removeBusFromTransport, null, { busTypeId, busId }); //

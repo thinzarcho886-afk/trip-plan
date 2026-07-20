@@ -21,13 +21,13 @@ public class PackageDetailDTO implements Serializable {
 
     private Long id;
     private String placeToVisit;
+    private String image;
     private String imageUrl;
-    private String imageFullUrl;
 
     public PackageDetailDTO(PackageDetail entity) {
     	this.id = entity.getId();
         this.placeToVisit = entity.getPlaceToVisit();
-        this.imageUrl = entity.getImageUrl();
-        this.imageFullUrl = NginxUtil.getFileUrl(entity.getImageUrl(), false);
+        this.image = entity.getImageUrl();
+        this.imageUrl = NginxUtil.getFileUrl(entity.getImageUrl(), true);
     }
 }

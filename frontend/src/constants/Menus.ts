@@ -82,7 +82,7 @@ export const menus: Menu[] = [
   {
     name: 'Booking',
     icon: mdiBookMarker,
-    // to: { name: routeNames.bookingList }, 
+    to: { name: routeNames.bookingList }, 
     forRole: [Role.SYSADMIN,],
   },
   {

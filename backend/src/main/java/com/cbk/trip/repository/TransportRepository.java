@@ -27,4 +27,5 @@ public interface TransportRepository extends JpaRepository<Transport, Long>, Jpa
 	@Transactional 
 	@Query("DELETE FROM Transport t WHERE t.busType.id = :busTypeId AND t.bus.id = :busId")
 	void deleteByBusTypeIdAndBusId(@Param("busTypeId") Long busTypeId, @Param("busId") Long busId);
+	Transport findByBusType_IdAndBus_Id(Long busTypeId, Long busId);
 }

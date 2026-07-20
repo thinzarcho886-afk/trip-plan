@@ -117,7 +117,7 @@ const router = useRouter();
 const goToDashboard = () => {
   const userRole = authStore.userRole;
 
-  if (isLoggedIn.value && (userRole === 'SYSADMIN')) {
+  if (isLoggedIn.value && (userRole === 'SYSADMIN' || userRole === 'OWNER')) {
     router.push('/admin');
   } else {
     router.push('/');

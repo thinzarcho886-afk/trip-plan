@@ -3,6 +3,7 @@
     :title="t('Customer', 2)"
     :breadcrumbs="breadcrumbs"
     :actions="actions"
+    
     :filters="filters"
   >
     <template #filters="{ onSearch, onClose }">
