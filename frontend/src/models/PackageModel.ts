@@ -70,5 +70,5 @@ export const PackageModel = (): Package => ({
  export interface PackageDetail extends CommonDto {
   placeToVisit: string;
   imageUrl: string | null;
-  imageFullUrl: string | null;
+  image: string | null;
 }

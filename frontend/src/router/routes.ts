@@ -41,6 +41,7 @@ export const routeNames = {
   busTypeDetail:'BusTypeDetail',
   transportList: 'TransportList',
   transportDetail: 'TransportDetail',
+  packagePublicList:'PackagePublicList'
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -150,6 +151,12 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: { requiresAuth: false },
       },
+      {
+    path: '/package-detail/:id',
+    name: routeNames.packagePublicList,
+    component: () => import(/* webpackChunkName: "packagePublicList" */ '../views/packaged/PackagePublicList.vue'),
+    meta: { requiresAuth: true }
+  },
     ],
   },
   {

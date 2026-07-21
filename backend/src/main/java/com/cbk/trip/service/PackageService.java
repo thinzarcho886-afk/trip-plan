@@ -135,9 +135,10 @@ public class PackageService {
                     } else {
                         detail.setImageUrl(NginxUtil.updateImage(detailDto.getImageUrl(), detail.getImageUrl(), "place_detail", false));
                     }
-                } else {
-                    detail.setImageUrl(detailDto.getImageUrl());
                 }
+//                else {
+//                    detail.setImageUrl(detailDto.getImageUrl());
+//                }
                 
                 packageDetailRepository.save(detail);
             }

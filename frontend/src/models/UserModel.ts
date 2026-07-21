@@ -17,22 +17,6 @@ export const UserListParamsModel = (): UserListParams => ({
 });
 
 export interface User extends CommonDto {
-  studentId:any;
-  studentImage:string;
-  studentImageUrl: string;
-  studentName:string;
-  studentEmail:string;
-  studentPhone:string;
-  studentAddress:string;
-  studentStatus:string;
-  ownerId:any;
-  ownerImage:string;
-  ownerImageUrl: string;
-  ownerName:string;
-  ownerEmail:string;
-  ownerPhone:string;
-  ownerAddress:string;
-  ownerStatus:string;
   role: string | Role;
   status: string | Status;
   username: string;
@@ -46,22 +30,6 @@ export interface User extends CommonDto {
 export const UserModel = (): User => ({
   customerId:null,
   name:'',
-  studentId: '',
-  studentImage:'',
-  studentImageUrl:'',
-  studentName:'',
-  studentEmail:'',
-  studentPhone:'',
-  studentAddress:'',
-  studentStatus:Status.ACTIVE,
-  ownerId: '',
-  ownerImage:'',
-  ownerImageUrl:'',
-  ownerName:'',
-  ownerEmail:'',
-  ownerPhone:'',
-  ownerAddress:'',
-  ownerStatus:Status.ACTIVE,
   role:'',
   username: '',
   status: Status.ACTIVE,

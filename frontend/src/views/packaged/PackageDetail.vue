@@ -36,7 +36,7 @@
               <v-card variant="outlined" class="pa-4 w-100" rounded="lg" style="border-style: dashed;">
                 <ImageInput
                   :image-url="packageModel.packageImageUrl"
-                  v-model="packageModel.packageImage"
+                  v-model="packageModel.packageImageUrl"
                   @delete="packageModel.packageImageUrl = ''; packageModel.packageImage = '';"                  image-height="180px"
                   image-width="100%"
                   width="100%"
