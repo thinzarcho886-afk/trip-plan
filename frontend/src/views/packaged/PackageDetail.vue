@@ -36,7 +36,7 @@
               <v-card variant="outlined" class="pa-4 w-100" rounded="lg" style="border-style: dashed;">
                 <ImageInput
                   :image-url="packageModel.packageImageUrl"
-                  v-model="packageModel.packageImageUrl"
+                  v-model="packageModel.packageImage"
                   @delete="packageModel.packageImageUrl = ''; packageModel.packageImage = '';"                  image-height="180px"
                   image-width="100%"
                   width="100%"
@@ -187,7 +187,7 @@
                     <v-text-field
                       name="budgetAmount"
                       v-model="packageModel.budgetAmount"
-                      :rules="[rules.required]"
+                      :readonly="true"
                       :label="t('Budget Amount')"
                       type="number"
                       density="comfortable"
@@ -288,7 +288,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import Detail from '../../layouts/default/Detail.vue';
 import { routeNames } from '../../router/routes.js';
 import { required, maxLength } from '../../utils/validations.js';
@@ -324,6 +324,18 @@ const rules = { required, maxLength };
 const { call, response, error, status } = useApi();
 const authStore = useAuthStore();
 const dialog = ref(false);
+
+
+const calculateTotal = () => {
+  const service = Number(packageModel.value.serviceFee) || 0;
+  const transport = Number(packageModel.value.transportFee) || 0;
+  const hotel = Number(packageModel.value.hotelFee) || 0;
+
+
+  
+  packageModel.value.budgetAmount =service + transport + hotel;
+};
+
 
 const tempItem = ref({ 
   placeToVisit: '', 
@@ -361,6 +373,7 @@ const getDetail = async (id: any) => {
       packageModel.value.packageDetails = [];
     }
     initialData.value = JSON.parse(JSON.stringify(packageModel.value));
+    calculateTotal();
   }
 };
 
@@ -400,6 +413,17 @@ const onSave = async () => {
     router.push({ name: routeNames.packageList });
   }
 };
+watch(
+  [
+    () => packageModel.value.transportFee,
+    () => packageModel.value.hotelFee,
+    () => packageModel.value.serviceFee,
+  ],
+  () => {
+    calculateTotal();
+  },
+  { immediate: true } // View စတက်တက်ချင်းမှာလည်း တန်းတွက်ပေးအောင် immediate: true ထည့်ထားပါသည်
+);
 
 const openDialog = () => {
   tempItem.value = { 

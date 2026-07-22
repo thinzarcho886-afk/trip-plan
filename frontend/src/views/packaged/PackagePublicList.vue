@@ -149,12 +149,15 @@
 </template>
 
 <script setup lang="ts">
+import { useAppStore } from '../../store/app';
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import useApi, { ApiStatus } from '../../api/index.js';
 import { packageApiResource } from '../../api/resources/packageResource.js';
 import { Package } from '../../models/PackageModel.js';
+
+const appStore = useAppStore(); 
 
 const { t } = useI18n();
 const route = useRoute();
@@ -194,8 +197,32 @@ const getPackageDetail = async (id: any) => {
   }
 };
 
-const handleBooking = () => {
-  console.log('Booking for package:', packageModel.value.id);
+const handleBooking = async() => {
+
+   try {
+    appStore.setBookingData({
+      destinationId: packageModel.value.destinationId,
+      destinationName:
+        packageModel.value.destinationName ,
+      packageId: packageModel.value.id,
+      busTypeName: packageModel.value.busTypeName,
+      busName: packageModel.value.busName,
+      hotelName: packageModel.value.hotelName,
+      durationName: packageModel.value.durationName,
+      transportFee: Number(packageModel.value.transportFee || 0),
+      hotelFee: Number(packageModel.value.hotelFee || 0),
+      serviceFee: Number(packageModel.value.serviceFee || 0),
+      budgetAmount: Number(packageModel.value.budgetAmount || 0),
+      departureDate: packageModel.value.departureDate,
+     
+    });
+
+    await router.push({name: 'BookingSummary'})
+  } catch (error) {
+    alert(t('Something wrong.'));
+    console.error(error);
+  }
+
 };
 
 onMounted(() => {

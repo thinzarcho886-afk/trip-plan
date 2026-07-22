@@ -23,27 +23,30 @@ export const routeNames = {
   changePassword: 'ChangePassword',
   customerList: 'CustomerList',
   customerDetail: 'CustomerDetail',
-  destinationList:'DestinationList',
-  durationList:'DurationList',
-  durationDetail:'DurationDetail',
-  bookingList:'BookingList',
-  bookingDetail:'BookingDetail',
-  paymentList:'PaymentList',
-  paymentDetail:'PaymentDetail',
+  destinationList: 'DestinationList',
+  durationList: 'DurationList',
+  durationDetail: 'DurationDetail',
+  bookingList: 'BookingList',
+  bookingDetail: 'BookingDetail',
+  paymentList: 'PaymentList',
+  paymentDetail: 'PaymentDetail',
   destinationDetail: 'DestinationDetail',
   busList: 'BusList',
   busDetail: 'BusDetail',
   packageList: 'PackageList',
-  packageDetail:'PackageDetail',
-  hotelList:'HotelList',
-  hotelDetail:'HotelDetail',
-  busTypeList:'BusTypeList',
-  busTypeDetail:'BusTypeDetail',
+  packageDetail: 'PackageDetail',
+  hotelList: 'HotelList',
+  hotelDetail: 'HotelDetail',
+  busTypeList: 'BusTypeList',
+  busTypeDetail: 'BusTypeDetail',
   transportList: 'TransportList',
   transportDetail: 'TransportDetail',
-  packagePublicList:'PackagePublicList',
+  packagePublicList: 'PackagePublicList',
   transportPublicList: 'TransportPublicList',
   busPublicList: 'BusPublicList',
+  bookingSummary: 'BookingSummary',
+  paymentView: 'PaymentView',
+  bookingHistoryPublic: 'BookingHistoryPublic'
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -85,6 +88,39 @@ export const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "ChangePassword" */ '../views/changePassword.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'bookingSummary',
+        name: routeNames.bookingSummary,
+        component: () =>
+          import(
+            /* webpackChunkName: "bookingSummary" */ '../views/booking/BookingSummary.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'bookingHistoryPublic',
+        name: routeNames.bookingHistoryPublic,
+        component: () =>
+          import(
+            /* webpackChunkName: "bookingHistoryPublic" */ '../views/booking/BookingHistoryPublic.vue'
+          ),
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: 'paymentView',
+        name: routeNames.paymentView,
+        component: () =>
+          import(
+            /* webpackChunkName: "paymentView" */ '../views/payment/PaymentPublicView.vue'
           ),
         meta: {
           requiresAuth: true,
@@ -138,20 +174,20 @@ export const routes: RouteRecordRaw[] = [
           ),
         meta: {},
       },
-       {
+      {
         path: '/public-hotels',
         name: 'routeNames.hotelPublicList',
         component: () => import(/* webpackChunkName: "hostelPublicList" */ '../views/hotel/HotelPublicList.vue'),
         meta: { requiresAuth: true }
       },
       {
-    path: '/bus-public-list',
-    name: 'BusPublicList', // 👈 Error ဖြစ်စေသော နာမည်နှင့် အတိအကျ တူရပါမည်
-    component:  () => import(/* webpackChunkName:"BusPublicList" */'../views/bus/BusPublicList.vue'),
-    meta: {
-      public: true, // Public Access ပေးထားပါက
-    },
-  },
+        path: '/bus-public-list',
+        name: 'BusPublicList', // 👈 Error ဖြစ်စေသော နာမည်နှင့် အတိအကျ တူရပါမည်
+        component: () => import(/* webpackChunkName:"BusPublicList" */'../views/bus/BusPublicList.vue'),
+        meta: {
+          public: true, // Public Access ပေးထားပါက
+        },
+      },
       {
         path: 'about',
         name: 'routeNames.aboutUsPage',
@@ -168,11 +204,11 @@ export const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true }
       },
       {
-    path: '/package-detail/:id',
-    name: routeNames.packagePublicList,
-    component: () => import(/* webpackChunkName: "packagePublicList" */ '../views/packaged/PackagePublicList.vue'),
-    meta: { requiresAuth: true }
-  },
+        path: '/package-detail/:id',
+        name: routeNames.packagePublicList,
+        component: () => import(/* webpackChunkName: "packagePublicList" */ '../views/packaged/PackagePublicList.vue'),
+        meta: { requiresAuth: true }
+      }
     ],
   },
   {
@@ -226,7 +262,7 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN], // optional, specifiy for more restrict
         },
       },
-       {
+      {
         path: 'hostels/:id',
         name: routeNames.hostelDetail,
         component: () =>
@@ -286,6 +322,7 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
+
       {
         path: 'booking',
         name: routeNames.bookingList,
@@ -310,7 +347,7 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
-       {
+      {
         path: 'destination',
         name: routeNames.destinationList,
         component: () =>
@@ -352,12 +389,12 @@ export const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "busTypeDetail" */ '../views/busType/BusTypeDetail.vue'),
-             meta: {
+        meta: {
           requiresAuth: true,
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
-          },
-        {
+      },
+      {
         path: 'destination/:id',
         name: routeNames.destinationDetail,
         component: () =>
@@ -393,7 +430,7 @@ export const routes: RouteRecordRaw[] = [
           allowedRoles: [Role.SYSADMIN, Role.ADMIN],
         },
       },
-       {
+      {
         path: 'busType',
         name: routeNames.busTypeList,
         component: () =>

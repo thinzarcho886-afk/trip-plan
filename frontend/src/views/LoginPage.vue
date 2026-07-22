@@ -70,6 +70,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import useApi, { ApiStatus } from '../api';
 import { userApiResource } from '../api/resources/userResource';
 import { useAuthStore } from '../store/auth';
@@ -81,6 +82,7 @@ import {
   UserLogin,
   UserLoginResponse,
 } from '../models/UserLoginModel';
+const { t } = useI18n();
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -113,8 +115,11 @@ const onLogin = async () => {
 
       if (user.role === 'OWNER' || user.role === 'SYSADMIN') {
         router.push({ name: routeNames.home });
-      } else {
+      } else  if (user.role === 'CUSTOMER'){
         router.push({ name: routeNames.publicMain });
+      }
+      else{
+        alert(t('Username Or Password is incorrect.'));
       }
     }
   }

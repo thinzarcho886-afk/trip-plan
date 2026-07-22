@@ -2,6 +2,7 @@ package com.cbk.trip.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -63,9 +64,9 @@ public class BookingService {
 
         else if (dto.getPaymentReceiveImageUrl() != null && dto.getPaymentReceiveImageUrl().startsWith("data:image")) {
             if (!isUpdate) {
-                booking.setPaymentReceiveImageUrl(NginxUtil.saveImage(dto.getPaymentReceiveImageUrl(), "customer_profile"));
+                booking.setPaymentReceiveImageUrl(NginxUtil.saveImage(dto.getPaymentReceiveImageUrl(), "customer_payment"));
             } else {
-                booking.setPaymentReceiveImageUrl(NginxUtil.updateImage(dto.getPaymentReceiveImageUrl(), booking.getPaymentReceiveImageUrl(), "customer_profile", false));
+                booking.setPaymentReceiveImageUrl(NginxUtil.updateImage(dto.getPaymentReceiveImageUrl(), booking.getPaymentReceiveImageUrl(), "customer_payment", false));
             }
         }
 
@@ -90,5 +91,13 @@ public class BookingService {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
         return new BookingDTO(booking);
+    }
+    
+    public List<BookingDTO> getByCustomerId(Long customerId) {
+        List<Booking> bookingList = bookingRepository.findByCustomerId(customerId);
+
+        return bookingList.stream()
+                          .map(BookingDTO::new) 
+                          .collect(Collectors.toList());
     }
 }

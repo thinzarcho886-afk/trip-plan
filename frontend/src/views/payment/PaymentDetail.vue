@@ -24,7 +24,8 @@
                 <ImageInput
                   :image-url="paymentModel.imageUrl"
                   v-model="paymentModel.image"
-                  @delete="paymentModel.imageUrl = ''; paymentModel.image = '';"                  image-height="180px"
+                  @delete="paymentModel.imageUrl = ''; paymentModel.image = '';"             
+                   image-height="180px"
                   image-width="100%"
                   width="100%"
                   class="mx-auto"

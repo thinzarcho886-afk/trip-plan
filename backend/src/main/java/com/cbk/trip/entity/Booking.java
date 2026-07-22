@@ -47,4 +47,6 @@ public class Booking extends BaseEntity {
 
 	@Column(name = "note")
 	private String note;
+
+	
 }

@@ -71,8 +71,19 @@ public class UserService {
         org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
+        UserDTO response = new UserDTO(user);
 
-        return new com.cbk.trip.security.JwtAuthenticationResponse(jwt, new UserDTO(user));
+        Long customerId = response.getCustomerId();
+        if (customerId != null) {
+            CustomerDTO customer = customerService.getById(customerId);
+            if (customer != null) {
+            		response.setCustomerId(customerId);
+                response.setEmail(customer.getEmail());
+                response.setPhone(customer.getPhoneNumber());
+            }
+        }
+
+        return new com.cbk.trip.security.JwtAuthenticationResponse(jwt, response);
     }
 
     public PageableDTO getUsers(String username, UserRole role, Status status, Pageable pageable) {

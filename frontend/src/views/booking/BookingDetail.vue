@@ -26,7 +26,7 @@
         <ImageInput
           :image-url="bookingModel.paymentReceiveImageUrl"
           v-model="bookingModel.paymentReceiveImageUrl"
-          @delete="bookingModel.paymentReceiveImageUrl = ''; bookingModel.paymentReceiveImage = '';"    
+          @delete="bookingModel.paymentReceiveImageUrl = '';"    
           image-height="180px"
           image-width="100%"
           width="100%"
@@ -284,6 +284,8 @@ const formModel = ref<any>({
   departureDate:'',
 });
 
+
+
 const formattedDepartureDate = computed(() => {
   return formModel.value.departureDate ? formModel.value.departureDate.replace('T', ' ').replace('Z', '').substring(0, 16) : '';
 });
@@ -339,14 +341,15 @@ const onPackagePickerChange = async (selectedPackage: any) => {
 
 const clearPackageDetails = () => {
   formModel.value.busTypeName = '';
-  formModel.value.bus = '';
-  formModel.value.destination = '';
-  formModel.value.hotel = '';
-  formModel.value.duration = '';
+  formModel.value.busName = '';
+  formModel.value.destinationName = '';
+  formModel.value.hotelName = '';
+  formModel.value.durationName = '';
   formModel.value.transportFee = 0;
   formModel.value.hotelFee = 0;
   formModel.value.serviceFee = 0;
   formModel.value.budgetAmount = 0;
+  formModel.value.departureDate = '';
   formModel.value.totalAmount = 0;
 };
 let initialSavedData = ''; // Reset အတွက် သိမ်းဆည်းမည့် string data

@@ -36,6 +36,8 @@ public class UserDTO implements Serializable {
 
     private Long customerId;
     private String customerName; 
+    private String email;
+    private String phone;
 
     private String createdBy;
     private Long createdDateInMilliSeconds;
@@ -48,6 +50,8 @@ public class UserDTO implements Serializable {
         this.role = entity.getRole();
         this.status = entity.getStatus();
         this.customerName = customerName;
+        this.email=email;
+        this.phone=phone;
         this.customerId = entity.getCustomerId();
         this.createdBy = entity.getCreatedBy();
         this.createdDateInMilliSeconds = entity.getCreatedDate() == null ? null : entity.getCreatedDate().toEpochMilli();

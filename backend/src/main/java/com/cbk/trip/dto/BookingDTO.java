@@ -49,15 +49,41 @@ public class BookingDTO extends CommonDTO {
     private String paymentMethodName;
     private Double totalAmount;
     private Instant departureDate;
+    private String busTypeName;
+    private String busName;
+    private String destinationName;
+    private String durationName;
+    private String hotelName;
+    private Double hotelFee;
+    private Double serviceFee;
+    private Double transportFee;
+    private Double budgetAmount;
+    
 
     public BookingDTO(Booking entity) {
         super(entity);
+        if(entity.getPkg()!= null) {
         this.packageId = entity.getPkg().getId();
         this.packageName = entity.getPkg().getName();
+        this.busTypeName = entity.getPkg().getTransport().getBusType().getName();
+        this.busName = entity.getPkg().getTransport().getBus().getName();
+        this.destinationName = entity.getPkg().getDestination().getName();
+        this.durationName = entity.getPkg().getDuration().getName();
+        this.hotelName = entity.getPkg().getHotel().getName();
+        this.hotelFee = entity.getPkg().getHotelFee();
+        this.serviceFee = entity.getPkg().getServiceFee();
+        this.transportFee = entity.getPkg().getTransportFee();
+        this.budgetAmount = entity.getPkg().getBudgetAmount();
+        
+        }
+        if(entity.getCustomer()!= null) {
         this.customerId = entity.getCustomer().getId();
         this.customerName = entity.getCustomer().getName();
+        }
+        if(entity.getPaymentMethod()!=null) {
         this.paymentMethodId = entity.getPaymentMethod().getId();
         this.paymentMethodName = entity.getPaymentMethod().getName();
+        }
         this.departureDate = entity.getPkg().getDepartureDate();
         this.travelersQty = entity.getTravelersQty();
         this.status = entity.getStatus();

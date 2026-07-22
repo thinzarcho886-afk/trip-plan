@@ -20,12 +20,12 @@
     <v-spacer></v-spacer>
     <v-spacer></v-spacer>
 
-    <div class="d-flex align-center" style="gap: 60px">
+    <div class="d-flex align-center" style="gap: 20px">
       <v-btn variant="text" to="/" :prepend-icon="mdiHome"  class="text-white" exact>{{ t('Home') }}</v-btn>
       <v-btn variant="text" to="/about" :prepend-icon="mdiInformation" class="text-white" exact>{{ t('About Us') }}</v-btn>
      <v-btn variant="text" to="/public-hotels" :prepend-icon="mdiDomain" class="text-white">{{ t('Hotels') }}</v-btn>
      <v-btn variant="text" to="/public-transports" :prepend-icon="mdiCar3Plus" class="text-white">{{ t('Transport') }}</v-btn>
-    <v-btn variant="text" to="/booking-list" :prepend-icon="mdiClipboardList" class="text-white">{{ t('Booking List') }}</v-btn>
+    <v-btn variant="text" to="/bookingHistoryPublic" :prepend-icon="mdiClipboardList" class="text-white">{{ t('Booking List') }}</v-btn>
     </div>
 
     <v-spacer></v-spacer>
