@@ -1,6 +1,6 @@
 <template>
   <List
-    :title="t(' Duration', 2)"
+    :title="t('Duration', 2)"
     :breadcrumbs="breadcrumbs"
     :actions="actions"
     :filters="filters"

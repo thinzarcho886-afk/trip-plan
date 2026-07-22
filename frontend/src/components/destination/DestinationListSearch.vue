@@ -18,8 +18,8 @@
         :label="t('Status')"
         :items="[
           { title: t('All'), value: null },
-          { title: t('Active'), value: Status.ACTIVE },
-          { title: t('Inactive'), value: Status.INACTIVE }
+          { title: t('ACTIVE'), value: Status.ACTIVE },
+          { title: t('INACTIVE'), value: Status.INACTIVE }
         ]"
         hide-details
         density="compact"

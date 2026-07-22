@@ -80,7 +80,7 @@
               <EnumPicker
                 v-model:value="userModel.role"
                 :label="t('Role')"
-                :enum="Role"
+                :enum="{ [t('SYSADMIN')]: Role.SYSADMIN, [t('ADMIN')]: Role.ADMIN, [t('CUSTOMER')]: Role.CUSTOMER, }"
                 :rules="[rules.required]"
                 :readonly="!!userModel.id"
               ></EnumPicker>

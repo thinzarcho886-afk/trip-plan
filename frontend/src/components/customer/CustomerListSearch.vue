@@ -12,16 +12,6 @@
       </v-col>
       <v-col cols="12" sm="6">
         <v-text-field
-          v-model="searchParams.email"
-          density="compact"
-          variant="outlined"
-          :rules="[rules.email]"
-          hide-details
-          :label="t('Customer Email')"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" sm="6">
-        <v-text-field
           v-model="searchParams.phoneNumber"
           density="compact"
           variant="outlined"

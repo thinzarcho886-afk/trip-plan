@@ -45,7 +45,7 @@
                   <v-text-field
                     name="name"
                     v-model="hotelModel.name"
-                    :label="t('Hotel Name') + ' *'"
+                    :label="t('Hotel Name') + '*'"
                     :rules="[rules.required]"
                     variant="outlined"
                     density="comfortable"

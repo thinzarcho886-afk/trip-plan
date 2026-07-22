@@ -13,7 +13,7 @@
       <EnumPicker
         v-model:value="searchParams.role"
         :label="t('Role')"
-        :enum="Role"
+        :enum="{ [t('SYSADMIN')]: Role.SYSADMIN, [t('ADMIN')]: Role.ADMIN, [t('CUSTOMER')]: Role.CUSTOMER, }"
         :add-all="true"
         density="compact"
         variant="outlined"
