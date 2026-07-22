@@ -16,7 +16,14 @@
         @clear-filter="clearFilter"
         :use-mobile="true"
       >
-
+        <template v-slot:item.imageUrl="{ item }">
+          <v-avatar size="40" rounded="lg" class="my-1">
+            <v-img
+              :src="item.imageUrl || 'https://via.placeholder.com/40'"
+              cover
+            ></v-img>
+          </v-avatar>
+        </template>
       
 
         <template v-slot:[`item.name`]="{ item }">
@@ -81,7 +88,7 @@ const authStore = useAuthStore();
 const busListMeta = computed<ListMeta>(() => {
   return {
     headers: [
-     
+      { title: t('Image'), key: 'imageUrl', minWidth: 150 },
       { title: t('Name'), key: 'name', minWidth: 150 },
       { title: t('Status'), key: 'status', minWidth: 150 },
       { title: t('Created Date'), key: 'createdDate', width: 150 },

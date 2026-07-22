@@ -33,4 +33,6 @@ public class Bus extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status")
 	private Status status = Status.ACTIVE;
+	@Column(name="image_url")
+	private String imageUrl;
 }

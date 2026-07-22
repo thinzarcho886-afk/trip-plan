@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar elevation="0" height="80" color="secondary" class="px-6">
+  <v-app-bar elevation="0" height="80" color="primary" class="px-6">
     <div
       class="d-flex align-center"
       @click="goToDashboard"
@@ -22,9 +22,10 @@
 
     <div class="d-flex align-center" style="gap: 60px">
       <v-btn variant="text" to="/" :prepend-icon="mdiHome"  class="text-white" exact>{{ t('Home') }}</v-btn>
-     <v-btn variant="text" to="/public-hotels" :prepend-icon="mdiDomain">{{ t('Hotels') }}</v-btn>
-     <!-- <v-btn variant="text" to="/room" :prepend-icon="mdiBed">{{ t('Room') }}</v-btn>-->
       <v-btn variant="text" to="/about" :prepend-icon="mdiInformation" class="text-white" exact>{{ t('About Us') }}</v-btn>
+     <v-btn variant="text" to="/public-hotels" :prepend-icon="mdiDomain" class="text-white">{{ t('Hotels') }}</v-btn>
+     <v-btn variant="text" to="/public-transports" :prepend-icon="mdiCar3Plus" class="text-white">{{ t('Transport') }}</v-btn>
+    <v-btn variant="text" to="/booking-list" :prepend-icon="mdiClipboardList" class="text-white">{{ t('Booking List') }}</v-btn>
     </div>
 
     <v-spacer></v-spacer>
@@ -109,6 +110,9 @@ import {
   mdiAccountEdit,
   mdiLogout,
   mdiBeach,
+  mdiAccountDetails,
+  mdiClipboardList,
+  mdiCar3Plus,
 } from '@mdi/js';
 
 const authStore = useAuthStore();

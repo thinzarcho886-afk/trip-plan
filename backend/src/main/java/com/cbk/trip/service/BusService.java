@@ -1,5 +1,6 @@
 package com.cbk.trip.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.cbk.trip.dto.BusDTO;
 import com.cbk.trip.dto.PageableDTO;
@@ -19,6 +21,7 @@ import com.cbk.trip.enums.Status;
 import com.cbk.trip.repository.BusRepository;
 import com.cbk.trip.specification.BusSpecs;
 import com.cbk.trip.utils.CommonUtil;
+import com.cbk.trip.utils.NginxUtil;
 
 /**
  * @author HtetAungThan
@@ -42,12 +45,21 @@ public class BusService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public BusDTO save(@Valid BusDTO busDTO, boolean isUpdate) {
+	public BusDTO save(@Valid BusDTO busDTO, boolean isUpdate) throws IOException {
 		Bus bus = isUpdate ? CommonUtil.checkValidById(busDTO.getId(), busRepository) : new Bus();
 		
 		bus.setName(busDTO.getName());
 		bus.setStatus(busDTO.getStatus());
-		
+		 if (StringUtils.isEmpty(busDTO.getImageUrl())) {
+	        	bus.setImageUrl(null);
+	        } else if (busDTO.getImageUrl().startsWith("data:image")) {
+	            // detail.getId() ပေါ်မူတည်ပြီး အသစ်သိမ်းမလား၊ အဟောင်းပေါ် update လုပ်မလား ခွဲခြားခြင်း
+	            if (bus.getId() == null) {
+	            	bus.setImageUrl(NginxUtil.saveImage(busDTO.getImageUrl(), "bus"));
+	            } else {
+	            	bus.setImageUrl(NginxUtil.updateImage(busDTO.getImageUrl(), bus.getImageUrl(), "bus", false));
+	            }
+	        }
 		return new BusDTO(busRepository.save(bus));
 	}
 

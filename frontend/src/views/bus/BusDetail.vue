@@ -19,8 +19,19 @@
       >
         <v-container fluid class="pa-0">
           <v-row>
-            
-
+            <v-col cols="12" md="4" class="d-flex justify-center align-start">
+              <v-card variant="outlined" class="pa-4 w-100" rounded="lg" style="border-style: dashed; background-color: #f8f9fa;">
+                <ImageInput
+                  :image-url="busModel.imageUrl"
+                  v-model="busModel.imageUrl"
+                  @delete="busModel.imageUrl = null"
+                  image-height="180px"
+                  image-width="100%"
+                  width="100%"
+                  class="mx-auto"
+                  :label="t('Bus Type Image')"
+                ></ImageInput>
+              </v-card></v-col>
             <v-col cols="12" md="8">
               <v-row>
                 <v-col cols="12" sm="6" class="py-1">

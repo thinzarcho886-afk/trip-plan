@@ -38,7 +38,7 @@ public class BusSpecs {
 					predicates.add(namePredicate);
 				}
 				if (busTypeId != null) {
-		            Join<Bus, Transport> transports = root.join("transport");
+		            Join<Bus, Transport> transports = root.join("transports");
 		            predicates.add(criteriaBuilder.equal(transports.get("busType").get("id"), busTypeId));
 		        }
 

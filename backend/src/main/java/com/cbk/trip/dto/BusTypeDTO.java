@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.cbk.trip.entity.BusType;
 import com.cbk.trip.enums.Status;
+import com.cbk.trip.utils.NginxUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -42,8 +43,9 @@ public class BusTypeDTO extends CommonDTO {
 
 	@Length(max = 255, message = "Description length must not be greater than 255")
 	private String description;
-
 	private Status status = Status.ACTIVE;
+	private String imageUrl;
+	private String image;
 	private List<BusDTO> buses = new ArrayList<>();
 	private List<TransportDTO> transportList = new ArrayList<>();
 
@@ -53,6 +55,7 @@ public class BusTypeDTO extends CommonDTO {
 		this.availableSeats = entity.getAvailableSeats();
 		this.description = entity.getDescription();
 		this.status = entity.getStatus();
+		this.imageUrl = NginxUtil.getFileUrl(entity.getImageUrl(), true);
 		if (entity.getTransports() != null) {
 			entity.getTransports().forEach(transport -> {
 				this.transportList.add(new TransportDTO(transport));

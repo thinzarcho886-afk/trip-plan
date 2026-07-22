@@ -35,12 +35,12 @@
                     class="bg-grey-lighten-2"
                   ></v-img>
                   <!-- Destination Name -->
-                  <div class="text-subtitle-1 font-weight-bold text-primary mb-1">
+                  <div class="text-subtitle-1 font-weight-bold text-primary mb-1" >
                     📍 {{ item.raw.destinationName || item.raw.destination }}
                   </div>
 
                   <!-- Hotel Name -->
-                  <div class="text-h6 font-weight-black text-grey-darken-3 mb-3">
+                  <div class="text-h6 font-weight-black text-grey-darken-3 mb-3" >
                     {{ item.raw.name }}
                   </div>
                 </div>

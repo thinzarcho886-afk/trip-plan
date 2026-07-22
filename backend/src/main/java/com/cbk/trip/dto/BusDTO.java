@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 
 import com.cbk.trip.entity.Bus;
 import com.cbk.trip.enums.Status;
+import com.cbk.trip.utils.NginxUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -32,10 +33,11 @@ public class BusDTO extends CommonDTO {
 	private String name;
 
 	private Status status = Status.ACTIVE;
-
+	private String imageUrl;
 	public BusDTO(Bus entity) {
 		super(entity);
 		this.name = entity.getName();
 		this.status = entity.getStatus();
+		this.imageUrl = NginxUtil.getFileUrl(entity.getImageUrl(), true);
 	}
 }

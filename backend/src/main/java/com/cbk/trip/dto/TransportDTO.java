@@ -3,6 +3,7 @@ package com.cbk.trip.dto;
 import java.io.Serializable;
 
 import com.cbk.trip.entity.Transport;
+import com.cbk.trip.utils.NginxUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -21,7 +22,7 @@ public class TransportDTO implements Serializable{
     
     private Long busId;
     private String busName;
-
+    private String imageUrl;
     public TransportDTO() { super(); }
 
     public TransportDTO(Transport entity) {
@@ -32,6 +33,7 @@ public class TransportDTO implements Serializable{
         if (entity.getBus() != null) {
             this.busId = entity.getBus().getId();
             this.busName = entity.getBus().getName();
+            this.imageUrl = NginxUtil.getFileUrl(entity.getBus().getImageUrl(), true);
         }
     }
 }

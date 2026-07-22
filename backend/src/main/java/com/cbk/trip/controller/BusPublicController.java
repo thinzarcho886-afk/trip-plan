@@ -1,7 +1,5 @@
 package com.cbk.trip.controller;
 
-import java.io.IOException;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +29,11 @@ import com.cbk.trip.utils.CommonUtil;
  * @since 11/Jan/2025
  */
 @RestController
-@RequestMapping("/api/auth/bus")
-public class BusController {
+@RequestMapping("/api/bus")
+public class BusPublicController {
 
 	@Autowired
 	BusService busService;
-
-	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@GetMapping
 	public ResponseEntity<?> getBuses(@Param("name") String name, @Param("status") Status status,@Param("busTypeId")Long busTypeId,
 			@PageableDefault(size = Integer.MAX_VALUE, sort = "updatedDate") Pageable pageable) {
@@ -45,39 +41,6 @@ public class BusController {
 		PageableDTO busDTO = busService.getBuses(name, status,busTypeId, pageable);
 		return new ResponseEntity<>(busDTO, HttpStatus.OK);
 	}
-
-	@PreAuthorize("hasAuthority('SYSADMIN')")
-	@PostMapping
-	public ResponseEntity<?> register(@Valid @RequestBody BusDTO busDTO, Errors errors) throws IOException{
-
-		if (busService.isNameDuplicate(busDTO.getName(), null)) {
-			errors.rejectValue("name", "error.name", "Name already duplicated");
-		}
-
-		if (errors.hasErrors()) {
-			return CommonUtil.getFieldErrors(errors);
-		}
-
-		BusDTO respondDTO = busService.save(busDTO, false);
-		return new ResponseEntity<>(respondDTO, HttpStatus.CREATED);
-	}
-
-	@PreAuthorize("hasAuthority('SYSADMIN')")
-	@PutMapping
-	public ResponseEntity<?> update(@Valid @RequestBody BusDTO busDTO, Errors errors) throws IOException{
-
-		if (busService.isNameDuplicate(busDTO.getName(), busDTO.getId())) {
-			errors.rejectValue("name", "error.name", "Name already duplicated");
-		}
-
-		if (errors.hasErrors()) {
-			return CommonUtil.getFieldErrors(errors);
-		}
-
-		busService.save(busDTO, true);
-		return new ResponseEntity<>(CommonUtil.responseSuccessMessage("Bus updated"), HttpStatus.OK);
-	}
-	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable(required = true, name = "id") Long id) {
 

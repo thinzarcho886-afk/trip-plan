@@ -57,7 +57,7 @@
     </template>
   </v-app-bar>
 
-  <v-dialog v-model="logoutDialog" max-width="380" persistent>
+  <v-dialog v-model="logoutDialog" max-width="380" peristent>
     <v-card class="pa-4" rounded="xl" elevation="10">
       <v-card-title
         class="text-h5 font-weight-bold text-center justify-center pt-4"

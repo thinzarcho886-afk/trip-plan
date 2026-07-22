@@ -11,6 +11,14 @@
         :api-params="apiParams"
         @clear-filter="clearFilter"
       >
+        <template v-slot:item.imageUrl="{ item }">
+          <v-avatar size="40" rounded="lg" class="my-1">
+            <v-img
+              :src="item.imageUrl || 'https://via.placeholder.com/40'"
+              cover
+            ></v-img>
+          </v-avatar>
+        </template>
         <template v-slot:[`item.name`]="{ item }">
           <router-link
             class="text-decoration-none text-primary"
@@ -93,6 +101,7 @@ const actions = computed<ActionButton[]>(() => [
 const busTypeListMeta = computed<ListMeta>(() => {
   return {
     headers: [
+       { title: t('Image'), key: 'imageUrl', width: 150 },
       {
         title: t('Bus Type Name'),
         key: 'name',

@@ -1,5 +1,7 @@
 package com.cbk.trip.controller;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +49,7 @@ public class BusTypeController {
 
 	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@PostMapping
-	public ResponseEntity<?> register(@Valid @RequestBody BusTypeDTO busTypeDTO, Errors errors) {
-
+	public ResponseEntity<?> register(@Valid @RequestBody BusTypeDTO busTypeDTO, Errors errors) throws IOException{
 		if (busTypeService.isNameDuplicate(busTypeDTO.getName(), null)) {
 			errors.rejectValue("name", "error.name", "Name already duplicated");
 		}
@@ -63,7 +64,7 @@ public class BusTypeController {
 
 	@PreAuthorize("hasAnyAuthority('SYSADMIN','CUSTOMER')")
 	@PutMapping
-	public ResponseEntity<?> update(@Valid @RequestBody BusTypeDTO busTypeDTO, Errors errors) {
+	public ResponseEntity<?> update(@Valid @RequestBody BusTypeDTO busTypeDTO, Errors errors) throws IOException {
 
 		if (busTypeService.isNameDuplicate(busTypeDTO.getName(), busTypeDTO.getId())) {
 			errors.rejectValue("name", "error.name", "Name already duplicated");

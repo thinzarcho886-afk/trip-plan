@@ -26,8 +26,6 @@ export const TransportModel = (): Transport => ({
   busTypeId: null,
   busId: null,
   busName: '',
-  
-
 });
 
 

@@ -17,6 +17,8 @@ export interface BusType extends CommonDto {
   availableSeats:BigInteger|null;
   description:string;
   status: string | Status;
+  imageUrl: string | null;
+  image: string | null;
 }
 
 export const BusTypeModel  = (): BusType => ({
@@ -24,6 +26,9 @@ export const BusTypeModel  = (): BusType => ({
   availableSeats:null,
   description:'',
   status: Status.ACTIVE,
+  imageUrl: '',
+  image: '',
+
 });
 export interface BusDetail extends CommonDto{
   description:string;

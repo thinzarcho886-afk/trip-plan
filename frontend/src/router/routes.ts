@@ -41,7 +41,9 @@ export const routeNames = {
   busTypeDetail:'BusTypeDetail',
   transportList: 'TransportList',
   transportDetail: 'TransportDetail',
-  packagePublicList:'PackagePublicList'
+  packagePublicList:'PackagePublicList',
+  transportPublicList: 'TransportPublicList',
+  busPublicList: 'BusPublicList',
 };
 
 export const routes: RouteRecordRaw[] = [
@@ -143,6 +145,14 @@ export const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: true }
       },
       {
+    path: '/bus-public-list',
+    name: 'BusPublicList', // 👈 Error ဖြစ်စေသော နာမည်နှင့် အတိအကျ တူရပါမည်
+    component:  () => import(/* webpackChunkName:"BusPublicList" */'../views/bus/BusPublicList.vue'),
+    meta: {
+      public: true, // Public Access ပေးထားပါက
+    },
+  },
+      {
         path: 'about',
         name: 'routeNames.aboutUsPage',
         component: () =>
@@ -150,6 +160,12 @@ export const routes: RouteRecordRaw[] = [
             /* webpackChunkName: "aboutUsPage" */ '../views/aboutUs/AboutUsPage.vue'
           ),
         meta: { requiresAuth: false },
+      },
+      {
+        path: '/public-transports',
+        name: 'routeNames.transportPublicList',
+        component: () => import(/* webpackChunkName: "transportPublicList" */ '../views/transport/TransportPublicList.vue'),
+        meta: { requiresAuth: true }
       },
       {
     path: '/package-detail/:id',

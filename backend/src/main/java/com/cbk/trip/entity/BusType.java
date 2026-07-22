@@ -35,6 +35,9 @@ public class BusType extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status")
 	private Status status = Status.ACTIVE;
+	
+	@Column(name = "image_url")
+	private String imageUrl;
 
 	@OneToMany(mappedBy = "busType")
 	private List<Transport> transports = new ArrayList<>();

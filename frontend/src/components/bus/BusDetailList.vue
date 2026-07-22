@@ -22,6 +22,9 @@
         <thead>
           <tr>
             <th class="text-left" style="min-width: 200px">
+              {{ t('Bus Image') }}
+            </th>
+            <th class="text-left" style="min-width: 200px">
               {{ t('Bus Name') }}
             </th>
             <th class="text-left" style="min-width: 200px">
@@ -46,6 +49,11 @@
             v-for="(busDetail, index) in busList"
             :key="`poDetail${index}`"
           >
+          <td >
+            <v-img :src="busDetail.imageUrl || 'http://via.placeholder.com/40'">
+
+            </v-img>
+          </td>
             <td class="text-left">{{ busDetail.name }}</td>
             <td class="text-left">{{ busDetail.status }}</td>
             <td class="text-left">{{ formatDate(busDetail.createdDateInMilliSeconds as number) }}</td>

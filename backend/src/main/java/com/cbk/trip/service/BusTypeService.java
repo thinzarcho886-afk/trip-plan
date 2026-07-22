@@ -1,5 +1,6 @@
 package com.cbk.trip.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.cbk.trip.dto.BusDTO;
 import com.cbk.trip.dto.BusTypeDTO;
@@ -25,6 +27,7 @@ import com.cbk.trip.repository.BusTypeRepository;
 import com.cbk.trip.repository.TransportRepository;
 import com.cbk.trip.specification.BusTypeSpecs;
 import com.cbk.trip.utils.CommonUtil;
+import com.cbk.trip.utils.NginxUtil;
 
 /**
  * @author HtetAungThan
@@ -55,14 +58,24 @@ public class BusTypeService {
 	}
 
 	@Transactional(rollbackFor = Exception.class)
-	public BusTypeDTO save(@Valid BusTypeDTO busTypeDTO, boolean isUpdate) {
+	public BusTypeDTO save(@Valid BusTypeDTO busTypeDTO, boolean isUpdate) throws IOException{
 		BusType busType = isUpdate ? CommonUtil.checkValidById(busTypeDTO.getId(), busTypeRepository) : new BusType();
 
 		busType.setName(busTypeDTO.getName());
 		busType.setAvailableSeats(busTypeDTO.getAvailableSeats());
 		busType.setDescription(busTypeDTO.getDescription());
 		busType.setStatus(busTypeDTO.getStatus());
-
+		 // Image Upload Logic
+        if (StringUtils.isEmpty(busTypeDTO.getImageUrl())) {
+        	busType.setImageUrl(null);
+        } else if (busTypeDTO.getImageUrl().startsWith("data:image")) {
+            // detail.getId() ပေါ်မူတည်ပြီး အသစ်သိမ်းမလား၊ အဟောင်းပေါ် update လုပ်မလား ခွဲခြားခြင်း
+            if (busType.getId() == null) {
+            	busType.setImageUrl(NginxUtil.saveImage(busTypeDTO.getImageUrl(), "busType"));
+            } else {
+            	busType.setImageUrl(NginxUtil.updateImage(busTypeDTO.getImageUrl(), busType.getImageUrl(), "busType", false));
+            }
+        }
 		BusType savedBusType = busTypeRepository.save(busType);
 		return new BusTypeDTO(savedBusType);
 	}
@@ -112,7 +125,6 @@ public class BusTypeService {
 	    Transport transport = new Transport();
 	    transport.setBusType(busType);
 	    transport.setBus(bus);
-	    
 	    transportRepository.save(transport);
 	}
 

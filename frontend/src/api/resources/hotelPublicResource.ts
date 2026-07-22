@@ -14,12 +14,3 @@ export const hotelPublicApiResource: ApiResources<HotelPublicApiResource> = {
   getById: { method: 'get', url: '/hotel/:id' },
 };
 
-// export const fetchHotelList = async (params: any) => {
-//   try {
-//     const response = await axios.get('/api/auth/hotel', { params });
-//     return response.data; 
-//   } catch (error) {
-//     console.error("API Error:", error);
-//     return { list: [] }; 
-//   }
-// };

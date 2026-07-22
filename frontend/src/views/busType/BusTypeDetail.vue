@@ -28,6 +28,22 @@
             <v-window-item value="info">
               <v-container>
                 <v-row>
+                  <v-col cols="12" md="4" class="d-flex justify-center align-start">
+              <v-card variant="outlined" class="pa-4 w-100" rounded="lg" style="border-style: dashed; background-color: #f8f9fa;">
+                <ImageInput
+                  :image-url="busTypeModel.imageUrl"
+                  v-model="busTypeModel.imageUrl"
+                  @delete="busTypeModel.imageUrl = null"
+                  image-height="180px"
+                  image-width="100%"
+                  width="100%"
+                  class="mx-auto"
+                  :label="t('Bus Type Image')"
+                ></ImageInput>
+              </v-card>
+            </v-col>
+                </v-row>
+                <v-row>
                   <v-col cols="12" md="6" class="py-1">
                     <v-text-field
                       name="name"
@@ -119,7 +135,7 @@ import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
 import { Role } from '../../constants/Role';
 import { busTypeApiResource } from '../../api/resources/busTypeResource';
-
+import ImageInput from '../../components/common/ImageInput.vue';
 const { t } = useI18n({ useScope: 'global' });
 const detailListForm = ref(true);
 const tab = ref<string | null>('info');
