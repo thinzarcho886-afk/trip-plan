@@ -16,13 +16,13 @@
               ></v-img>
               <div>
                 <div class="text-subtitle-1 font-weight-bold text-green-darken-2">
-                  Budget Friendly
+                  {{t('Budget Friendly')}}
                 </div>
                 <h1 class="text-h5 font-weight-black text-green-darken-3">
-                  Trip Planner......... 📍
+                  {{t('Trip Planner......... 📍')}}
                 </h1>
                 <p class="text-caption font-weight-bold text-grey-darken-1 font-italic mb-0">
-                  Travel More, Spend Less, Enjoy Every Moment
+                  {{t('Travel More, Spend Less, Enjoy Every Moment')}}
                 </p>
               </div>
             </div>
@@ -30,7 +30,7 @@
             <!-- About Us Heading & Route Graphic -->
             <div class="mb-4">
               <h2 class="text-h5 font-weight-bold text-light-green-darken-3 font-italic">
-                ABOUT US
+                {{t('ABOUT US')}}
               </h2>
               <v-img
                 src="../../assets/images/airplane.jpg"
@@ -42,7 +42,7 @@
 
             <!-- About Us Detail Paragraph -->
             <p class="text-body-2 text-grey-darken-3 leading-relaxed mb-6">
-              Budget Friendly Trip Planner is a travel service designed to help you explore amazing destinations without overspending. We provide budget-friendly travel plans, hotel recommendations, and helpful travel trips to make your journey easy, enjoyable, and unforgettable.
+              {{t('Budget Friendly Trip Planner is a travel service designed to help you explore amazing destinations without overspending. We provide budget-friendly travel plans, hotel recommendations, and helpful travel trips to make your journey easy, enjoyable, and unforgettable.')}}'
             </p>
 
             <!-- Features Grid (2x2 Layout) -->
@@ -85,15 +85,15 @@
       <div class="text-center text-sm-left">
         <div class="d-flex align-center justify-center justify-sm-start mb-2">
           <h3 class="text-h6 font-weight-black text-teal-darken-4">
-            Our Mission:
+            {{t('Our Mission:')}}'
           </h3>
           <v-chip color="teal-darken-2" size="x-small" class="ml-2 font-weight-bold" variant="flat">
-            GOAL
+            {{t('GOAL')}}
           </v-chip>
         </div>
         
         <p class="text-body-1 text-grey-darken-3 mb-0 leading-relaxed font-weight-medium">
-          To make travel accessible for everyone by offering quality at experiences at budget-friendly prices.
+          {{t('To make travel accessible for everyone by offering quality at experiences at budget-friendly prices.')}}'
         </p>
       </div>
     </div>
@@ -130,7 +130,7 @@
               <v-col cols="12" sm="7">
                 <v-card class="pa-3 rounded-lg bg-green-lighten-5 elevation-0">
                   <h3 class="text-subtitle-2 font-weight-black text-green-darken-3 mb-2 text-center">
-                    CONTACT US
+                    {{t('CONTACT US')}}
                   </h3>
 
                   <div class="d-flex align-center mb-1">
@@ -146,7 +146,7 @@
                   <div class="d-flex align-start">
                     <v-icon color="green-darken-2" size="16" class="mr-2 mt-1" :icon="mdiMapMarker"></v-icon>
                     <span class="text-caption font-weight-medium text-grey-darken-4 leading-tight">
-                      No. 123, Travel Street, Bahan Township, Yangon, Myanmar
+                      {{t('No. 123, Travel Street, Bahan Township, Yangon, Myanmar')}}
                     </span>
                   </div>
                 </v-card>
@@ -161,6 +161,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import { 
   mdiCurrencyUsd, 
   mdiHomeCityOutline, 
@@ -171,27 +173,28 @@ import {
   mdiEmail, 
   mdiMapMarker 
 } from '@mdi/js';
+const { t } = useI18n();
 
 const features = ref([
   {
     icon: mdiCurrencyUsd,
-    title: 'BUDGET FRIENDLY',
-    description: 'Best travel options that fit your budget.'
+    title: t('BUDGET FRIENDLY'),
+    description: t('Best travel options that fit your budget.')
   },
   {
     icon: mdiHomeCityOutline,
-    title: 'TRUSTED STAYS',
-    description: 'Carefully selected hotels that are affordable and comfortable.'
+    title: t('TRUSTED STAYS'),
+    description: t('Carefully selected hotels that are affordable and comfortable.')
   },
   {
     icon: mdiMapSearchOutline,
-    title: 'CURATED ITINERARIES',
-    description: 'Well-planned itineraries to save time and money'
+    title: t('CURATED ITINERARIES'),
+    description: t('Well-planned itineraries to save time and money')
   },
   {
     icon: mdiHeadset,
-    title: 'SUPPORT & GUIDANCE',
-    description: "We're here to help you before, during ,and after your trip."
+    title: t('SUPPORT & GUIDANCE'),
+    description: t("We're here to help you before, during ,and after your trip.")
   }
 ]);
 </script>

@@ -1,4 +1,5 @@
 <template>
+
   <v-dialog v-model="dialog" width="auto">
     <v-card>
       <v-card-title class="d-flex">
@@ -72,6 +73,14 @@
           v-model:selected="selected"
           @clear-filter="onClearFilter"
         >
+    <template v-slot:[`item.imageUrl`]="{ item }">
+            <v-avatar size="40" rounded="lg" class="my-1">
+            <v-img
+              :src="item.imageUrl || 'https://via.placeholder.com/40'"
+              cover
+            ></v-img>
+          </v-avatar>
+        </template>
         <template v-slot:[`item.createdDate`]="{ item }">
           <ListDateTime
             :milliseconds="item.createdDateInMilliSeconds"
@@ -130,6 +139,7 @@ const filterParams = ref<BusListParams>(
 
 const busListMeta: ListMeta = {
   headers: [
+     { title: t('Image'), key: 'imageUrl', width: 150 },
     {
       title: t('Bus Name'),
       key: 'name',

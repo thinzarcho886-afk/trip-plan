@@ -21,10 +21,10 @@
           <!-- Destination & Package Name -->
           <div class="mb-4">
             <h2 class="text-h6 font-weight-bold text-light-green-darken-3 mb-1">
-              Destination: {{ packageModel.destinationName || '-' }}
+              {{t('Destination')}}: {{ packageModel.destinationName || '-' }}
             </h2>
             <h1 class="text-h5 font-weight-black text-light-green-darken-4 mb-2">
-              Package Name: {{ packageModel.name || '-' }}
+              {{t('Package Name')}}: {{ packageModel.name || '-' }}
             </h1>
             
             <div v-if="packageModel.description" class="d-flex align-center my-2 text-body-1 font-weight-medium text-grey-darken-3">
@@ -37,7 +37,7 @@
           <div class="mb-6">
             <div class="d-flex align-center font-weight-bold text-subtitle-1 text-grey-darken-3 mb-2">
               <span class="mr-2">🚌</span>
-              <span>Places to visits</span>
+              <span>{{t('Places to visits')}}</span>
             </div>
             <ul class="pl-8 text-body-2 font-weight-bold text-grey-darken-3">
               <li 
@@ -48,7 +48,7 @@
                 {{ place.placeToVisit }}
               </li>
               <li v-if="!packageModel.packageDetails || packageModel.packageDetails.length === 0" class="text-grey">
-                No places listed
+                {{t('No places listed')}}
               </li>
             </ul>
           </div>
@@ -56,43 +56,43 @@
           <!-- Price & Fees Breakdown -->
           <div class="mb-6 text-body-2 font-weight-bold text-grey-darken-3">
             <div class="d-flex mb-2">
-              <span style="width: 140px;">Budget Amount:</span>
-              <span>{{ packageModel.budgetAmount ? `${packageModel.budgetAmount}mmk` : '-' }}</span>
+              <span style="width: 140px;">{{t('Budget Amount')}}:</span>
+              <span>{{ packageModel.budgetAmount ? `${packageModel.budgetAmount}` : '-' }}{{t('MMK')}}</span>
             </div>
             <div class="d-flex mb-1">
-              <span style="width: 140px;">Transport Fee:</span>
-              <span>: {{ packageModel.transportFee ? `${packageModel.transportFee}mmk` : '-' }}</span>
+              <span style="width: 140px;">{{t('Transport Fee')}}:</span>
+              <span>: {{ packageModel.transportFee ? `${packageModel.transportFee}` : '-' }}{{t('MMK')}}</span>
             </div>
             <div class="d-flex mb-1">
-              <span style="width: 140px;">Hotel Fee:</span>
-              <span>: {{ packageModel.hotelFee ? `${packageModel.hotelFee}mmk` : '-' }}</span>
+              <span style="width: 140px;">{{t('Hotel Fee')}}:</span>
+              <span>: {{ packageModel.hotelFee ? `${packageModel.hotelFee}` : '-' }}{{t('MMK')}}</span>
             </div>
             <div class="d-flex mb-1">
-              <span style="width: 140px;">Service:</span>
-              <span>: {{ packageModel.serviceFee ? `${packageModel.serviceFee}mmk` : '-' }}</span>
+              <span style="width: 140px;">{{t('Service Fee')}}:</span>
+              <span>: {{ packageModel.serviceFee ? `${packageModel.serviceFee}` : '-' }}{{t('MMK')}}</span>
             </div>
           </div>
 
           <!-- Transport, Hotel & Additional Services Info -->
           <div class="mb-6 text-body-2 font-weight-bold text-grey-darken-3">
             <div class="d-flex mb-2">
-              <span style="width: 140px;">Bus Types:</span>
+              <span style="width: 140px;">{{t('Bus Type')}}:</span>
               <span>{{ packageModel.busTypeName || '-' }}</span>
             </div>
             <div class="d-flex mb-2">
-              <span style="width: 140px;">Bus Name:</span>
+              <span style="width: 140px;">{{t('Bus Name')}}:</span>
               <span>{{ packageModel.busName || '-' }}</span>
             </div>
             <div class="d-flex mb-2">
-              <span style="width: 140px;">Hotel Name:</span>
+              <span style="width: 140px;">{{t('Hotel Name')}}:</span>
               <span>{{ packageModel.hotelName || '-' }}</span>
             </div>
             <div class="d-flex mb-2">
-              <span style="width: 140px;">Duration Date:</span>
+              <span style="width: 140px;">{{t('Duration')}}:</span>
               <span>{{ packageModel.durationName || '-' }}</span>
             </div>
             <div class="d-flex align-start mb-2">
-              <span style="width: 140px;" class="flex-shrink-0">Extra Services:</span>
+              <span style="width: 140px;" class="flex-shrink-0">{{t('Extra Services')}}:</span>
               <span>{{ packageModel.extraService || '-' }}</span>
             </div>
           </div>
@@ -107,7 +107,7 @@
               style="width: 280px;"
               @click="handleBooking"
             >
-              Booking
+              {{t('Booking')}}
             </v-btn>
           </div>
         </v-col>

@@ -33,7 +33,7 @@
 
         <!-- For Travelers / Users -->
         <v-col cols="12" sm="4" md="3" class="text-left">
-          <div class="text-subtitle-1 font-weight-black text-grey-darken-4 mb-3">{{ t('For Travelers') }}</div>
+          <div class="text-subtitle-1 font-weight-black text-grey-darken-4 mb-3">{{ t('For Travellers') }}</div>
           <div class="d-flex flex-column space-y-1">
             <a href="#" @click.prevent="navigateTo('bookingHistoryPublic')" class="footer-link text-body-2">{{ t('Booking List') }}</a></div>
         </v-col>

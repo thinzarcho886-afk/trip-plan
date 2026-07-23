@@ -158,6 +158,7 @@ const busListPicker = ref<BusListPicker>({
 
 const onApplyResourceListPicker = (resources: Bus[]) => {
   const newItems = resources.map((rs) => ({
+    imageUrl: rs.imageUrl,
     id: rs.id,
     name: rs.name,
     status: rs.status,

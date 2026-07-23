@@ -1,7 +1,7 @@
 <template>
-  <v-app-bar elevation="0" height="80" color="primary" class="px-6">
+  <v-app-bar elevation="0" height="80" color="primary" class="px-2">
     <div
-      class="d-flex align-center"
+      class="d-flex align-center ml-n1"
       @click="goToDashboard"
       style="cursor: pointer"
       title="Go to Dashboard"
@@ -11,7 +11,7 @@
       <span class="text-subtitle-1 font-weight-black text-white text-uppercase">
         {{t('Budget Friendly')}}
       </span>
-      <span class="text-caption font-weight-bold text-green-darken-4" style="margin-top: -4px;">
+      <span class="text-caption font-weight-bold text-green-darken-4 mt-0.5" style="margin-top: -4px;">
         {{t('Trip Planner Management System')}}
       </span>
     </div>    </div>
@@ -20,7 +20,7 @@
     <v-spacer></v-spacer>
     <v-spacer></v-spacer>
 
-    <div class="d-flex align-center" style="gap: 20px">
+    <div class="d-flex align-center" style="gap: 5px">
       <v-btn variant="text" to="/" :prepend-icon="mdiHome"  class="text-white" exact>{{ t('Home') }}</v-btn>
       <v-btn variant="text" to="/about" :prepend-icon="mdiInformation" class="text-white" exact>{{ t('About Us') }}</v-btn>
      <v-btn variant="text" to="/public-hotels" :prepend-icon="mdiDomain" class="text-white">{{ t('Hotels') }}</v-btn>
@@ -30,7 +30,7 @@
 
     <v-spacer></v-spacer>
 
-    <div class="navbar-actions d-flex align-center" style="gap: 16px;">
+    <div class="navbar-actions d-flex align-center" style="gap: 5px;">
       
       <div class="locale-selector-wrapper">
         <LocaleSelect></LocaleSelect>
@@ -58,7 +58,7 @@
             <template v-slot:prepend>
               <v-icon :icon="mdiAccountEdit" color="#06402B"></v-icon>
             </template>
-            <v-list-item-title class="font-weight-medium">Edit Profile</v-list-item-title>
+            <v-list-item-title class="font-weight-medium">{{t('Edit Profile')}}</v-list-item-title>
           </v-list-item>
 
           <v-divider></v-divider>
@@ -67,7 +67,7 @@
             <template v-slot:prepend>
               <v-icon :icon="mdiLogout" color="error"></v-icon>
             </template>
-            <v-list-item-title class="font-weight-medium text-error">Logout</v-list-item-title>
+            <v-list-item-title class="font-weight-medium text-error">{{t('Logout')}}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -81,7 +81,7 @@
         to="/loginPage"
         :prepend-icon="mdiAccountCircle"
       >
-        Login
+        {{t('Login')}}
       </v-btn>
 
     </div>
@@ -121,7 +121,7 @@ const router = useRouter();
 const goToDashboard = () => {
   const userRole = authStore.userRole;
 
-  if (isLoggedIn.value && (userRole === 'SYSADMIN' || userRole === 'OWNER')) {
+  if (isLoggedIn.value && (userRole === 'SYSADMIN')) {
     router.push('/admin');
   } else {
     router.push('/');

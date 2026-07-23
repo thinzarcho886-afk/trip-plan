@@ -9,7 +9,7 @@
       >
         <div class="d-flex align-center fill-height pa-6 bg-black-transparent">
           <div>
-            <h1 class="text-h4 font-weight-bold text-white">Book Your Trip</h1>
+            <h1 class="text-h4 font-weight-bold text-white">{{t('Book Your Trip')}}</h1>
           </div>
         </div>
       </v-img>
@@ -21,8 +21,8 @@
           <div class="d-flex align-center mb-4">
             <v-icon :icon="mdiBookOpenOutline" color="#06402B" class="mr-2"></v-icon>
             <div>
-              <h2 class="text-h6 font-weight-bold">Booking Information</h2>
-              <div class="text-caption text-grey-darken-1">Fill in your trip details and traveler information</div>
+              <h2 class="text-h6 font-weight-bold">{{t('Booking Information')}}</h2>
+              <div class="text-caption text-grey-darken-1">{{t('Fill in your trip details and traveler information')}}</div>
             </div>
           </div>
 
@@ -34,7 +34,7 @@
                 v-model:destination-name="bookingData.destinationName"
                 variant="outlined"
                 density="comfortable"
-                label="Destination"
+                :label="t('Destination')"
               ></destination-picker>
             </v-col>
 
@@ -46,7 +46,7 @@
                 v-model:destination-id="bookingData.destinationId"
                 variant="outlined"
                 density="comfortable"
-                label="Package Name"
+                :label="t('Package Name')"
                 @change="onPackagePickerChange"
               ></package-picker>
             </v-col>
@@ -54,7 +54,7 @@
             <v-col cols="12" sm="4">
               <v-text-field
                 :model-value="formattedDepartureDate"
-                label="Departure Date"
+                :label="t('Departure Date')"
                 variant="outlined"
                 density="comfortable"
                 readonly
@@ -64,7 +64,7 @@
             <v-col cols="12" sm="6">
               <v-text-field
                 v-model="bookingData.durationName"
-                label="Duration"
+                :label="t('Duration')"
                 variant="outlined"
                 density="comfortable"
                 readonly
@@ -73,7 +73,7 @@
             <v-col cols="12" sm="6">
               <v-text-field
                 v-model.number="travellerQty"
-                label="Travellers Qty"
+                :label="t('Travellers Qty')"
                 type="number"
                 min="1"
                 variant="outlined"
@@ -84,7 +84,7 @@
             <v-col cols="12" sm="4">
               <v-text-field
                 v-model="bookingData.hotelName"
-                label="Hotels"
+                :label="t('Hotels')"
                 variant="outlined"
                 density="comfortable"
                 readonly
@@ -93,7 +93,7 @@
             <v-col cols="12" sm="4">
               <v-text-field
                 v-model="bookingData.busTypeName"
-                label="Bus Types"
+                :label="t('Bus Types')"
                 variant="outlined"
                 density="comfortable"
                 readonly
@@ -102,7 +102,7 @@
             <v-col cols="12" sm="4">
               <v-text-field
                 v-model="bookingData.busName"
-                label="Bus"
+                :label="t('Bus')"
                 variant="outlined"
                 density="comfortable"
                 readonly
@@ -147,13 +147,13 @@
                 disabled
                 placeholder="Not Logged In"
                 hide-details="auto"
-                :label="t('Customer Phone')"
+                :label="t('Customer Phone No')"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-textarea
                 v-model="bookingData.note"
-                label="Note"
+                :label="t('Note')"
                 rows="2"
                 variant="outlined"
                 :rules="[rules.required]"
@@ -171,7 +171,7 @@
               @click="router.back()"
             >
               <v-icon :icon="mdiArrowLeft" class="mr-1"></v-icon>
-              Go Back
+              {{t('Go Back')}}
             </v-btn>
 
             <v-btn
@@ -180,7 +180,7 @@
               :loading="status === ApiStatus.LOADING"
               @click="confirmBooking"
             >
-              Confirm Booking
+              {{t('Confirm Booking')}}
               <v-icon :icon="mdiArrowRight" class="ml-1"></v-icon>
             </v-btn>
           </div>
@@ -193,7 +193,7 @@
         <v-card class="pa-5" elevation="2" rounded="lg">
           <div class="d-flex align-center text-teal-darken-3 font-weight-bold mb-3">
             <v-icon :icon="mdiMapMarker" class="mr-1"></v-icon>
-            Trip Summary
+            {{t('Trip Summary')}}
           </div>
           <v-img
               :src="bookingData.imageUrl || 'https://via.placeholder.com/40'"
@@ -204,32 +204,31 @@
           
 
           <h3 class="text-h6 font-weight-bold text-teal-darken-4">
-            {{ bookingData.destinationName || 'Destination Name' }}
+            {{ bookingData.destinationName || t('Destination Name') }}
           </h3>
-          <p class="text-caption text-grey-darken-1 mb-4">Nature • Waterfalls • Cool weather</p>
 
           <v-divider class="mb-4"></v-divider>
 
           <!-- Trip Info Details List -->
           <div class="text-body-2 text-grey-darken-3 space-y-2">
             <div class="d-flex align-center justify-space-between py-1">
-              <span><v-icon :icon="mdiCalendar" size="small" class="mr-2" color="teal"></v-icon>Departure Date</span>
+              <span><v-icon :icon="mdiCalendar" size="small" class="mr-2" color="teal"></v-icon>{{t('Departure Date')}}</span>
               <span class="font-weight-medium">{{ formattedDepartureDate || '-' }}</span>
             </div>
             <div class="d-flex align-center justify-space-between py-1">
-              <span><v-icon :icon="mdiAccountGroup" size="small" class="mr-2" color="teal"></v-icon>Travellers Qty</span>
-              <span class="font-weight-medium">{{ travellerQty }} people</span>
+              <span><v-icon :icon="mdiAccountGroup" size="small" class="mr-2" color="teal"></v-icon>{{t('Travellers Qty')}}</span>
+              <span class="font-weight-medium">{{ travellerQty }} {{t('people')}}</span>
             </div>
             <div class="d-flex align-center justify-space-between py-1">
-              <span><v-icon :icon="mdiBus" size="small" class="mr-2" color="teal"></v-icon>Transport</span>
+              <span><v-icon :icon="mdiBus" size="small" class="mr-2" color="teal"></v-icon>{{t('Transport')}}</span>
               <span class="font-weight-medium">{{ bookingData.busTypeName || '-' }} / {{ bookingData.busName || '-' }}</span>
             </div>
             <div class="d-flex align-center justify-space-between py-1">
-              <span><v-icon :icon="mdiBed" size="small" class="mr-2" color="teal"></v-icon>Hotel</span>
+              <span><v-icon :icon="mdiBed" size="small" class="mr-2" color="teal"></v-icon>{{t('Hotel')}}</span>
               <span class="font-weight-medium">{{ bookingData.hotelName || '-' }}</span>
             </div>
             <div class="d-flex align-center justify-space-between py-1">
-              <span><v-icon :icon="mdiClockOutline" size="small" class="mr-2" color="teal"></v-icon>Duration</span>
+              <span><v-icon :icon="mdiClockOutline" size="small" class="mr-2" color="teal"></v-icon>{{t('Duration')}}</span>
               <span class="font-weight-medium">{{ bookingData.durationName || '-' }}</span>
             </div>
           </div>
@@ -238,33 +237,33 @@
 
           <!-- Price Breakdown Table -->
           <div class="text-subtitle-2 font-weight-bold text-teal-darken-4 mb-2">
-            Price Breakdown
+            {{t('Price Breakdown')}}
           </div>
 
           <v-table density="compact" class="text-caption">
             <thead>
               <tr>
-                <th class="text-left pl-0">Fee Name</th>
-                <th class="text-center">Qty</th>
-                <th class="text-right">Amount</th>
-                <th class="text-right pr-0">Total Amount</th>
+                <th class="text-left pl-0">{{t('Fee Name')}}</th>
+                <th class="text-center">{{t('Qty')}}</th>
+                <th class="text-right">{{t('Amount')}}</th>
+                <th class="text-right pr-0">{{t('Total Amount')}}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="pl-0">Transport Fee</td>
+                <td class="pl-0">{{t('Transport Fee')}}</td>
                 <td class="text-center">{{ travellerQty }}</td>
                 <td class="text-right">{{ formatCurrency(bookingData.transportFee) }}</td>
                 <td class="text-right pr-0">{{ formatCurrency((bookingData.transportFee || 0) * travellerQty) }}</td>
               </tr>
               <tr>
-                <td class="pl-0">Hotel Fee</td>
+                <td class="pl-0">{{t('Hotel Fee')}}</td>
                 <td class="text-center">{{ travellerQty }}</td>
                 <td class="text-right">{{ formatCurrency(bookingData.hotelFee) }}</td>
                 <td class="text-right pr-0">{{ formatCurrency((bookingData.hotelFee || 0) * travellerQty) }}</td>
               </tr>
               <tr>
-                <td class="pl-0">Service Fee</td>
+                <td class="pl-0">{{t('Service Fee')}}</td>
                 <td class="text-center">{{ travellerQty }}</td>
                 <td class="text-right">{{ formatCurrency(bookingData.serviceFee) }}</td>
                 <td class="text-right pr-0">{{ formatCurrency((bookingData.serviceFee || 0) * travellerQty) }}</td>
@@ -275,9 +274,9 @@
           <v-divider class="my-3"></v-divider>
 
           <div class="d-flex justify-space-between align-center font-weight-bold text-subtitle-1">
-            <span>Total Amount</span>
+            <span>{{t('Total Amount')}}</span>
             <span class="text-teal-darken-3 text-h6 font-weight-bold">
-              {{ formatCurrency(totalCalculatedAmount) }} MMK
+              {{ formatCurrency(totalCalculatedAmount) }} {{t('MMK')}}
             </span>
           </div>
         </v-card>
@@ -445,7 +444,7 @@ const confirmBooking = async() => {
     totalAmount: totalCalculatedAmount.value,
   });
 
-  alert('Booking Confirmed Successfully!');
+  alert(t('Booking Confirmed Successfully!'));
   await router.push({name: 'PaymentView'});
 };
 

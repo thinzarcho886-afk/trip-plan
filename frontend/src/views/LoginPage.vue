@@ -15,14 +15,14 @@
               :icon="mdiBeach"
             ></v-icon>
             <div class="text-h6 font-weight-bold text-green">
-             Budget Friendly Trip Planner Management System
+             {{t('Budget Friendly Trip Planner Management System')}}
             </div>
           </div>
 
           <v-form ref="loginFormRef" @submit.prevent="onLogin">
             <v-text-field
               v-model="loginData.username"
-              label="Enter your name"
+              :label="t('Enter your name')"
               variant="outlined"
               density="comfortable"
               :rules="[(v) => !!v || 'Username is required']"
@@ -30,7 +30,7 @@
 
             <v-text-field
               v-model="loginData.password"
-              label="Password"
+              :label="t('Password')"
               type="password"
               variant="outlined"
               density="comfortable"
@@ -47,17 +47,17 @@
                 class="text-none font-weight-bold"
                 :loading="status === ApiStatus.LOADING"
               >
-                Login
+                {{t('Login')}}
               </v-btn>
             </div>
 
             <div class="text-center mt-6">
-              <span class="text-grey-darken-1">Don't have an account? </span>
+              <span class="text-grey-darken-1">{{t("Don't have an account?")}} </span>
               <router-link
                 to="/registerPage"
                 class="text-green font-weight-bold text-decoration-none"
               >
-                Create Account
+                {{t('Create Account')}}
               </router-link>
             </div>
           </v-form>
@@ -115,13 +115,14 @@ const onLogin = async () => {
 
       if (user.role === 'OWNER' || user.role === 'SYSADMIN') {
         router.push({ name: routeNames.home });
-      } else  if (user.role === 'CUSTOMER'){
+      } else {
         router.push({ name: routeNames.publicMain });
       }
-      else{
-        alert(t('Username Or Password is incorrect.'));
-      }
+      
     }
+  }else{
+       alert(t('Username Or Password is incorrect.'));
+
   }
 };
 </script>

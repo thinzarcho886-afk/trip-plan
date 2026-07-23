@@ -59,7 +59,7 @@
         </div>
 
         <div class="text-left" v-else>
-          <span> Remove? </span>
+          <span> {{t('Remove?')}}' </span>
           <v-btn
             @click="onImageDelete"
             color="error"

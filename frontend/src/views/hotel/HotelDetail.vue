@@ -74,7 +74,7 @@
                     name="pricePerNight"
                     v-model.number="hotelModel.pricePerNight"
                     type="number"
-                    :label="t('Price per Night') + ' *'"
+                    :label="t('Price per Night *')"
                     :rules="[rules.required, rules.positiveNumber]"
                     variant="outlined"
                     density="comfortable"

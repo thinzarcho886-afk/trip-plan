@@ -7,7 +7,7 @@
             class="bg-#2C5E82 pt-6 pb-12 text-center"
             style="border-radius: 0 0 50% 50%"
           >
-            <h2 class="text-black text-h5">Edit Profile</h2>
+            <h2 class="text-black text-h5">{{t('Edit Profile')}}</h2>
             
           </div>
 
@@ -31,7 +31,7 @@
               
                 <v-text-field
                   v-model="customerModel.name"
-                  label="Name"
+                  :label="t('Name')"
                   density="compact"
                   variant="outlined"
                   color="#2C5E82"
@@ -40,7 +40,7 @@
 
                 <v-text-field
                   v-model="customerModel.email"
-                  label="Email"
+                  :label="t('Email')"
                   density="compact"
                   variant="outlined"
                   color="#2C5E82"
@@ -49,7 +49,7 @@
 
                 <v-text-field
                   v-model="customerModel.phoneNumber"
-                  label="Phone"
+                  :label="t('Phone')"
                   density="compact"
                   variant="outlined"
                   color="#2C5E82"
@@ -68,7 +68,7 @@
                   @click="goToChangePassword"
                   class="text-none font-weight-bold"
                 >
-                  Change Password?
+                  {{t('Change Password?')}}
                 </v-btn>
               </div>
 
@@ -82,7 +82,7 @@
                     @click="router.back()"
                     class="text-none"
                   >
-                    Cancel
+                    {{t('Cancel')}}
                   </v-btn>
                 </v-col>
                 <v-col cols="6">
@@ -94,7 +94,7 @@
                     :loading="loading"
                     class="text-none text-white font-weight-bold"
                   >
-                    Save Changes
+                    {{t('Save Changes')}}
                   </v-btn>
                 </v-col>
               </v-row>
@@ -165,7 +165,7 @@ const onSave = async () => {
     let apiUrl = customerApiResource.updateCustomer;
     await call(apiUrl, { data: customerModel.value });
     if (status.value === 'success') {
-      alert('Successfully Saved!');
+      alert(t('Successfully Saved!'));
 
       authStore.user = { ...authStore.user, ...customerModel.value };
 
@@ -175,7 +175,7 @@ const onSave = async () => {
     }
   } catch (error) {
     console.error('Save error:', error);
-    alert('Failed to save profile. Please try again.');
+    alert(t('Failed to save profile. Please try again.'));
   } finally {
     loading.value = false;
   }

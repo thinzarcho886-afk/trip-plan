@@ -2,7 +2,7 @@
   <v-container class="d-flex justify-center align-center fill-height">
     <v-card width="500" class="pa-6" elevation="4">
       <v-card-title class="text-center font-weight-bold mb-4">
-        Change Password
+        {{t('Change Password')}}
       </v-card-title>
 
       <v-card-text>
@@ -61,7 +61,7 @@
           @click="handleCancel"
           class="px-8"
         >
-          Cancel
+          {{t('Cancel')}}
         </v-btn>
 
         <v-btn
@@ -71,7 +71,7 @@
           :loading="status == ApiStatus.LOADING"
           class="px-6"
         >
-          Change Password
+          {{t('Change Password')}}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -128,18 +128,18 @@ const handleUpdatePassword = async () => {
   };
 
   if (form.newPassword !== form.confirmNewPassword) {
-    alert('Passwords do not match!');
+    alert(t('Passwords do not match!'));
     return;
   }
 
   await call(userApiResource.changePassword, { data: loginData });
 
   if (status.value == ApiStatus.SUCCESS) {
-    alert('Password Updated Successfully!');
+    alert(t('Password Updated Successfully!'));
     handleCancel();
   }
   if (status.value == ApiStatus.ERROR) {
-    alert(error.value.message || 'Something went wrong!');
+    alert(t('Something went wrong!'));
   }
 
   // try {

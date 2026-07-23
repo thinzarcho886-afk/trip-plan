@@ -15,7 +15,7 @@
       <!-- Destination Selection Dropdown -->
       <v-col cols="12" sm="4">
         <v-select
-          v-model="searchParams.destinationName"
+          v-model="searchParams.destinationId"
           :items="destinationList"
           item-title="name"
           item-value="id"

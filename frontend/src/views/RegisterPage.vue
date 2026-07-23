@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12 rounded-lg pa-6">
           <v-card-title class="text-h4 font-weight-bold text-center py-4">
-            Create Account
+            {{t('Create Account')}}
           </v-card-title>
 
           <v-card-text>
@@ -25,7 +25,7 @@
 
               <v-text-field
                 v-model="form.name"
-                label="Full Name"
+                :label="t('Full Name')"
                 density="compact"
                 variant="outlined"
                 :rules="[rules.required, rules.maxLength(255)]"
@@ -34,7 +34,7 @@
 
               <v-text-field
                 v-model="form.email"
-                label="Email"
+                :label="t('Email')"
                 density="compact"
                 variant="outlined"
                 :rules="[rules.required, rules.maxLength(255), rules.email]"
@@ -42,7 +42,7 @@
               </v-text-field>
               <v-text-field
                 v-model="form.password"
-                label="Password"
+                :label="t('Password')"
                 type="password"
                 density="compact"
                 variant="outlined"
@@ -52,7 +52,7 @@
 
               <v-text-field
                 v-model="form.phoneNumber"
-                label="Phone"
+                :label="t('Phone')"
                 density="compact"
                 variant="outlined"
                 :rules="[rules.required, rules.maxLength(255), rules.phone]"
@@ -89,7 +89,7 @@
                 size="large"
                 class="mt-4 font-weight-bold"
               >
-                CREATE ACCOUNT
+                {{t('CREATE ACCOUNT')}}
               </v-btn>
             </v-form>
           </v-card-text>
@@ -170,7 +170,7 @@ const submitForm = async () => {
   await call(customerApiResource.saveCustomer, { data: formData });
 
   if (status.value == ApiStatus.SUCCESS) {
-    alert('Account created!');
+    alert(t('Account created!'));
     const { user, token } = response.value?.data as UserLoginResponse;
 
     if (!!user && !!token) {
@@ -180,6 +180,8 @@ const submitForm = async () => {
         router.push({ path: route.query.redirect as string });
       else router.push('/');
     }
+  }else{
+     alert(t('Something went wrong!'));
   }
 };
 </script>

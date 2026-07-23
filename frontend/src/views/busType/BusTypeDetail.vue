@@ -85,12 +85,15 @@
 
                 <v-row>
                   <v-col cols="12" md="6" class="py-1">
-                    <EnumPicker
-                      v-model:value="busTypeModel.status"
-                      :label="t('Status')"
-                      :enum="{ [t('ACTIVE')]: Status.ACTIVE, [t('INACTIVE')]: Status.INACTIVE }"
-                      :rules="[rules.required]"
-                    />
+                    <v-switch
+                    name="status"
+                    :label="busTypeModel.status === 'ACTIVE' ? t('ACTIVE') : t('INACTIVE')"
+                    v-model="busTypeModel.status"
+                    :true-value="Status.ACTIVE"
+                    :false-value="Status.INACTIVE"
+                    color="green"
+                    hide-details
+                  ></v-switch>
                   </v-col>
                 </v-row>
               </v-container>

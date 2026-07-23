@@ -3,7 +3,7 @@
   <v-container class="my-6">
     <!-- Header Banner -->
     <v-card class="mb-6 elevation-2 text-center py-6" color="teal-lighten-5">
-      <h2 class="text-h4 font-weight-bold text-teal-darken-3">Booking History List</h2>
+      <h2 class="text-h4 font-weight-bold text-teal-darken-3">{{t('Booking History List')}}</h2>
     </v-card>
 
     <!-- Data Table -->
@@ -11,36 +11,36 @@
       <v-table density="compact" class="text-no-wrap">
         <thead>
           <tr>
-            <th class="text-center">Payment Image</th>
-            <th class="text-left">Customer Name</th>
-            <th class="text-left">Package Name</th>
-            <th class="text-left">Bus Types</th>
-            <th class="text-left">Bus</th>
-            <th class="text-left">Destination</th>
-            <th class="text-left">Duration</th>
-            <th class="text-left">Hotel</th>
-            <th class="text-left">Departure Date</th>
-            <th class="text-left">Transport Fee</th>
-            <th class="text-left">Hotel Fee</th>
-            <th class="text-left">Service Fee</th>
-            <th class="text-left">Qty</th>
-            <th class="text-left">Budget Amount</th>
-            <th class="text-left">Payment Method Name</th>
-            <th class="text-left">Note</th>
+            <th class="text-center">{{t('Payment Image')}}</th>
+            <th class="text-left">{{t('Customer Name')}}</th>
+            <th class="text-left">{{t('Package Name')}}</th>
+            <th class="text-left">{{t('Bus Types')}}</th>
+            <th class="text-left">{{t('Bus')}}</th>
+            <th class="text-left">{{t('Destination')}}</th>
+            <th class="text-left">{{t('Duration')}}</th>
+            <th class="text-left">{{t('Hotel')}}</th>
+            <th class="text-left">{{t('Departure Date')}}</th>
+            <th class="text-left">{{t('Transport Fee')}}</th>
+            <th class="text-left">{{t('Hotel Fee')}}</th>
+            <th class="text-left">{{t('Service Fee')}}</th>
+            <th class="text-left">{{t('Qty')}}</th>
+            <th class="text-left">{{t('Budget Amount')}}</th>
+            <th class="text-left">{{t('Payment')}}</th>
+            <th class="text-left">{{t('Note')}}</th>
 
 
-            <th class="text-left">Status</th>
-            <th class="text-left">Update Date</th>
-            <th class="text-left">Update By</th>
+            <th class="text-left">{{t('Status')}}</th>
+            <th class="text-left">{{t('Update Date')}}</th>
+            <th class="text-left">{{t('Update By')}}</th>
             
           </tr>
         </thead>
         <tbody>
           <tr v-if="loading">
-            <td colspan="15" class="text-center py-4">Loading history...</td>
+            <td colspan="15" class="text-center py-4">{{t('Loading history...')}}</td>
           </tr>
           <tr v-else-if="bookingList.length === 0">
-            <td colspan="15" class="text-center py-4">No booking history found.</td>
+            <td colspan="15" class="text-center py-4">{{t('No booking history found.')}}'</td>
           </tr>
           <tr v-for="item in bookingList" :key="item.id">
             <td >
@@ -57,11 +57,11 @@
             <td>{{ item.durationName || '-' }}</td>
             <td>{{ item.hotelName || '-' }}</td>
             <td>{{ formatDate(item.departureDate) }}</td>
-            <td>{{ item.transportFee || 0 }} MMK</td>
-            <td>{{ item.hotelFee || 0 }} MMK</td>
-            <td>{{ item.serviceFee || 0 }} MMK</td>
+            <td>{{ item.transportFee || 0 }} {{t('MMK')}}</td>
+            <td>{{ item.hotelFee || 0 }} {{t('MMK')}}</td>
+            <td>{{ item.serviceFee || 0 }} {{t('MMK')}}</td>
             <td>{{ item.travelersQty || 0 }}</td>
-            <td>{{ item.budgetAmount * item.travelersQty }} MMK</td>
+            <td>{{ item.budgetAmount * item.travelersQty }} {{t('MMK')}}</td>
 
             <td class="font-weight-bold">{{ item.paymentMethodName }}</td>
              <td>{{ item.note || '' }}</td>
@@ -83,9 +83,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useAuthStore } from '../../store/auth';
+import { useI18n } from 'vue-i18n';
 import useApi, { ApiStatus } from '../../api';
 import { bookingApiResource } from '../../api/resources/bookingResource';
 
+const { t } = useI18n();
 const authStore = useAuthStore();
 const { call, response, status } = useApi();
 

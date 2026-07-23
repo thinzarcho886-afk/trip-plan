@@ -102,7 +102,7 @@
             <div>
               <div class="text-caption text-grey">{{ t('Price Per Night') }}</div>
               <div class="text-body-1 text-success font-weight-bold">
-                {{ selectedHotel.pricePerNight ? `${selectedHotel.pricePerNight} MMK` : '-' }}
+                {{ selectedHotel.pricePerNight ? `${selectedHotel.pricePerNight}` : '-' }}{{t('MMK')}}
               </div>
             </div>
           </div>

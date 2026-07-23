@@ -86,14 +86,7 @@
   <v-container>
     <div class="d-flex justify-space-between align-center my-4">
       <h3 class="text-h6 font-weight-bold">{{ t('Popular Packages') }}</h3>
-      <v-btn
-        variant="flat"
-        color="#06402B"
-        rounded="lg"
-        @click="goToDetails"
-      >
-        {{ t('View All') }}
-      </v-btn>
+    
     </div>
 
     <!-- Loading State -->
@@ -334,7 +327,7 @@
               <v-text-field
                 v-model="formModel.serviceFee"
                 name="serviceFee"
-                :label="t('Service Name')"
+                :label="t('Service Fee')"
                 readonly
                 density="comfortable"
                 variant="outlined"
@@ -368,16 +361,16 @@
             <v-sheet border rounded="lg" class="pa-2 bg-grey-lighten-5 mb-4 w-100">
               <v-row dense class="text-caption text-center" align="center" justify="space-around">
                 <v-col cols="auto">
-                  <v-icon :icon="mdiRibbon" size="x-small" color="primary"></v-icon> Best Price Guarantee
+                  <v-icon :icon="mdiRibbon" size="x-small" color="primary"></v-icon> {{t('Best Price Guarantee')}}
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon :icon="mdiCheckCircle" size="x-small" color="primary"></v-icon> Easy Booking
+                  <v-icon :icon="mdiCheckCircle" size="x-small" color="primary"></v-icon>{{t('Easy Booking')}}
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon :icon="mdiCheckCircleOutline" size="x-small" color="primary"></v-icon> Secure Payment
+                  <v-icon :icon="mdiCheckCircleOutline" size="x-small" color="primary"></v-icon> {{t('Secure Payment')}}
                 </v-col>
                 <v-col cols="auto">
-                  <v-icon :icon="mdiHeadset" size="x-small" color="primary"></v-icon> 24/7 Support
+                  <v-icon :icon="mdiHeadset" size="x-small" color="primary"></v-icon> {{t('24/7 Support')}}
                 </v-col>
               </v-row>
             </v-sheet>
@@ -402,7 +395,7 @@
     <v-card class="mt-5 position-relative overflow-hidden pa-4" elevation="2" rounded="md">
       <div class="d-flex align-center mb-3">
         <v-icon :icon="mdiShieldCheckOutline" class="mr-2" color="primary"></v-icon>
-        <span class="text-subtitle-1 font-weight-bold">Secure Payment</span>
+        <span class="text-subtitle-1 font-weight-bold">{{t('Secure Payment')}}</span>
       </div>
 
       <template v-if="paymentList.length > 0">
@@ -443,29 +436,29 @@
                   <v-col cols="auto" class="d-flex align-center">
                     <v-icon :icon="mdiCheckCircle" color="green" class="mr-1"></v-icon>
                     <div>
-                      <strong>100% Secure</strong>
-                      <div class="text-grey text-caption" style="font-size: 10px !important;">Your payment is safe</div>
+                      <strong>{{t('100% Secure')}}</strong>
+                      <div class="text-grey text-caption" style="font-size: 10px !important;">{{t('Your payment is safe')}}</div>
                     </div>
                   </v-col>
                   <v-col cols="auto" class="d-flex align-center">
                     <v-icon :icon="mdiContactlessPayment" color="amber" class="mr-1"></v-icon>
                     <div>
-                      <strong>Fast Payment</strong>
-                      <div class="text-grey text-caption" style="font-size: 10px !important;">Instant confirmation</div>
+                      <strong>{{t('Fast Payment')}}</strong>
+                      <div class="text-grey text-caption" style="font-size: 10px !important;">{{t('Instant confirmation')}}</div>
                     </div>
                   </v-col>
                   <v-col cols="auto" class="d-flex align-center">
                     <v-icon :icon="mdiTagMultiple" color="blue" class="mr-1"></v-icon>
                     <div>
-                      <strong>Multiple Options</strong>
-                      <div class="text-grey text-caption" style="font-size: 10px !important;">Choose your way</div>
+                      <strong>{{t('Multiple Options')}}</strong>
+                      <div class="text-grey text-caption" style="font-size: 10px !important;">{{t('Choose your way')}}</div>
                     </div>
                   </v-col>
                   <v-col cols="auto" class="d-flex align-center">
                     <v-icon :icon="mdiHeadset" color="teal" class="mr-1"></v-icon>
                     <div>
-                      <strong>Trusted</strong>
-                      <div class="text-grey text-caption" style="font-size: 10px !important;">Trusted by thousands</div>
+                      <strong>{{t('Trusted')}}</strong>
+                      <div class="text-grey text-caption" style="font-size: 10px !important;">{{t('Trusted by thousands')}}</div>
                     </div>
                   </v-col>
                 </v-row>
@@ -515,7 +508,7 @@
           <v-col cols="auto" class="d-flex align-center">
             <v-icon :icon="mdiHeadset" color="teal" class="mr-1"></v-icon>
             <div>
-              <strong>{{ t('Trusted & Safe') }}</strong>
+              <strong>{{ t('Trusted and Safe') }}</strong>
               <div class="text-grey text-caption" style="font-size: 10px !important;">
                 {{ t('Your Safety is our priority') }}
               </div>
@@ -725,15 +718,15 @@ const handleClear = () => {
 const bannerSlides = ref([
   {
     image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1200',
-    title: 'Find the perfect hotel for your stay',
+    title: t('Find the perfect hotel for your stay'),
   },
   {
     image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1200',
-    title: 'Plan Your Dream Trip With Budget',
+    title: t('Plan Your Dream Trip With Budget'),
   },
   {
     image: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?q=80&w=1200',
-    title: 'Comfortable & Affordable Stay for travellers',
+    title: t('Comfortable & Affordable Stay for travellers'),
   },
 ]);
 

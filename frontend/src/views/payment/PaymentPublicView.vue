@@ -6,12 +6,12 @@
   @click="router.back()"
 >
   <v-icon :icon="mdiArrowLeft" size="small" class="mr-1"></v-icon>
-  <span>Go Back</span>
+  <span>{{t('Go Back')}}</span>
 </div>
-      <div class="text-h5 font-weight-bold mb-1">Payment Form</div>
+      <div class="text-h5 font-weight-bold mb-1">{{t('Payment Form')}}</div>
       
       <div class="text-subtitle-2 text-teal-darken-3 mb-6">
-        Please select a payment method and complete your booking.
+        {{t('Please select a payment method and complete your booking.')}}'
       </div>
 
       <v-row>
@@ -20,7 +20,7 @@
           <!-- 1. Select Payment Method -->
           <v-card variant="outlined" class="pa-4 mb-4 rounded-lg">
             <div v-if="paymentList.length > 0" class="text-subtitle-2 font-weight-bold text-teal-darken-3 mb-3">
-              1. Select Payment Method
+              {{t('1. Select Payment Method')}}
             </div>
 
             <!-- Loading State -->
@@ -64,13 +64,13 @@
 
           <v-card variant="outlined" class="pa-4 mb-4 rounded-lg">
             <div class="text-subtitle-2 font-weight-bold text-teal-darken-3 mb-2">
-              Transfer To
+              {{t('Transfer To')}}
             </div>
-            <div class="text-caption text-grey-darken-1 mb-3">Please Transfer To the following account</div>
+            <div class="text-caption text-grey-darken-1 mb-3">{{t('Please Transfer To the following account')}}</div>
             <v-row dense>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  label="Account Name"
+                  :label="t('Account Name')"
                   :model-value="activePaymentMethod?.accountName"
                   variant="outlined"
                   density="compact"
@@ -79,7 +79,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  label="Account Number"
+                  :label="t('Account Number')"
                   :model-value="activePaymentMethod?.accountNumber"
                   variant="outlined"
                   density="compact"
@@ -92,14 +92,14 @@
           <!-- 3. Sender Information -->
           <v-card variant="outlined" class="pa-4 mb-4 rounded-lg">
             <div class="text-subtitle-2 font-weight-bold text-teal-darken-3 mb-2">
-              Sender Information
+              {{t('Sender Information')}}
             </div>
-            <div class="text-caption text-grey-darken-1 mb-3">Enter your payment information</div>
+            <div class="text-caption text-grey-darken-1 mb-3">{{t('Your payment information')}}</div>
             <v-row dense>
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="contactForm.name"
-                  label="Sender Name"
+                  :label="t('Sender Name')"
                   variant="outlined"
                   density="compact"
                   readonly
@@ -108,7 +108,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                    v-model="contactForm.phone"
-                  label="Sender Phone Number"
+                  :label="t('Sender Phone Number')"
                   variant="outlined"
                   density="compact"
                   readonly
@@ -120,9 +120,9 @@
           <!-- 4. Upload Payment Screenshot -->
           <v-card variant="outlined" class="pa-4 rounded-lg text-center">
             <div class="text-subtitle-2 font-weight-bold text-teal-darken-3 mb-1">
-              Upload Payment Screenshot
+              {{t('Upload Payment Screenshot')}}
             </div>
-            <div class="text-caption text-grey-darken-1 mb-4">Upload your payment proof screenshot</div>
+            <div class="text-caption text-grey-darken-1 mb-4">{{t('Upload your payment proof screenshot')}}</div>
 
         <ImageInput
           :image-url="bookingModel.paymentReceiveImageUrl"
@@ -132,19 +132,19 @@
           image-width="100%"
           width="100%"
           class="mx-auto"
-          :label="t('Payment Receive Image')"
+          :label="t('Payment Image')"
         ></ImageInput>
 
             <div class="text-caption text-grey mt-2 mb-4">
-              * Please make sure the screenshot is clear and shows the transaction details.
+              {{t('* Please make sure the screenshot is clear and shows the transaction details.')}}
             </div>
 
             <v-btn color="primary" block size="large" @click="submitPayment">
               <v-icon left class="mr-1">mdi-check-circle</v-icon>
-              Confirm Payment
+              {{t('Confirm Payment')}}
             </v-btn>
             <div class="text-caption text-grey-darken-1 mt-2">
-              🔒 Your payment information is secure and encrypted.
+              🔒 {{t('Your payment information is secure and encrypted.')}}'
             </div>
           </v-card>
         </v-col>
@@ -153,7 +153,7 @@
         <v-col cols="12" md="5">
           <v-card class="pa-4" variant="outlined" rounded="lg">
             <div class="text-subtitle-1 font-weight-bold text-teal-darken-3 mb-3">
-              Trip Summary
+              {{t('Trip Summary')}}
             </div>
 
             <v-img
@@ -163,57 +163,56 @@
               class="rounded mb-3"
             ></v-img>
 
-            <div class="text-h6 font-weight-bold">{{ bookingData.destinationName || 'Pyin Oo Lwin' }}</div>
-            <div class="text-caption text-grey-darken-1 mb-3">Nature • Waterfalls • Cool weather</div>
+            <div class="text-h6 font-weight-bold">{{ bookingData.destinationName }}</div>
 
             <v-divider class="mb-3"></v-divider>
 
             <div class="text-body-2 space-y-2">
               <div class="d-flex justify-space-between py-1">
-                <span>Departure Date</span>
-                <span>{{ bookingData.departureDate || '27 May 2026' }}</span>
+                <span>{{t('Departure Date')}}</span>
+                <span>{{ bookingData.departureDate }}</span>
               </div>
               <div class="d-flex justify-space-between py-1">
-                <span>Travelers Qty</span>
-                <span>{{ bookingData.travellerQty || 2 }} people</span>
+                <span>{{t('Travelers Qty')}}</span>
+                <span>{{ bookingData.travellerQty }} {{t('people')}}</span>
               </div>
               <div class="d-flex justify-space-between py-1">
-                <span>Transport</span>
-                <span>{{ bookingData.busName || 'Standard Bus' }}</span>
+                <span>{{t('Transport')}}</span>
+                <span>{{ bookingData.busName  }}</span>
               </div>
               <div class="d-flex justify-space-between py-1">
-                <span>Hotel</span>
-                <span>{{ bookingData.hotelName || 'Winter Fall Hotel' }}</span>
+                <span>{{t('Hotel')}}</span>
+                <span>{{ bookingData.hotelName }}</span>
               </div>
               <div class="d-flex justify-space-between py-1">
-                <span>Duration</span>
-                <span>{{ bookingData.durationName || '2days 3nights' }}</span>
+                <span>{{t('Duration')}}</span>
+                <span>{{ bookingData.durationName }}</span>
               </div>
             </div>
 
             <v-divider class="my-3"></v-divider>
 
-            <div class="text-subtitle-2 font-weight-bold text-teal-darken-3 mb-2">Price Breakdown</div>
+            <div class="text-subtitle-2 font-weight-bold text-teal-darken-3 mb-2">{{t('Price Breakdown')}}</div>
             <div class="text-caption space-y-1">
               <div class="d-flex justify-space-between">
-                <span>Transport Fee</span>
-                <span>{{ bookingData.transportFee || 0 }} MMK</span>
+                <span>{{t('Transport Fee')}}</span>
+                <span>{{ bookingData.transportFee || 0 }} {{t('MMK')}}</span>
               </div>
               <div class="d-flex justify-space-between">
-                <span>Hotel Fee</span>
-                <span>{{ bookingData.hotelFee || 0 }} MMK</span>
+                <span>{{t('Hotel Fee')}}</span>
+                <span>{{ bookingData.hotelFee || 0 }} {{t('MMK')}}</span>
               </div>
               <div class="d-flex justify-space-between">
-                <span>Service Fee</span>
-                <span>{{ bookingData.serviceFee || 0 }} MMK</span>
+                <span>{{t('Service Fee')}}</span>
+                <span>{{ bookingData.serviceFee || 0 }} {{t('MMK')}}</span>
               </div>
             </div>
 
             <v-divider class="my-3"></v-divider>
 
             <div class="d-flex justify-space-between align-center text-subtitle-1 font-weight-bold">
-              <span>Total Amount</span>
-              <span class="text-teal-darken-3 text-h6">{{ bookingData.totalAmount || 0 }} MMK</span>
+              <span>{{t('Total Amount')}}</span>
+              <span class="text-teal-darken-3 text-h6">{{ bookingData.totalAmount || 0 }} {{t('MMK')}}</span>
             </div>
           </v-card>
         </v-col>
@@ -292,10 +291,15 @@ onMounted(() => {
 
 // Submit Payment Logic
 const submitPayment = async () => {
+  
+  if(authStore.user?.role =='SYSADMIN'){
+    return;
+  }
   if (!bookingModel.value.paymentReceiveImageUrl) {
     alert(t('Please upload the payment receipt screenshot.'));
     return;
   }
+  
 
   bookingModel.value.packageId = bookingData.value.packageId || null;
   bookingModel.value.customerId = authStore.user?.customerId || null;
