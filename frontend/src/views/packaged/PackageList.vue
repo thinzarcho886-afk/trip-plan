@@ -62,15 +62,16 @@
         <template v-slot:item.budgetAmount="{ item }">
           <span>{{ item.budgetAmount }}</span>
         </template>
-        <!-- Status Chip Component -->
-        <template v-slot:item.status="{ item }">
-          <ListStatus :status="item.status"></ListStatus>
-        </template>
+        
         <template v-slot:item.extraService="{ item }">
           <span>{{ item.extraService }}</span>
         </template>
         <template v-slot:item.description="{ item }">
           <span>{{ item.description }}</span>
+        </template>
+        <!-- Status Chip Component -->
+         <template v-slot:item.status="{ item }">
+          <ListStatus :status="item.status"></ListStatus>
         </template>
         <!-- Dynamic Date Formatting -->
         <template v-slot:item.updatedDate="{ item }">

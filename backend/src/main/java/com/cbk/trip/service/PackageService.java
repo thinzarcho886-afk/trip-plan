@@ -46,8 +46,8 @@ public class PackageService {
     @Autowired
     private DurationRepository durationRepository;
 
-    public PageableDTO getPackages(String name, Long destinationId, Long durationId, Status status, Pageable pageable) {
-        Specification<Package> specs = PackageSpecs.getByFilter(name, destinationId, durationId, status);
+    public PageableDTO getPackages(String name, Long destinationId,String destinationName, Long durationId,String durationName, Status status, Pageable pageable) {
+        Specification<Package> specs = PackageSpecs.getByFilter(name, destinationId,destinationName, durationId,durationName, status);
         Page<Package> page = packageRepository.findAll(specs, pageable);
         List<PackageDTO> dtoList = CommonUtil.getDTOList(page.getContent(), PackageDTO::new);
         return new PageableDTO(dtoList, page);

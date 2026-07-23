@@ -5,9 +5,9 @@
     <v-table density="comfortable" fixed-header height="440">
       <thead>
         <tr>
-          <th class="text-left" style="min-width: 200px">Place Name</th>
-          <th class="text-center" style="min-width: 150px">Photo</th>
-          <th class="text-center" style="min-width: 100px">Action</th>
+          <th class="text-left" style="min-width: 200px">{{t("Place Name")}}</th>
+          <th class="text-center" style="min-width: 150px">{{t("Photo")}}</th>
+          <th class="text-center" style="min-width: 100px">{{t("Action")}}</th>
         </tr>
       </thead>
       <tbody>
@@ -55,7 +55,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { mdiClose, mdiPlus } from '@mdi/js';
-
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 const props = defineProps({
   items: {
     type: Array as () => any[],

@@ -1,7 +1,7 @@
  <template>
   <Detail
     v-bind="{
-      title: t('Payment Method'),
+      title: t('Booking'),
       loading: status === ApiStatus.LOADING,
       error: status === ApiStatus.ERROR,
       message: status == ApiStatus.ERROR && error?.message,
@@ -161,7 +161,9 @@
         <v-col cols="12" sm="6" class="py-1">
           <v-select
             v-model="bookingModel.status"
-            :items="['PENDING', 'CONFIRM', 'CANCEL']"
+            :items="[{ title: t('PENDING'), value: 'PENDING' },
+      { title: t('CONFIRM'), value: 'CONFIRM' },
+      { title: t('CANCEL'), value: 'CANCEL' }]"
             :label="t('Status')"
             density="comfortable"
             variant="outlined"

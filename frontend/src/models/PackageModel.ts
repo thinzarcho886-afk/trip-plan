@@ -3,13 +3,19 @@ import { CommonDto } from '../interfaces/CommonDto.js';
 export interface PackageListParams {
   [key: string]: any;
   name: string;
-  destinationId: number | null;
+  destinationId: number|null;
+  destinationName?:string;
+  durationName?:string;
+  durationId:number|null;
   status: string | Status;
 }
 
 export const PackageListParamsModel = (): PackageListParams => ({
   name: '',
-  destinationId: null,
+  destinationId:null,
+  destinationName:'',
+  durationName:'',
+  durationId:null,
   status: '',
 });
 

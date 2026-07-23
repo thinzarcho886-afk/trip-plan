@@ -6,18 +6,22 @@ import java.util.Objects;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
 
 import com.cbk.trip.entity.Booking;
 import com.cbk.trip.entity.Booking_;
+import com.cbk.trip.entity.Destination;
+import com.cbk.trip.entity.Package;
 import com.cbk.trip.enums.Status;
 
 public class BookingSpecs {
 
-    public static Specification<Booking> getByFilter(Long packageId, Long customerId, Long paymentMethodId, Status status) {
+    public static Specification<Booking> getByFilter(Long packageId,String packageName, Long customerId,String customerName, Long paymentMethodId,String paymentMethodName, Status status) {
         return new Specification<Booking>() {
             private static final long serialVersionUID = 1L;
 
@@ -28,8 +32,15 @@ public class BookingSpecs {
                 if (!Objects.isNull(packageId)) {
                     final Predicate packagePredicate = criteriaBuilder.equal(root.get(Booking_.PKG).get("id"), packageId);
                     predicates.add(packagePredicate);
-                }
-
+                    if (!StringUtils.isEmpty(packageName)) {
+    					Join<Booking, Package> bookingPackageJoin = root.join("pkg");
+    					Predicate bookingPredicate = criteriaBuilder.like(
+    							criteriaBuilder.lower(bookingPackageJoin.get("name")),
+    							"%" + packageName.toLowerCase() + "%"
+    					);
+    					predicates.add(bookingPredicate);
+    				}
+                    }
                 if (!Objects.isNull(customerId)) {
                     final Predicate customerPredicate = criteriaBuilder.equal(root.get(Booking_.CUSTOMER).get("id"), customerId);
                     predicates.add(customerPredicate);

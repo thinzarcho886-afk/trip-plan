@@ -1,39 +1,48 @@
 <template>
   <div class="pa-4" style="min-width: 350px; background-color: white;">
     <v-row dense>
+      <!-- Package Name -->
       <v-col cols="12" sm="6">
         <v-text-field
-          v-model="searchParams.packageName"
+          v-model="searchParams.name"
           density="compact"
           variant="outlined"
           hide-details
           :label="t('Package Name')"
+          @keyup.enter="onSearch"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="6">
+
+      <!-- Destination Name -->
+      <v-col cols="12" sm="6">
         <v-text-field
           v-model="searchParams.destinationName"
           density="compact"
           variant="outlined"
           hide-details
           :label="t('Destination Name')"
+          @keyup.enter="onSearch"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="6">
+
+      <!-- Duration Name -->
+      <v-col cols="12" sm="6">
         <v-text-field
           v-model="searchParams.durationName"
           density="compact"
           variant="outlined"
           hide-details
           :label="t('Duration Name')"
+          @keyup.enter="onSearch"
         ></v-text-field>
       </v-col>
 
+      <!-- Status Enum Picker -->
       <v-col cols="12" sm="6">
         <EnumPicker
           v-model:value="searchParams.status"
           :label="t('Status')"
-         :enum="{ [t('ACTIVE')]: Status.ACTIVE, [t('INACTIVE')]: Status.INACTIVE }"
+          :enum="statusOptions"
           :add-all="true"
           hide-details
           density="compact"
@@ -42,8 +51,11 @@
       </v-col>
     </v-row>
 
+    <!-- Action Buttons -->
     <div class="pt-6 d-flex" style="gap: 0.5rem">
-      <v-btn variant="text" @click="onClose"> {{ t('Close') }} </v-btn>
+      <v-btn variant="text" @click="onClose">
+        {{ t('Close') }}
+      </v-btn>
       <v-spacer></v-spacer>
       <v-btn color="primary" variant="text" @click="onReset">
         {{ t('Reset') }}
@@ -56,37 +68,40 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import { Status } from '../../constants/Status';
+import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { Status } from '../../constants/Status';
 import { routeNames } from '../../router/routes';
 import { useRouteFilter } from '../../utils/useRouteFilter';
-import { useI18n } from 'vue-i18n';
-import { useAuthStore } from '../../store/auth';
-import { Role } from '../../constants/Role';
 import EnumPicker from '../common/EnumPicker.vue';
-import {PackageListParams, PackageListParamsModel } from '../../models/PackageModel';
+import { PackageListParams, PackageListParamsModel } from '../../models/PackageModel';
 
 const { t } = useI18n({ useScope: 'global' });
-
-const authStore = useAuthStore();
-const emits = defineEmits(['search', 'close']);
 const router = useRouter();
 const route = useRoute();
+
+const emits = defineEmits(['search', 'close']);
+
 const searchParams = ref<PackageListParams>(PackageListParamsModel());
 
-const onSearch = async () => {
+// Computed object for Status enum options to support dynamic language changes
+const statusOptions = computed(() => ({
+  [t('ACTIVE')]: Status.ACTIVE,
+  [t('INACTIVE')]: Status.INACTIVE,
+}));
 
+const onSearch = async () => {
   emits('search', searchParams.value);
 
   await router
     .replace({
       name: routeNames.packageList,
-      query: searchParams.value,
+      query: { ...searchParams.value },
     })
     .catch(() => {});
 
-  // close search menu
+  // Close search popup
   onClose();
 };
 

@@ -40,9 +40,9 @@ public class BookingService {
 
 	@Autowired
 	private PaymentMethodRepository paymentMethodRepository;
-	public PageableDTO getBookings(Long packageId, Long customerId, Long paymentMethodId, Status status,
+	public PageableDTO getBookings(Long packageId,String packageName, Long customerId,String customerName, Long paymentMethodId,String paymentMethodName,Status status,
 			Pageable pageable) {
-		Specification<Booking> specs = BookingSpecs.getByFilter(packageId, customerId, paymentMethodId, status);
+		Specification<Booking> specs = BookingSpecs.getByFilter(packageId,packageName, customerId,customerName, paymentMethodId,paymentMethodName, status);
 		Page<Booking> page = bookingRepository.findAll(specs, pageable);
 		List<BookingDTO> dtoList = CommonUtil.getDTOList(page.getContent(), BookingDTO::new);
 		return new PageableDTO(dtoList, page);

@@ -30,11 +30,13 @@ public class PackagePublicController {
     public ResponseEntity<?> getPackages(
             @Param("name") String name,
             @Param("destinationId") Long destinationId,
+            @Param("destinationName") String destinationName,
             @Param("durationId") Long durationId,
+            @Param("durationName") String durationName,
             @Param("status") Status status,
             @PageableDefault(size = 10) Pageable pageable) {
         
-        return new ResponseEntity<>(packageService.getPackages(name, destinationId, durationId, status, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(packageService.getPackages(name, destinationId,destinationName, durationId,durationName, status, pageable), HttpStatus.OK);
     }
 
     

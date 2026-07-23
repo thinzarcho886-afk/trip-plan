@@ -2,7 +2,7 @@
 <template>
   <div class="pa-4" style="min-width: 350px; background-color: white;">
     <v-row dense>
-      <v-col cols="12" sm="4">
+      <v-col cols="12" sm="4" md="6">
         <v-text-field
           v-model="searchParams.name"
           density="compact"
@@ -13,7 +13,7 @@
       </v-col>
 
       <!-- Destination Selection Dropdown -->
-      <v-col cols="12" sm="4">
+      <v-col cols="12" sm="4" md="6">
         <v-select
           v-model="searchParams.destinationId"
           :items="destinationList"
@@ -29,7 +29,7 @@
         ></v-select>
       </v-col>
 
-      <v-col cols="12" sm="4">
+      <v-col cols="12" sm="4" md="6">
         <EnumPicker
           v-model:value="searchParams.status"
           :label="t('Status')"

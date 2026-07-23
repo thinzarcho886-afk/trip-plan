@@ -41,7 +41,7 @@
                   image-width="100%"
                   width="100%"
                   class="mx-auto"
-                  :label="t('Image')"
+                  :label="t('Package Image')"
                 ></ImageInput>
               </v-card>
             </v-col>
@@ -127,7 +127,7 @@
                 </v-row>
 
                 <v-row>
-                  <v-col cols="12" md="6" class="py-1">
+                  <!-- <v-col cols="12" md="6" class="py-1">
                     <v-text-field
                       name="departureDate"
                       v-model="departureDateInput" 
@@ -137,6 +137,34 @@
                       variant="outlined"
                       :rules="[rules.required]"
                     ></v-text-field>
+                  </v-col> -->
+                  <v-col cols="12" md="6" class="py-1">
+                    <v-menu v-model="isMenuOpen" :close-on-content-click="false">
+                      <!-- Input Box with Left Calendar Icon -->
+                      <template #activator="{ props }">
+                        <v-text-field
+                          v-bind="props"
+                          v-model="displayDate"
+                          name="departureDate"
+                          :label="t('Departure Date')"
+                          :placeholder="t('Select Date')"
+                          density="comfortable"
+                          variant="outlined"
+                          readonly
+                          clearable
+                          :prepend-inner-icon="mdiCalendarMonthOutline"
+                          :rules="[rules.required]"
+                          @click:clear="onClear"
+                        ></v-text-field>
+                      </template>
+
+                      <!-- Calendar Date Picker -->
+                     <!-- Calendar Date Picker -->
+<v-date-picker
+  :model-value="packageModel.departureDate ? new Date(packageModel.departureDate) : null"
+  @update:model-value="onDateSelected"
+></v-date-picker>
+                    </v-menu>
                   </v-col>
                 </v-row>
 
@@ -261,9 +289,9 @@
       <!-- Add Place Dialog -->
       <v-dialog v-model="dialog" max-width="500">
         <v-card class="pa-4">
-          <v-card-title>Add New Place</v-card-title>
+          <v-card-title>{{t('Add New Place')}}</v-card-title>
           <v-card-text>
-            <v-text-field v-model="tempItem.placeToVisit" label="Place Name" variant="outlined"></v-text-field>
+            <v-text-field v-model="tempItem.placeToVisit" :label="t('Place Name')" variant="outlined"></v-text-field>
             
             <ImageInput
               :image-url="tempItem.imageUrl"
@@ -273,13 +301,13 @@
               image-width="100%"
               width="100%"
               class="mx-auto"
-              :label="t('Image')"
+              :label="t('Select Image')"
             ></ImageInput>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="grey" variant="text" @click="dialog = false">Cancel</v-btn>
-            <v-btn color="primary" variant="flat" @click="savePlace">Confirm</v-btn>
+            <v-btn color="grey" variant="text" @click="dialog = false">{{t('Cancel')}}</v-btn>
+            <v-btn color="primary" variant="flat" @click="savePlace">{{t('Confirm')}}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -295,7 +323,7 @@ import { required, maxLength } from '../../utils/validations.js';
 import useApi, { ApiStatus } from '../../api/index.js';
 import { useRoute, useRouter } from 'vue-router';
 import { Status } from '../../constants/Status.js';
-import { mdiContentSave, mdiArrowLeft } from '@mdi/js';
+import { mdiContentSave, mdiArrowLeft, mdiCalendarMonthOutline } from '@mdi/js';
 import { ActionButton } from '../../interfaces/ActionButton.js';
 import { Package, PackageModel } from '../../models/PackageModel.js';
 import { useI18n } from 'vue-i18n';
@@ -309,6 +337,41 @@ import BusTransportPicker from '../../components/bus/BusTransportPicker.vue';
 import PackageDetailList from '../../components/packaged/PackageDetailList.vue';
 import HotelPicker from '../../components/hotel/HotelPicker.vue';
 import ImageInput from '../../components/common/ImageInput.vue';
+
+const isMenuOpen = ref(false)
+
+// Input field မှာ ပြသရန် formatted string
+const displayDate = computed({
+  get: () => {
+    if (!packageModel.value.departureDate) return ''
+    const d = new Date(packageModel.value.departureDate)
+    const year = d.getFullYear()
+    const month = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  },
+  set: (val) => {
+    if (val) {
+      packageModel.value.departureDate = new Date(val).toISOString()
+    } else {
+      packageModel.value.departureDate = ''
+    }
+  }
+})
+
+// Date Picker ကနေ ရက်စွဲ ရွေးလိုက်ပါက packageModel ထဲ တိုက်ရိုက် ထည့်ပေးမည်
+const onDateSelected = (val: unknown) => {
+  if (val) {
+    packageModel.value.departureDate = new Date(val as Date).toISOString()
+  }
+  isMenuOpen.value = false
+}
+
+// Clear (x) နှိပ်ပါက တန်ဖိုးဖျက်မည်
+const onClear = () => {
+  packageModel.value.departureDate = ''
+  isMenuOpen.value = false
+}
 
 // 🌟 Default အဖြစ် 'info' tab ကိုပေးထားပါတယ်
 const tab = ref<string | null>('info');

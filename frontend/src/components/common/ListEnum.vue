@@ -2,7 +2,7 @@
   <v-chip :color="data.color" label variant="outlined">
     <v-icon v-if="data.icon" :icon="data.icon" :color="data.color" start>
     </v-icon>
-    {{ props.value }}
+    {{t( props.value )}}
   </v-chip>
 </template>
 
@@ -11,9 +11,9 @@ import { mdiAccountCog } from '@mdi/js';
 import { computed } from 'vue';
 import { Menu } from '../../constants/EnumMenu';
 import { Role } from '../../constants/Role';
-
+import { useI18n } from 'vue-i18n';
 const props = defineProps(['value', 'menu']);
-
+const { t } = useI18n({ useScope: 'global' });
 interface ChipData {
   value: string;
   menu: Menu | string;

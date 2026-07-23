@@ -36,12 +36,15 @@ public class BookingPublicController {
     @GetMapping
     public ResponseEntity<?> getBookings(
             @Param("packageId") Long packageId,
+            @Param("packageName") String packageName,
             @Param("customerId") Long customerId,
+            @Param("customerName") String customerName,
             @Param("paymentMethodId") Long paymentMethodId,
+            @Param("paymentMethodName") String paymentMethodName,
             @Param("status") Status status,
             @PageableDefault(size = 10) Pageable pageable) {
         
-        return new ResponseEntity<>(bookingService.getBookings(packageId, customerId, paymentMethodId, status, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(bookingService.getBookings(packageId,packageName, customerId,customerName, paymentMethodId,paymentMethodName, status, pageable), HttpStatus.OK);
     }
 
     @PostMapping

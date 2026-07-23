@@ -1,7 +1,7 @@
 <template>
   <div class="pa-4" style="min-width: 350px; background-color: white;">
     <v-row dense>
-      <v-col cols="12" sm="6">
+      <v-col cols="12" sm="4" md="6">
         <v-text-field
           v-model="searchParams.packageName"
           density="compact"
@@ -10,7 +10,6 @@
           :label="t('Package Name')"
         ></v-text-field>
       </v-col>
-
       <v-col cols="12" sm="6">
         <v-text-field
           v-model="searchParams.customerName"
@@ -70,7 +69,9 @@ import { required, minLength, maxLength, email, phone} from '../../utils/validat
 import { Role } from '../../constants/Role';
 import EnumPicker from '../common/EnumPicker.vue';
 import { BookingListParams, BookingListParamsModel } from '../../models/BookingModel';
-
+import useApi, { ApiStatus } from '../../api/index.js';
+const packageApi = useApi();
+const packageList = ref([]);
 const { t } = useI18n({ useScope: 'global' });
 
 const rules = {

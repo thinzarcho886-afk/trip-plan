@@ -99,7 +99,7 @@ const bookingListMeta = computed<ListMeta>(() => {
       { title: t('Customer Name'), key: 'customerName', minWidth: 150 },
       { title: t('Payment Method'), key: 'paymentMethodName', minWidth: 150 },
       { title: t('Travelers Qty'), key: 'travelersQty', minWidth: 150 },
-      { title: t('Departuer Date'), key: 'departureDate', minWidth: 150 },
+      { title: t('Departure Date'), key: 'departureDate', minWidth: 150 },
       { title: t('Note'), key: 'note', minWidth: 150 },
       { title: t('Status'), key: 'status', minWidth: 150 },   
       { title: t('Created Date'), key: 'createdDate', width: 150 },

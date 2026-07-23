@@ -29,7 +29,7 @@
                   image-width="100%"
                   width="100%"
                   class="mx-auto"
-                  :label="t('Image')"
+                  :label="t('Payment Method Image')"
                 ></ImageInput>
               </v-card>
             </v-col>
