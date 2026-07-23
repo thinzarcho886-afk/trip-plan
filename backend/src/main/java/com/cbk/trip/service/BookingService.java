@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import com.cbk.trip.dto.BookingDTO;
 import com.cbk.trip.dto.PageableDTO;
 import com.cbk.trip.entity.Booking;
+import com.cbk.trip.enums.BookingStatus;
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.repository.BookingRepository;
 import com.cbk.trip.repository.CustomerRepository;
@@ -40,7 +41,7 @@ public class BookingService {
 
 	@Autowired
 	private PaymentMethodRepository paymentMethodRepository;
-	public PageableDTO getBookings(Long packageId,String packageName, Long customerId,String customerName, Long paymentMethodId,String paymentMethodName,Status status,
+	public PageableDTO getBookings(Long packageId,String packageName, Long customerId,String customerName, Long paymentMethodId,String paymentMethodName,BookingStatus status,
 			Pageable pageable) {
 		Specification<Booking> specs = BookingSpecs.getByFilter(packageId,packageName, customerId,customerName, paymentMethodId,paymentMethodName, status);
 		Page<Booking> page = bookingRepository.findAll(specs, pageable);

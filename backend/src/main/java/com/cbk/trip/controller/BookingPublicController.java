@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cbk.trip.dto.BookingDTO;
+import com.cbk.trip.enums.BookingStatus;
 import com.cbk.trip.enums.Status;
 import com.cbk.trip.service.BookingService;
 import com.cbk.trip.utils.CommonUtil;
@@ -41,7 +42,7 @@ public class BookingPublicController {
             @Param("customerName") String customerName,
             @Param("paymentMethodId") Long paymentMethodId,
             @Param("paymentMethodName") String paymentMethodName,
-            @Param("status") Status status,
+            @Param("status") BookingStatus status,
             @PageableDefault(size = 10) Pageable pageable) {
         
         return new ResponseEntity<>(bookingService.getBookings(packageId,packageName, customerId,customerName, paymentMethodId,paymentMethodName, status, pageable), HttpStatus.OK);

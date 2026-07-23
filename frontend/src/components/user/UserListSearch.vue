@@ -25,7 +25,7 @@
       <EnumPicker
         v-model:value="searchParams.status"
         :label="t('Status')"
-        :enum="{ [t('ACTIVE')]: Status.ACTIVE, [t('INACTIVE')]: Status.INACTIVE, [t('CONFIRM')]: Status.CONFIRM,[t('CANCEL')]: Status.CANCEL }"
+        :enum="{ [t('ACTIVE')]: Status.ACTIVE, [t('INACTIVE')]: Status.INACTIVE }"
         :add-all="true"
         density="compact"
         variant="outlined"

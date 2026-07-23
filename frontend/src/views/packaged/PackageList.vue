@@ -74,6 +74,13 @@
           <ListStatus :status="item.status"></ListStatus>
         </template>
         <!-- Dynamic Date Formatting -->
+
+
+         <template v-slot:item.createdDate="{ item }">
+          <ListDateTime
+            :milliseconds="item.createdDateInMilliSeconds"
+          ></ListDateTime>
+        </template>
         <template v-slot:item.updatedDate="{ item }">
           <ListDateTime
             :milliseconds="item.updatedDateInMilliSeconds"
@@ -129,6 +136,8 @@ const packageListMeta = computed<ListMeta>(() => {
       { title: t('Extra Service'), key: 'extraService', minWidth: 150 },
       { title: t('Description'), key: 'description', minWidth: 200 },
       { title: t('Status'), key: 'status', minWidth: 100 },
+      { title: t('Created Date'), key: 'createdDate', width: 150 },
+      { title: t('Created By'), key: 'createdBy', width: 150 },
       { title: t('Updated Date'), key: 'updatedDate', width: 150 },
       { title: t('Updated By'), key: 'updatedBy', width: 150 },
      { title: t('Action'), key: 'action', sortable: false },

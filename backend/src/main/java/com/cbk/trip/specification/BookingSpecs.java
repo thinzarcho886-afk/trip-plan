@@ -19,11 +19,12 @@ import com.cbk.trip.entity.Customer;
 import com.cbk.trip.entity.Destination;
 import com.cbk.trip.entity.Package;
 import com.cbk.trip.entity.PaymentMethod;
+import com.cbk.trip.enums.BookingStatus;
 import com.cbk.trip.enums.Status;
 
 public class BookingSpecs {
 
-    public static Specification<Booking> getByFilter(Long packageId,String packageName, Long customerId,String customerName, Long paymentMethodId,String paymentMethodName, Status status) {
+    public static Specification<Booking> getByFilter(Long packageId,String packageName, Long customerId,String customerName, Long paymentMethodId,String paymentMethodName, BookingStatus status) {
         return new Specification<Booking>() {
             private static final long serialVersionUID = 1L;
 

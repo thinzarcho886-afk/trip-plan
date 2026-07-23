@@ -43,6 +43,13 @@
           <ListStatus :status="item.status"></ListStatus>
         </template>
 
+
+          <template v-slot:item.createdDate="{ item }">
+          <ListDateTime
+            :milliseconds="item.createdDateInMilliSeconds"
+          ></ListDateTime>
+        </template>
+
         <!-- Dynamic Date Formatting -->
         <template v-slot:item.updatedDate="{ item }">
           <ListDateTime
@@ -88,8 +95,10 @@ const hotelListMeta = computed<ListMeta>(() => {
       { title: t('Price Per Night'), key: 'pricePerNight', minWidth: 120 },
       { title: t('Description'), key: 'description', minWidth: 200 },
       { title: t('Status'), key: 'status', minWidth: 100 },
-      { title: t('Updated Date'), key: 'updatedDate', width: 150 },
-      { title: t('Updated By'), key: 'updatedBy', width: 150 },
+      { title: t('Created Date'), key: 'createdDate', width: 500 },
+      { title: t('Created By'), key: 'createdBy', width: 500 },
+      { title: t('Updated Date'), key: 'updatedDate', width: 500 },
+      { title: t('Updated By'), key: 'updatedBy', width: 500 },
       { title: t('Action'), key: 'action',sortable: false },
     ],
     apiResource: hotelApiResource.getList,
