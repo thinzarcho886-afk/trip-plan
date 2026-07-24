@@ -42,7 +42,7 @@ const hintText = computed(() => t('selectFirst', { value: t('Payment Method') })
 // );
 
 const onApiCall = async (params: any) => {
-  await call(paymentMethodApiResource.getPaymentMethods, { params });
+  await call(paymentMethodApiResource.getPaymentMethods, { params:{status:"ACTIVE"}});
 
   if (status.value == ApiStatus.SUCCESS) {
     const data: any = response.value?.data;
