@@ -108,7 +108,15 @@ const fetchUserBookingHistory = async () => {
 
     if (status.value === ApiStatus.SUCCESS) {
       const res = response.value?.data;
-      bookingList.value = res?.list || res?.data || res || [];
+      const rawList = res?.list || res?.data || res || [];
+
+      bookingList.value = rawList.sort((a: any, b: any) => {
+        // updatedDateInMilliSeconds သို့မဟုတ် createdDateInMilliSeconds သို့မဟုတ် id ကို သုံးနိုင်ပါသည်
+        const timeA = a.id;
+        const timeB = b.id ;
+        
+        return timeB - timeA; // ကြီးစဉ်ငယ်လိုက် (Newest First)
+      });
     }
   } catch (error) {
     console.error('Fetch Booking Error:', error);

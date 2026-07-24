@@ -426,6 +426,9 @@ const formatCurrency = (val: number) => {
 };
 
 const confirmBooking = async() => {
+   if(authStore.user?.role =='SYSADMIN'){
+    return;
+  }
  const { valid } = await formRef.value.validate();
 
   if (!valid) {

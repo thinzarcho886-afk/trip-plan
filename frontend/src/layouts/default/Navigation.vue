@@ -31,7 +31,7 @@
               font-weight: bold;
             "
           >
-            Budget Friendly Trip Planner<br />Management System
+            {{t('Budget Friendly Trip Planner')}}<br />{{t('Management System')}}
           </span>
         </div>
         <v-divider></v-divider>
