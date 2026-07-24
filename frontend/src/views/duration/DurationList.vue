@@ -47,7 +47,7 @@
 
         <!-- 6. Action Slot (တစ်ခုတည်းသာ ချန်လှပ်ထားသည်) -->
         <template v-slot:[`item.action`]="{ item }">
-          <v-btn icon size="small" variant="text" color="primary" :to="getDetailRoute(item)">
+          <v-btn icon size="small" :to="getDetailRoute(item)">
             <v-icon>{{ mdiPencil }}</v-icon>
           </v-btn>
         </template>
