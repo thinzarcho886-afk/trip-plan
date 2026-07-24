@@ -32,6 +32,8 @@
           width="100%"
           class="mx-auto"
           :label="t('Payment Receive Image')"
+          :disabled="isAdmin"
+          :class="{ 'pointer-events-none opacity-80': isAdmin }"
         ></ImageInput>
       </v-card>
     </v-col>
@@ -272,6 +274,10 @@ import PackagePicker from '../../components/packaged/PackagePicker.vue';
 import CustomerPicker from '../../components/customer/CustomerPicker.vue';
 import PaymentPicker from '../../components/payment/PaymentPicker.vue';
 import { packageApiResource } from '../../api/resources/packageResource.js';
+const isAdmin = computed(() => {
+  const role = authStore.user?.role;
+  return role === 'ADMIN' || role === 'SYSADMIN';
+});
 const isDirty = ref(false);
 const formModel = ref<any>({
   busTypeName: '',
