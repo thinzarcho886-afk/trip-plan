@@ -11,35 +11,41 @@
         :api-params="apiParams"
         @clear-filter="clearFilter"
       >
-        <!-- slots may show type error, can ignore it -->
-
+        <!-- Username Link -->
         <template v-slot:[`item.username`]="{ item }">
           <router-link
-            class="text-decoration-none text-primary"
+            class="text-decoration-none text-primary font-weight-bold"
             :to="getDetailRoute(item)"
           >
             {{ item.username }}
           </router-link>
         </template>
-        <template v-slot:[`item.role`]="{ item }">
-            {{ item.role }}
-        </template>
+
+        <!-- Role Enum Display -->
         <template v-slot:[`item.role`]="{ item }">
           <ListEnum :value="item.role" :menu="Menu.User"></ListEnum>
         </template>
+
+        <!-- Status Display -->
         <template v-slot:[`item.status`]="{ item }">
           <ListStatus :status="item.status"></ListStatus>
         </template>
+
+        <!-- Created Date -->
         <template v-slot:[`item.createdDate`]="{ item }">
           <ListDateTime
             :milliseconds="item.createdDateInMilliSeconds"
           ></ListDateTime>
         </template>
+
+        <!-- Updated Date -->
         <template v-slot:[`item.updatedDate`]="{ item }">
           <ListDateTime
             :milliseconds="item.updatedDateInMilliSeconds"
           ></ListDateTime>
         </template>
+
+        <!-- Action Pencil Icon -->
         <template v-slot:[`item.action`]="{ item }">
           <v-btn icon size="small" :to="getDetailRoute(item)">
             <v-icon>{{ mdiPencil }}</v-icon>
@@ -51,8 +57,6 @@
 </template>
 
 <script lang="ts" setup>
-// working example with vue Composition api
-
 import { computed, ref } from 'vue';
 import { userApiResource } from '../../api/resources/userResource.js';
 import ListDataTable from '../../components/common/ListDataTable.vue';
@@ -64,7 +68,6 @@ import { mdiPlus, mdiPencil } from '@mdi/js';
 import { UserListParams } from '../../models/UserModel.js';
 import { ActionButton } from '../../interfaces/ActionButton.js';
 import ListStatus from '../../components/common/ListStatus.vue';
-// import { formatDate } from '../../utils';
 import { useI18n } from 'vue-i18n';
 import { Menu } from '../../constants/EnumMenu.js';
 import ListDateTime from '../../components/common/ListDateTime.vue';
@@ -89,9 +92,6 @@ const userListMeta = computed<ListMeta>(() => {
       { title: t('Updated Date'), key: 'updatedDate', width: 150 },
       { title: t('Updated By'), key: 'updatedBy', width: 150 },
       { title: t('Action'), key: 'action', width: 150 },
-
-
-
     ],
     apiResource: userApiResource.getUsers,
     responseKey: 'list',
@@ -99,14 +99,13 @@ const userListMeta = computed<ListMeta>(() => {
   };
 });
 
-// apiParams must be undefined
 const apiParams = ref();
 
 type Breadcrumb = {
   title: string;
   to?: { name: string; params?: Record<string, string | number> };
 };
-// custom breadcrumbs
+
 const breadcrumbs = computed<Breadcrumb[]>(() => [
   { title: t('System Management') },
   { title: t('User'), to: { name: routeNames.userList } },
@@ -126,8 +125,9 @@ const filters = {
   onSearch: (params: UserListParams) => (apiParams.value = { ...params }),
 };
 
+// Safety check for ID mapping
 const getDetailRoute = (item: any) => {
-  return { name: routeNames.userDetail, params: { id: item.id } };
+  const userId = item?.id ?? item?.userId;
+  return { name: routeNames.userDetail, params: { id: userId } };
 };
-
 </script>

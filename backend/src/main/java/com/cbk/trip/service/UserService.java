@@ -126,8 +126,10 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
         UserDTO userDTO = new UserDTO(user);
       Long customerId = userDTO.getCustomerId();
+      if(customerId!=null) {
       CustomerDTO customer=customerService.getById(customerId);
       userDTO.setCustomerName(customer.getName());
+      }
       return userDTO;
     }
 

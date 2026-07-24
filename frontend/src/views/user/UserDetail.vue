@@ -231,7 +231,7 @@ const isUpdate = ref(false);
 
 const userModel = ref<any>({
   ...UserModel(),
-  role: 'CUSTOMER',
+  role: 'SYSADMIN',
   customerId: null,
  // ownerId: null,
 });
