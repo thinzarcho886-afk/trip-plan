@@ -52,6 +52,8 @@
             @change="onPackagePickerChange"
             density="comfortable"
             variant="outlined"
+            :disabled="isAdmin"
+          :class="{ 'pointer-events-none opacity-80': isAdmin }"
           ></package-picker>
         </v-col>
 
@@ -63,6 +65,8 @@
             :readonly="true"
             density="comfortable"
             variant="outlined"
+            :disabled="isAdmin"
+            :class="{ 'pointer-events-none opacity-80': isAdmin }"
           ></v-text-field>
         </v-col>
 
@@ -75,6 +79,8 @@
             :label="t('Customer Name')"
             density="comfortable"
             variant="outlined"
+            :disabled="isAdmin"
+          :class="{ 'pointer-events-none opacity-80': isAdmin }"
           ></customer-picker>
         </v-col>
 
@@ -98,6 +104,8 @@
             :label="t('Payment Method')"
             density="comfortable"
             variant="outlined"
+            :disabled="isAdmin"
+            :class="{ 'pointer-events-none opacity-80': isAdmin }"
           ></payment-picker>
         </v-col>
 
@@ -122,6 +130,8 @@
             density="comfortable"
             variant="outlined"
             @input="calculateTotalAmount"
+            :disabled="isAdmin"
+            :class="{ 'pointer-events-none opacity-80': isAdmin }"
           ></v-text-field>
         </v-col>
 
@@ -194,6 +204,8 @@
             density="comfortable"
             variant="outlined"
             rows="3"
+            :disabled="isAdmin"
+            :class="{ 'pointer-events-none opacity-80': isAdmin }"
           ></v-textarea>
         </v-col>
 
